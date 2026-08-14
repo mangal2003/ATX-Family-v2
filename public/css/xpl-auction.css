@@ -1,0 +1,1051 @@
+/* =========================================================
+   XPL LIVE AUCTION STYLESHEET (THEME RESPONSIVE)
+   ========================================================= */
+
+html,
+body.auction-page-body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-mono, "Share Tech Mono", monospace);
+  margin: 0;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Master Layout Container */
+.auction-layout-container,
+.auction-page-wrapper {
+  width: 100%;
+  max-width: 850px;
+  min-height: calc(100dvh - 65px);
+  margin: 0 auto;
+  padding: 0.5rem 1rem calc(6rem + env(safe-area-inset-bottom)) 1rem;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   1. STICKY TOP NOMINATION BAR
+   ========================================================= */
+.sticky-top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin-bottom: 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(8px);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.pill-bar-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.plato-id-text {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text-heading);
+}
+
+.games-pref-text {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+}
+
+.pill-bar-right {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metric-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.metric-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+
+.metric-val {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--text-heading);
+}
+
+.bid-glow-text {
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px var(--border-glow);
+}
+
+.lead-bidder-sub {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   2. FLEXIBLE MIDDLE CONSOLE STREAM
+   ========================================================= */
+.auction-console-flex {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin-bottom: 0rem;
+}
+
+.command-box.live-log-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 320px;
+  box-shadow: var(--card-shadow);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.box-header h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-heading);
+}
+
+.badge-tag {
+  font-size: 0.65rem;
+  background: rgba(0, 229, 255, 0.1);
+  color: var(--accent-cyan);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Console Internal Scroll Container */
+.bid-stream-list {
+  flex: 1;
+  overflow-y: auto !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-right: 0.25rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bid-stream-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.bid-stream-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.stream-empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 3rem 0;
+}
+
+.bid-stream-item {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(125, 125, 125, 0.05);
+  border-left: 3px solid var(--accent-cyan);
+  padding: 0.55rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--text-main);
+}
+
+/* Default System Log (Gold Accent) */
+.bid-stream-item.system-log-item {
+  border-left: 3px solid var(--accent-gold);
+  background-color: rgba(255, 215, 0, 0.08);
+}
+
+/* Sold System Log (Green Accent) */
+.bid-stream-item.sold-log-item {
+  border-left: 4px solid #2ed573 !important;
+  background-color: rgba(46, 213, 115, 0.08) !important;
+}
+
+.green-text {
+  color: #2ed573 !important;
+  font-weight: 600;
+}
+
+/* Unsold System Log (Red Accent) */
+.bid-stream-item.unsold-log-item {
+  border-left: 4px solid #ff4757 !important;
+  background-color: rgba(255, 71, 87, 0.08) !important;
+}
+
+.red-text {
+  color: #ff4757 !important;
+  font-weight: 600;
+}
+
+/* =========================================================
+   3. STICKY BOTTOM BIDDING DECK
+   ========================================================= */
+.sticky-bottom-bar,
+.auction-action-deck,
+.sticky-bottom-deck {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 100 !important;
+  background: var(--bg-card) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-color) !important;
+  padding: 0.75rem 1rem calc(0.85rem + env(safe-area-inset-bottom)) 1rem !important;
+  box-shadow: var(--card-shadow) !important;
+  box-sizing: border-box;
+}
+
+.deck-title-bar {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.65rem;
+  color: var(--text-heading);
+}
+
+.bidder-inputs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.label-text {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.btn-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+
+.auto-bid-btn {
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  padding: 0.55rem 0;
+  font-family: var(--font-mono);
+  font-weight: bold;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auto-bid-btn:hover {
+  background: var(--accent-cyan);
+  color: #000;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.input-group .form-input {
+  flex: 1;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.45rem 0.6rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.bid-submit-btn {
+  background: var(--accent-gold);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 0.45rem 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  transition: opacity 0.2s ease;
+}
+
+.bid-submit-btn:hover {
+  opacity: 0.9;
+}
+
+.coord-state-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.spectator-stat-line {
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--text-main);
+}
+
+/* =========================================================
+   ELEGANT LOT NOMINATION CARD STYLES
+   ========================================================= */
+
+.bid-stream-item.nomination-card-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-cyan);
+  border-left: 4px solid var(--accent-gold);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.05);
+}
+
+.nomination-card-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 0.35rem;
+}
+
+.lot-badge {
+  background: rgba(255, 215, 0, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.plato-id-title {
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.card-time {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.card-games-row {
+  font-size: 0.75rem;
+  color: var(--text-main);
+}
+
+.card-bio-row {
+  font-size: 0.725rem;
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+
+.card-price-tagline {
+  font-size: 0.775rem;
+  background: rgba(0, 229, 255, 0.05);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  margin-top: 0.15rem;
+  color: var(--text-main);
+}
+
+/* =========================================================
+   FULL HEADER RESULT CARDS (SOLD / UNSOLD)
+   ========================================================= */
+
+.bid-stream-item.result-card-item {
+  height: auto !important;
+  max-height: none !important;
+  min-height: fit-content;
+  overflow: visible !important;
+  padding: 0 !important;
+  margin: 0.5rem 0;
+  display: block !important;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+}
+
+.result-card-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-card-item .result-card-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 0.5rem 0.75rem !important;
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  box-sizing: border-box;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+
+.result-card-item .result-card-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.4rem 0.75rem !important;
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+.player-info-row {
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 0.95rem;
+}
+
+.team-info-row {
+  font-size: 0.9rem;
+}
+
+/* SOLD CARD THEME (GREEN) */
+.result-card-item.sold-card {
+  border: 1.5px solid #2ed573 !important;
+  background: rgba(46, 213, 115, 0.08) !important;
+}
+
+.result-card-item.sold-card .result-card-header {
+  background: #2ed573 !important;
+  color: #0b130e !important;
+}
+
+.sold-card .plato-id,
+.sold-card .sold-price-val {
+  color: #2ed573;
+}
+
+/* UNSOLD CARD THEME (RED) */
+.result-card-item.unsold-card {
+  border: 1.5px solid #ff4757 !important;
+  background: rgba(255, 71, 87, 0.08) !important;
+}
+
+.result-card-item.unsold-card .result-card-header {
+  background: #ff4757 !important;
+  color: #ffffff !important;
+}
+
+.unsold-card .plato-id,
+.unsold-card .unsold-notice-val {
+  color: #ff4757;
+}
+
+.base-price-tag {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* =========================================================
+   GAVEL STRIKE & STAMP OVERLAY ANIMATIONS
+   ========================================================= */
+
+.impact-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.impact-overlay.hidden {
+  display: none !important;
+  opacity: 0;
+}
+
+.gavel-disc {
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, #2b1d0c 0%, #170f07 100%);
+  border: 3px solid var(--accent-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  animation: discPop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.gavel-icon {
+  font-size: 2.8rem;
+  transform-origin: bottom right;
+  animation: gavelHit 0.4s ease-in-out forwards;
+}
+
+.impact-stamp {
+  position: absolute;
+  font-family: "Impact", "Arial Black", sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  padding: 0.5rem 1.5rem;
+  border: 5px solid;
+  border-radius: 8px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: scale(3) rotate(-12deg);
+  animation: stampThud 0.25s 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+    forwards;
+}
+
+.impact-stamp.sold-stamp {
+  color: #2ed573;
+  border-color: #2ed573;
+  text-shadow: 0 0 15px rgba(46, 213, 115, 0.6);
+  box-shadow:
+    0 0 25px rgba(46, 213, 115, 0.4),
+    inset 0 0 15px rgba(46, 213, 115, 0.3);
+}
+
+.impact-stamp.unsold-stamp {
+  color: #ff4757;
+  border-color: #ff4757;
+  text-shadow: 0 0 15px rgba(255, 71, 87, 0.6);
+  box-shadow:
+    0 0 25px rgba(255, 71, 87, 0.4),
+    inset 0 0 15px rgba(255, 71, 87, 0.3);
+}
+
+@keyframes discPop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes gavelHit {
+  0% {
+    transform: rotate(-50deg);
+  }
+  60% {
+    transform: rotate(15deg);
+  }
+  80% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes stampThud {
+  0% {
+    opacity: 0;
+    transform: scale(3) rotate(-12deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(-8deg);
+  }
+}
+
+/* Responsive Overrides */
+@media (max-width: 650px) {
+  .pill-bar-right {
+    display: none;
+  }
+
+  .bidder-inputs-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  .quick-bids {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .quick-bids .label-text {
+    display: none;
+  }
+
+  .quick-bids .btn-group .auto-bid-btn {
+    min-width: 55px;
+  }
+
+  .custom-bid .label-text {
+    display: none;
+  }
+}
+
+/* =========================================================
+   SEAMLESS SINGLE-FRAME AUCTION LAYOUT (NO GAPS)
+   ========================================================= */
+
+/* 1. Lock the layout container to fill remaining screen height */
+.auction-layout-container,
+.auction-page-wrapper {
+  width: 100%;
+  max-width: 850px;
+  /* Occupy full height minus top navbar */
+  height: calc(100dvh - 65px);
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Consistent 0.5rem gap between top bar, console, and bottom deck */
+  box-sizing: border-box;
+}
+
+/* 2. Top nomination bar */
+.sticky-top-bar {
+  flex-shrink: 0;
+  margin-bottom: 0; /* Let flex gap handle spacing */
+  background: var(--bg-card);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--card-shadow);
+}
+
+/* 3. Middle Console Stream (Expands to fill all available space) */
+.auction-console-flex {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Crucial for internal flex scrolling */
+  margin-bottom: 0;
+}
+
+.command-box.live-log-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Fill middle flex container */
+  max-height: none !important; /* Remove screen-calc height caps */
+  box-shadow: var(--card-shadow);
+  box-sizing: border-box;
+}
+
+/* 4. Bottom Deck (In-flow flex item, directly underneath console) */
+.sticky-bottom-bar,
+.auction-action-deck,
+.sticky-bottom-deck {
+  position: static !important; /* Keep in layout flow to eliminate arbitrary gaps */
+  flex-shrink: 0;
+  width: 100% !important;
+  z-index: 10;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  padding: 0.75rem 1rem !important;
+  box-shadow: var(--card-shadow) !important;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ELEGANT LIVE BID LOG CARD
+   ========================================================= */
+
+.bid-stream-item.live-bid-card-item {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-left: 4px solid var(--accent-cyan) !important;
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem !important;
+  box-shadow: var(--card-shadow);
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease;
+  height: auto !important;
+  display: block !important;
+  margin-bottom: 0.4rem;
+}
+
+.bid-stream-item.live-bid-card-item:hover {
+  border-color: var(--accent-cyan) !important;
+}
+
+.live-bid-card-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.live-bid-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.live-bid-team-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  object-fit: cover;
+  /* border: 1px solid var(--border-color); */
+}
+
+.live-bid-team-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  /* background: rgba(0, 229, 255, 0.1); */
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.live-bid-team-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.live-bid-team-tag {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  letter-spacing: 0.5px;
+}
+
+.live-bid-team-name {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: bold;
+}
+
+.live-bid-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+}
+
+.live-bid-price-col {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.bid-increment-pill {
+  font-size: 0.65rem;
+  font-weight: 800;
+  background: rgba(57, 255, 20, 0.12);
+  color: var(--accent-neon, #39ff14);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+.live-bid-total-amount {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.2);
+}
+
+.live-bid-timestamp {
+  font-size: 0.65rem;
+  color: var(--text-main);
+}
+
+/* =========================================================
+   REDESIGNED SYSTEM LOG CARDS & PROMPTS
+   ========================================================= */
+
+.bid-stream-item.system-log-card {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-left: 4px solid var(--accent-gold) !important;
+  border-radius: 8px;
+  padding: 0.5rem 0.85rem !important;
+  margin-bottom: 0.4rem;
+  box-shadow: var(--card-shadow);
+  display: block !important;
+  height: auto !important;
+  transition: all 0.2s ease;
+}
+
+.system-log-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.system-log-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.system-icon-wrapper {
+  color: var(--accent-gold);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Badge Badges */
+.system-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  font-family: var(--font-mono, monospace);
+}
+
+.badge-system {
+  background: rgba(255, 215, 0, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  animation: pulseGlow 1.5s infinite alternate;
+}
+
+.badge-prompt {
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+.badge-pause {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.badge-resume {
+  background: rgba(57, 255, 20, 0.12);
+  color: var(--accent-neon, #39ff14);
+  border: 1px solid rgba(57, 255, 20, 0.3);
+}
+
+/* Message Text */
+.system-message-text {
+  font-size: 0.8rem;
+  color: var(--text-heading);
+  font-family: var(--font-mono, monospace);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.system-timestamp {
+  font-size: 0.65rem;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   LOG TYPE VARIANT OVERRIDES
+   ========================================================= */
+
+/* Going Once Accent (Amber) */
+.system-log-card.going-once-card {
+  border-left-color: #f59e0b !important;
+  background: rgba(245, 158, 11, 0.05) !important;
+}
+.going-once-card .system-icon-wrapper {
+  color: #f59e0b;
+}
+
+/* Going Twice Accent (Red / Pulse) */
+.system-log-card.going-twice-card {
+  border-left-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.06) !important;
+}
+.going-twice-card .system-icon-wrapper {
+  color: #ef4444;
+}
+
+/* Prompt Accent (Cyan) */
+.system-log-card.prompt-log-card {
+  border-left-color: var(--accent-cyan) !important;
+  background: rgba(0, 229, 255, 0.04) !important;
+}
+.prompt-log-card .system-icon-wrapper {
+  color: var(--accent-cyan);
+}
+
+/* Pause Accent (Muted) */
+.system-log-card.pause-log-card {
+  border-left-color: var(--text-muted) !important;
+  opacity: 0.85;
+}
+
+/* Keyframe Glow for Final Warning */
+@keyframes pulseGlow {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE MULTILINE SYSTEM LOG STYLES
+   ========================================================= */
+
+.bid-stream-item.system-log-card {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-left: 4px solid var(--accent-gold) !important;
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem !important;
+  margin-bottom: 0.4rem;
+  box-shadow: var(--card-shadow);
+  display: block !important;
+  height: auto !important; /* Dynamic expansion */
+  max-height: none !important;
+  overflow: visible !important;
+  transition: all 0.2s ease;
+}
+
+.system-log-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+/* Header row containing icon, badge, and timestamp */
+.system-log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.system-log-tag-group {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.system-icon-wrapper {
+  color: var(--accent-gold);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Message Content Box (Wraps automatically on small screens) */
+.system-message-content {
+  font-size: 0.825rem;
+  color: var(--text-heading);
+  font-family: var(--font-mono, monospace);
+  line-height: 1.45;
+  white-space: normal !important; /* Allow multiline wrapping */
+  word-break: break-word; /* Prevent overflow on extra long words */
+  padding-left: 0.1rem;
+}
+
+.system-timestamp {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* On desktop, keep log header compact */
+@media (min-width: 651px) {
+  .system-log-inner {
+    gap: 0.25rem;
+  }
+}

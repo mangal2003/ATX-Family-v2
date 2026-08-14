@@ -1,0 +1,307 @@
+/* =========================================================
+   ADMIN PANEL - MOBILE-FIRST THEME ADAPTIVE STYLES
+   ========================================================= */
+
+/* --- Base Layout (Mobile First: 320px+) --- */
+.admin-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 1.5rem auto 3rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* Header Section */
+.admin-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.admin-header h1 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.75rem; /* Mobile title size */
+  letter-spacing: 1.5px;
+  color: var(--text-heading, #ffffff) !important;
+  text-shadow: 0 0 15px var(--border-glow, rgba(0, 243, 255, 0.4));
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.admin-header p {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+/* Stats Overview Grid (Single Column on Mobile) */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card, var(--card-bg, #12141d)) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow, 0 8px 32px rgba(0, 0, 0, 0.4));
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-glow, #00f3ff) !important;
+}
+
+.stat-icon {
+  font-size: 1.75rem;
+  color: var(--accent-cyan, #00f3ff);
+}
+
+.gold-text {
+  color: var(--accent-gold, #ffd700) !important;
+}
+
+.stat-info h3 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--text-heading, #ffffff) !important;
+  transition: color 0.3s ease;
+}
+
+.stat-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8) !important;
+  transition: color 0.3s ease;
+}
+
+/* Admin Main Cards Stack */
+.admin-sections-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-card {
+  background: var(--bg-card, var(--card-bg, #12141d)) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  border-radius: 14px;
+  padding: 1.25rem; /* Mobile padding */
+  box-shadow: var(--card-shadow, 0 8px 32px rgba(0, 0, 0, 0.4));
+  box-sizing: border-box;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.admin-card .card-header h2 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.2rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.admin-card-desc {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.45;
+  transition: color 0.3s ease;
+}
+
+/* Form Layout & Mobile Touch Inputs */
+.admin-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.admin-form .form-label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.775rem;
+  color: var(--accent-gold, #ffd700) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+/* Touch-Friendly Cyber Input Fields */
+.admin-form .cyber-input {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--bg-primary, #0a0b10) !important;
+  color: var(--text-main, #e2e8f0) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  padding: 0.8rem 0.9rem; /* Touch padding */
+  min-height: 44px; /* Touch target accessibility rule */
+  border-radius: 8px;
+  font-size: 0.95rem; /* Prevents auto-zoom on iOS Safari */
+  font-family: inherit;
+  outline: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.admin-form .cyber-input:focus {
+  border-color: var(--border-glow, var(--accent-cyan, #00f3ff)) !important;
+  box-shadow: 0 0 12px var(--border-color, rgba(0, 243, 255, 0.3)) !important;
+}
+
+.admin-form .cyber-input::placeholder {
+  color: var(--text-muted, #94a3b8) !important;
+  opacity: 0.75;
+}
+
+/* Date Input Indicator */
+.cyber-date-picker::-webkit-calendar-picker-indicator {
+  filter: var(--calendar-icon-filter);
+  cursor: pointer;
+}
+
+.admin-form .cyber-textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Mobile Full-Width Buttons */
+.touch-submit-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  min-height: 48px;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   PROGRESSIVE ENHANCEMENTS (Tablets & Desktop)
+   ========================================================= */
+
+/* Tablets (640px+) */
+@media (min-width: 640px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .admin-card {
+    padding: 1.5rem;
+  }
+
+  .touch-submit-btn {
+    width: auto; /* Desktop button width */
+  }
+}
+
+/* Desktop Screens (980px+) */
+@media (min-width: 980px) {
+  .admin-container {
+    margin: 2rem auto 4rem;
+  }
+
+  .admin-header {
+    margin-bottom: 2.25rem;
+  }
+
+  .admin-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .admin-card {
+    padding: 1.75rem;
+    border-radius: 16px;
+  }
+
+  .admin-card .card-header h2 {
+    font-size: 1.35rem;
+  }
+}
+
+/* =========================================================
+   CYBER MODAL OVERLAY STYLES
+   ========================================================= */
+
+.cyber-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.cyber-modal.active {
+  display: flex !important; /* Displayed when openSettingsModal() is executed */
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  background: var(--bg-card, #12141d) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.3)) !important;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modalFadeIn 0.25s ease-out;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted, #94a3b8);
+  font-size: 1.8rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+  color: var(--accent-danger, #ff4655);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

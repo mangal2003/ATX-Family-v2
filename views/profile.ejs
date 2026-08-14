@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <%- include('partials/flash') %>
+
+            <main class="profile-container">
+                <!-- Main Card Wrapper -->
+                <div class="cyber-card profile-card">
+
+                    <!-- Banner Header -->
+                    <div class="profile-banner-wrapper">
+                        <% if (user.banner && user.banner.trim() !=='' ) { %>
+                            <img src="<%= user.banner %>" alt="Profile Banner" class="profile-banner-img">
+                            <% } else { %>
+                                <div class="profile-banner-placeholder"></div>
+                                <% } %>
+
+                                    <!-- Days Streak Badge Overlay -->
+                                    <div class="streak-pill">
+                                        <i class="fa-solid fa-fire fire-icon"></i>
+                                        <span>
+                                            <%= user.streak || 1 %> DAYS STREAK
+                                        </span>
+                                    </div>
+                    </div>
+
+                    <!-- Profile Info Overlay Header -->
+                    <div class="profile-header-content">
+                        <div class="avatar-wrapper">
+                            <% if (user.avatar && user.avatar.trim() !=='' ) { %>
+                                <img src="<%= user.avatar %>" alt="<%= user.username %>" class="user-avatar"
+                                    referrerpolicy="no-referrer"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="user-avatar-fallback" style="display: none;">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <% } else { %>
+                                    <div class="user-avatar-fallback">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <% } %>
+                        </div>
+
+                        <div class="user-details">
+                            <h2 class="glitch-title gold-text" data-text="<%= user.username %>">
+                                <%= user.username %>
+                            </h2>
+                            <p class="user-email">
+                                <%= user.email %>
+                            </p>
+                            <% if (user.bio) { %>
+                                <p class="user-bio-preview">
+                                    <%= user.bio %>
+                                </p>
+                                <% } %>
+                        </div>
+                    </div>
+
+                    <hr class="profile-divider">
+
+                    <!-- User Stats & Metrics Grid -->
+                    <div class="profile-stats-grid">
+                        <div class="stat-card">
+                            <i class="fa-solid fa-coins gold-text stat-icon"></i>
+                            <div class="stat-info">
+                                <span class="stat-label">EP BALANCE</span>
+                                <h4 class="gold-text">
+                                    <%= (user.xpBalance || 0).toLocaleString() %> EP
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <i class="fa-solid fa-check-double cyan-text stat-icon"></i>
+                            <div class="stat-info">
+                                <span class="stat-label">QUIZZES COMPLETED</span>
+                                <h4 class="cyan-text">
+                                    <%= user.quizzesCompleted || 0 %>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <i class="fa-solid fa-ranking-star gold-text stat-icon"></i>
+                            <div class="stat-info">
+                                <span class="stat-label">WEEKLY SCORE</span>
+                                <h4 class="gold-text">
+                                    <%= user.weeklyScore || 0 %>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="profile-divider">
+
+                    <!-- Customization Forms Stack -->
+                    <div class="customization-sections">
+
+                        <!-- 1. Banner Update Form -->
+                        <form action="/profile/banner" method="POST" enctype="multipart/form-data" class="profile-form">
+                            <label class="form-label"><i class="fa-solid fa-image gold-text"></i> Update Banner</label>
+                            <div class="file-upload-wrapper">
+                                <label for="bannerInput" class="custom-file-btn">
+                                    <i class="fa-solid fa-folder-open"></i>
+                                    <span id="bannerFileName">Choose Banner...</span>
+                                </label>
+                                <input type="file" id="bannerInput" name="banner" accept="image/*" required
+                                    onchange="document.getElementById('bannerFileName').textContent = this.files[0]?.name || 'Choose Banner...';">
+                                <button type="submit" class="cyber-btn upload-btn">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- 2. Avatar Update Form -->
+                        <form action="/profile/avatar" method="POST" enctype="multipart/form-data" class="profile-form">
+                            <label class="form-label"><i class="fa-solid fa-circle-user gold-text"></i> Update Profile
+                                Picture</label>
+                            <div class="file-upload-wrapper">
+                                <label for="avatarInput" class="custom-file-btn">
+                                    <i class="fa-solid fa-folder-open"></i>
+                                    <span id="avatarFileName">Choose Avatar...</span>
+                                </label>
+                                <input type="file" id="avatarInput" name="avatar" accept="image/*" required
+                                    onchange="document.getElementById('avatarFileName').textContent = this.files[0]?.name || 'Choose Avatar...';">
+                                <button type="submit" class="cyber-btn upload-btn">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- 3. Profile Info & Social IDs Form -->
+                        <form action="/profile/update" method="POST" class="profile-form">
+                            <label class="form-label"><i class="fa-solid fa-user-pen gold-text"></i> Profile & Social
+                                Details</label>
+
+                            <div class="form-group">
+                                <label for="username" class="sub-label">Username</label>
+                                <input type="text" id="username" name="username" value="<%= user.username %>" required
+                                    minlength="3" maxlength="25" class="cyber-input">
+                            </div>
+
+                            <div class="form-group-row">
+                                <div class="form-group">
+                                    <label for="platoId" class="sub-label"><i class="fa-solid fa-gamepad cyan-text"></i>
+                                        Plato ID</label>
+                                    <input type="text" id="platoId" name="platoId" value="<%= user.platoId || '' %>"
+                                        placeholder="Your Plato ID" class="cyber-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="discordId" class="sub-label"><i
+                                            class="fa-brands fa-discord cyan-text"></i> Discord ID</label>
+                                    <input type="text" id="discordId" name="discordId"
+                                        value="<%= user.discordId || '' %>" placeholder="Your Discord ID"
+                                        class="cyber-input">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bio" class="sub-label">Bio</label>
+                                <textarea id="bio" name="bio" rows="3" maxlength="250" class="cyber-input"
+                                    placeholder="Write something about yourself..."
+                                    style="resize: none;"><%= user.bio || '' %></textarea>
+                            </div>
+
+                            <button type="submit" class="cyber-submit-btn" style="margin-top: 0.5rem;">
+                                <i class="fa-solid fa-floppy-disk"></i> Save
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+            </main>
+
+            <%- include('partials/footer') %>
+</body>
+
+</html>

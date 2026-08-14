@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/quiz.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <%- include('partials/flash') %>
+
+            <main class="quiz-wrapper">
+                <!-- Header Section -->
+                <header class="quiz-header">
+
+                    <h1 class="glitch-title" data-text="QUIZ🧠">
+                        QUIZ🧠
+                    </h1>
+                    <p style="font-size:10px;">Resets weekly on Wednesdays at 3:00 PM
+                        IST.</p>
+                </header>
+
+                <!-- Quiz Execution Container -->
+                <section class="cyber-card quiz-card">
+                    <% if (!isActive) { %>
+                        <div class="closed-notice">
+                            <i class="fa-solid fa-lock cyan-text"></i>
+                            <h2>Quiz Inactive</h2>
+                            <p style="font-size: 12px;">The quiz activates every even hour IST (00:00, 02:00,
+                                04:00...) for exactly 30
+                                minutes.</p>
+                        </div>
+                        <% } else if (hasAttempted) { %>
+                            <div class="closed-notice">
+                                <i class="fa-solid fa-circle-check gold-text"></i>
+                                <h2>Attempt Completed</h2>
+                                <p style="font-size: 12px;">You have already taken the quiz for this active window.
+                                    Check back at the next
+                                    even hour IST!</p>
+                            </div>
+                            <% } else { %>
+                                <!-- Start Screen -->
+                                <div id="quizStartScreen" class="quiz-state-box">
+                                    <button id="startQuizBtn" class="cyber-btn touch-submit-btn">
+                                        <i class="fa-solid fa-play"></i> Start Quiz
+                                    </button>
+                                </div>
+
+                                <!-- Active Question Screen -->
+                                <div id="quizRunScreen" class="quiz-state-box" style="display: none;">
+                                    <div class="quiz-meta-bar">
+                                        <span id="questionCounter" class="gold-text">Question 1/10</span>
+                                        <span id="timerDisplay" class="timer-badge"><i
+                                                class="fa-solid fa-stopwatch"></i> 15s</span>
+                                    </div>
+
+                                    <div class="progress-track">
+                                        <div id="timerProgress" class="progress-fill"></div>
+                                    </div>
+
+                                    <div id="questionContainer" class="question-text">Loading questions...</div>
+                                    <div id="optionsContainer" class="options-grid"></div>
+                                </div>
+
+                                <!-- Results Screen -->
+                                <div id="quizResultScreen" class="quiz-state-box" style="display: none;">
+                                    <i class="fa-solid fa-trophy gold-text result-icon"></i>
+                                    <h2>QUIZ COMPLETED</h2>
+                                    <p class="final-score-text">Final Score: <span id="finalScoreVal"
+                                            class="cyan-text">0</span> / 100
+                                    </p>
+                                    <a href="/quiz" class="cyber-btn touch-submit-btn">
+                                        <i class="fa-solid fa-rotate-right"></i>View Leaderboard
+                                    </a>
+                                </div>
+                                <% } %>
+                </section>
+                <!-- Leaderboard Table -->
+                <section class="cyber-card leaderboard-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-ranking-star gold-text"></i> WEEKLY LEADERBOARD</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="royal-table">
+                            <thead>
+                                <tr>
+                                    <th>RANK</th>
+                                    <th>USER</th>
+                                    <th>SCORE</th>
+                                    <th class="col-date-header">ATTEMPTS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (leaderboard && leaderboard.length> 0) { %>
+                                    <% leaderboard.forEach((entry, idx)=> { %>
+                                        <tr>
+                                            <td>
+                                                <span class="rank-badge <%= idx === 0 ? 'gold-rank' : '' %>">
+                                                    #<%= idx + 1 %>
+                                                </span>
+                                            </td>
+                                            <td><span class="winner-name">
+                                                    <%= entry.username %>
+                                                </span></td>
+                                            <td>
+                                                <strong>
+                                                    <%= entry.weeklyScore %>
+                                                </strong>
+                                            </td>
+                                            <td class="col-date">
+                                                <%= entry.quizzesCompleted || 0 %>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="4" class="no-records">No weekly scores recorded for
+                                                        this cycle yet.</td>
+                                                </tr>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+
+            <% if (locals.user) { %>
+                <script src="/js/push-client.js"></script>
+                <% } %>
+
+                    <% if (isActive) { %>
+                        <script>
+                            let questions = [];
+                            let currentIdx = 0;
+                            let correctAnswers = 0;
+                            let wrongAnswers = 0;
+                            let skippedAnswers = 0;
+                            let timer = null;
+                            let timeLeft = 15;
+
+                            document.getElementById('startQuizBtn').addEventListener('click', async () => {
+                                document.getElementById('quizStartScreen').style.display = 'none';
+                                document.getElementById('quizRunScreen').style.display = 'block';
+
+                                const res = await fetch('/quiz/questions');
+                                const data = await res.json();
+
+                                if (data.success) {
+                                    questions = data.questions;
+                                    loadQuestion(0);
+                                }
+                            });
+
+                            function loadQuestion(idx) {
+                                if (idx >= questions.length) {
+                                    return finishQuiz();
+                                }
+
+                                currentIdx = idx;
+                                timeLeft = 15;
+                                document.getElementById('questionCounter').innerText = `Question ${idx + 1}/10`;
+                                document.getElementById('questionContainer').innerHTML = questions[idx].question;
+
+                                const optionsContainer = document.getElementById('optionsContainer');
+                                optionsContainer.innerHTML = '';
+
+                                questions[idx].options.forEach(opt => {
+                                    const btn = document.createElement('button');
+                                    btn.className = 'cyber-btn option-btn';
+                                    btn.innerHTML = opt;
+                                    btn.onclick = () => selectAnswer(opt === questions[idx].correctAnswer);
+                                    optionsContainer.appendChild(btn);
+                                });
+
+                                startTimer();
+                            }
+
+                            function startTimer() {
+                                clearInterval(timer);
+                                updateTimerUI();
+
+                                timer = setInterval(() => {
+                                    timeLeft--;
+                                    updateTimerUI();
+
+                                    if (timeLeft <= 0) {
+                                        clearInterval(timer);
+                                        skippedAnswers++; // Increment skipped count (-1 point)
+                                        loadQuestion(currentIdx + 1);
+                                    }
+                                }, 1000);
+                            }
+
+                            function updateTimerUI() {
+                                document.getElementById('timerDisplay').innerText = `${timeLeft}s`;
+                                const percentage = (timeLeft / 15) * 100;
+                                document.getElementById('timerProgress').style.width = `${percentage}%`;
+                            }
+
+                            function selectAnswer(isCorrect) {
+                                clearInterval(timer);
+                                if (isCorrect) {
+                                    correctAnswers++; // +10 points
+                                } else {
+                                    wrongAnswers++; // -1 point
+                                }
+                                loadQuestion(currentIdx + 1);
+                            }
+
+                            async function finishQuiz() {
+                                clearInterval(timer);
+                                document.getElementById('quizRunScreen').style.display = 'none';
+                                document.getElementById('quizResultScreen').style.display = 'block';
+
+                                // Calculate local score preview: (+10 * correct) - (1 * wrong) - (1 * skipped)
+                                const finalScore = (correctAnswers * 10) - (wrongAnswers * 1) - (skippedAnswers * 1);
+                                document.getElementById('finalScoreVal').innerText = finalScore;
+
+                                await fetch('/quiz/submit', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        correctCount: correctAnswers,
+                                        wrongCount: wrongAnswers,
+                                        skippedCount: skippedAnswers
+                                    })
+                                });
+                            }
+                        </script>
+                        <% } %>
+
+                            <%- include('partials/footer') %>
+</body>
+
+</html>

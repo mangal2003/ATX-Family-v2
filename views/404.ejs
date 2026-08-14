@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/404.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="error-container">
+            <section class="cyber-card error-card">
+
+                <!-- Glitch Error Code -->
+                <div class="error-glitch-wrapper">
+                    <h1 class="error-code" data-text="404">404</h1>
+                </div>
+
+                <!-- Heading & Description -->
+                <h2 class="error-title">PAGE <span class="gold-text">NOT FOUND</span></h2>
+
+                <!-- Navigation Actions -->
+                <div class="error-actions">
+                    <a href="/" class="cyber-btn touch-btn">
+                        <i class="fa-solid fa-house"></i> Return to Home
+                    </a>
+                    <a href="/winners" class="cyber-btn touch-btn btn-secondary">
+                        <i class="fa-solid fa-crown gold-text"></i> Hall of Fame
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <%- include('partials/footer') %>
+</body>
+
+</html>

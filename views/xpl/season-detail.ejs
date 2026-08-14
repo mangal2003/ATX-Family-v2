@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+        <link rel="stylesheet" href="/css/xpl.css">
+        <link rel="stylesheet" href="/css/season-detail.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <%- include('../partials/flash') %>
+
+            <main class="season-detail-wrapper">
+                <!-- Top Back Navigation -->
+                <div class="top-nav-bar">
+                    <a href="/xpl" class="back-link-btn">
+                        <i class="fa-solid fa-arrow-left"></i> BACK TO XPL
+                    </a>
+                </div>
+
+                <!-- Season Hero Banner -->
+                <section class="cyber-hero-card xpl-hero-theme season-detail-hero">
+                    <div class="cyber-hero-bg">
+                        <div class="cyber-grid xpl-grid"></div>
+                        <div class="cyber-orb gold-orb"></div>
+                    </div>
+                    <div class="corner-bracket top-left xpl-bracket"></div>
+                    <div class="corner-bracket top-right xpl-bracket"></div>
+                    <div class="corner-bracket bottom-left xpl-bracket"></div>
+                    <div class="corner-bracket bottom-right xpl-bracket"></div>
+
+                    <div class="cyber-hero-content">
+                        <div class="hero-live-badge xpl-badge">
+                            <span class="live-dot <%= season.status === 'ended' ? 'badge-muted' : 'neon-dot' %>"></span>
+                            XPL SEASON <%= season.seasonRoman %>
+                        </div>
+
+                        <h1 class="glitch-title">SEASON <%= season.seasonRoman %> ARCHIVES</h1>
+                        <p class="hero-meta">Auction • Exciting Games • Champions</p>
+
+                        <div class="hero-metric-pills">
+                            <span class="metric-pill">
+                                STATUS:
+                                <strong class="<%= season.status === 'ended' ? 'gold-text' : 'neon-text' %>">
+                                    <%= season.status==='ended' ? 'COMPLETED' : 'LIVE' %>
+                                </strong>
+                            </span>
+
+                            <span class="metric-pill">
+                                CHAMPIONS:
+                                <strong class="gold-text">
+
+                                    <%= (season.championTeam && season.championTeam.teamName) ?
+                                        season.championTeam.teamName : 'TBD' %> <i class="fa-solid fa-trophy"></i>
+                                </strong>
+                            </span>
+
+                            <span class="metric-pill">
+                                REGISTERED PLAYERS: <strong class="cyan-text">
+                                    <%= (registrations && registrations.length) || 0 %>
+                                </strong>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TEAMS ROSTER SECTION -->
+                <section class="season-section">
+                    <div class="section-title-bar">
+                        <h3><i class="fa-solid fa-shield-cat gold-text"></i> TEAMS</h3>
+                    </div>
+
+                    <div class="teams-detail-grid">
+                        <% if (teams && teams.length> 0) { %>
+                            <% teams.forEach(team=> { %>
+                                <% const isChampion=Boolean( (season.championTeam && ( String(season.championTeam._id ||
+                                    season.championTeam)===String(team._id) || (season.championTeam.teamName &&
+                                    season.championTeam.teamName.trim().toLowerCase()===team.teamName.trim().toLowerCase())
+                                    )) || team.isWinner ); %>
+
+                                    <div class="season-team-card <%= isChampion ? 'champion-royal-card' : '' %>">
+                                        <% if (isChampion) { %>
+                                            <!-- Royal Champion Crest & Ribbons -->
+                                            <div class="champion-crown-badge" title="Season Champion">👑</div>
+                                            <div class="royal-glow-effect"></div>
+                                            <div class="champion-ribbon-tag">
+                                                <i class="fa-solid fa-trophy"></i> CHAMPION
+                                            </div>
+                                            <% } %>
+
+                                                <div class="team-card-top-row">
+                                                    <div
+                                                        class="team-logo-container <%= isChampion ? 'royal-logo-ring' : '' %>">
+                                                        <img src="<%= team.logoUrl || '/images/atx-logo.png' %>"
+                                                            alt="<%= team.teamName %>" class="team-card-logo"
+                                                            onerror="this.src='/images/atx-logo.png';"
+                                                            style="border:none">
+                                                    </div>
+
+                                                    <div class="team-card-meta">
+                                                        <h4
+                                                            class="team-name-title <%= isChampion ? 'gold-glow-title' : '' %>">
+                                                            <%= team.teamName %>
+                                                                <%= team.teamTag ? `(${team.teamTag})` : '' %>
+                                                        </h4>
+                                                        <span class="team-owner">Owner: <strong>
+                                                                <%= team.ownerName || team.ownerPlatoId
+                                                                    || 'Community Member' %>
+                                                            </strong></span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- View Roster Trigger Button -->
+                                                <button type="button"
+                                                    class="cyber-btn view-roster-btn <%= isChampion ? 'royal-roster-btn' : '' %>"
+                                                    onclick="openTeamRosterModal('<%= team._id %>')">
+                                                    <i class="fa-solid fa-users"></i> VIEW TEAM (<%= (team.roster &&
+                                                        team.roster.length) || 0 %>)
+                                                </button>
+                                    </div>
+
+                                    <!-- TEAM ROSTER MODAL -->
+                                    <div class="cyber-modal-overlay" id="roster-modal-<%= team._id %>"
+                                        style="display: none;">
+                                        <div class="cyber-modal-card <%= isChampion ? 'champion-modal-theme' : '' %>">
+                                            <div class="modal-header">
+                                                <div class="modal-header-team">
+                                                    <img src="<%= team.logoUrl || '/images/atx-logo.png' %>"
+                                                        alt="<%= team.teamName %>"
+                                                        class="modal-team-logo <%= isChampion ? 'royal-logo-ring' : '' %>"
+                                                        onerror="this.src='/images/atx-logo.png';" style="border:none">
+                                                    <div>
+                                                        <h3 class="gold-text">
+                                                            <% if (isChampion) { %>👑 <% } %>
+                                                                    <%= team.teamName %>
+                                                                        <%= team.teamTag ? `(${team.teamTag})` : '' %>
+                                                        </h3>
+                                                        <span class="text-muted">Owner: <%= team.ownerName ||
+                                                                team.ownerPlatoId || 'N/A' %></span>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="modal-close-btn"
+                                                    onclick="closeTeamRosterModal('<%= team._id %>')">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <% if (team.remainingBudget !==undefined && team.remainingBudget> 0) {
+                                                    %>
+                                                    <div class="team-budget-info" style="margin-bottom: 1rem;">
+                                                        <span>REMAINING PURSE:</span>
+                                                        <strong class="gold-text">
+                                                            <%= Number(team.remainingBudget).toLocaleString() %> <i
+                                                                    class="fa-solid fa-coins gold-text"></i>
+                                                        </strong>
+                                                    </div>
+                                                    <% } %>
+
+                                                        <span class="roster-header-label">
+                                                            ACQUIRED PLAYERS (<%= (team.roster && team.roster.length) ||
+                                                                0 %>)
+                                                        </span>
+
+                                                        <ul class="roster-list" style="margin-top: 0.5rem;">
+                                                            <% if (team.roster && team.roster.length> 0) { %>
+                                                                <% team.roster.forEach(player=> { %>
+                                                                    <li class="roster-item">
+                                                                        <span class="player-name">
+                                                                            <%= (player.platoId || player.playerName
+                                                                                || 'Player' ).toUpperCase() %>
+                                                                        </span>
+                                                                        <span class="player-price cyan-text">
+                                                                            <%= (Number(player.boughtPrice) ||
+                                                                                Number(player.price) ||
+                                                                                0).toLocaleString() %>
+                                                                                <i
+                                                                                    class="fa-solid fa-coins gold-text"></i>
+                                                                        </span>
+                                                                    </li>
+                                                                    <% }) %>
+                                                                        <% } else { %>
+                                                                            <li class="empty-roster-notice">No players
+                                                                                acquired during
+                                                                                auction.</li>
+                                                                            <% } %>
+                                                        </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <p class="text-muted empty-state-text">Teams are yet to be registered for
+                                                Season <%= season.seasonRoman %>.</p>
+                                            <% } %>
+                    </div>
+                </section>
+
+                <!-- REGISTERED PLAYERS SECTION -->
+                <section class="season-section">
+                    <div class="section-title-bar">
+                        <h3><i class="fa-solid fa-users cyan-text"></i> REGISTERED PLAYERS</h3>
+                    </div>
+
+                    <div class="players-table-card">
+                        <% const isAdmin=Boolean(user && user.role==='admin' ); const
+                            hasPendingPlayers=Boolean(registrations && registrations.some(p=> p.status === 'pending' ||
+                            (!p.status && !p.boughtBy)));
+                            const canViewTable = Boolean(isAdmin || !hasPendingPlayers);
+                            %>
+
+                            <% if (!canViewTable) { %>
+                                <div class="draft-hidden-notice" style="text-align: center; padding: 2.5rem 1rem;">
+                                    <i class="fa-solid fa-user-lock gold-text"
+                                        style="font-size: 2.2rem; margin-bottom: 0.75rem;"></i>
+                                    <h4
+                                        style="font-family: 'Share Tech Mono', monospace; color: var(--text-heading); margin: 0 0 0.4rem 0;">
+                                        PLAYERS POOL RESTRICTED
+                                    </h4>
+                                    <p class="text-muted"
+                                        style="font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; margin: 0;">
+                                        The full registered players list and auction results will be revealed once all
+                                        players are finalized (Sold / Unsold).
+                                    </p>
+                                </div>
+                                <% } else if (registrations && registrations.length> 0) { %>
+                                    <div class="table-responsive">
+                                        <table class="cyber-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>PLATO ID</th>
+                                                    <th>FINAL STATUS</th>
+                                                    <th>BOUGHT BY</th>
+                                                    <th style="text-align: right;">PRICE</th>
+                                                    <% if (isAdmin) { %>
+                                                        <th style="text-align: right;">ACTION</th>
+                                                        <% } %>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% registrations.forEach(p=> { %>
+                                                    <tr>
+                                                        <td class="font-bold" style="color: var(--text-main);">
+                                                            <%= (p.platoId || p.playerName || '' ).toUpperCase() %>
+                                                        </td>
+
+                                                        <td>
+                                                            <% if (p.status==='sold' || Number(p.soldPrice)> 0 ||
+                                                                p.boughtBy) { %>
+                                                                <span class="badge-status badge-sold">SOLD</span>
+                                                                <% } else if (p.status==='pending' ||
+                                                                    Number(p.soldPrice)===null) { %>
+                                                                    <span
+                                                                        class="badge-status badge-pending">PENDING</span>
+
+                                                                    <% } else { %>
+                                                                        <span
+                                                                            class="badge-status badge-unsold">UNSOLD</span>
+                                                                        <% } %>
+                                                        </td>
+                                                        <td class="cyan-text">
+                                                            <%= p.boughtBy || (p.soldToTeam ? p.soldToTeam.teamName
+                                                                : '—' ) %>
+                                                        </td>
+                                                        <td class="gold-text" style="text-align: right;">
+                                                            <%= (Number(p.soldPrice) || Number(p.price) ||
+                                                                (p.status==='pending' ? Number(p.basePrice) : 0) ||
+                                                                0).toLocaleString() %>
+                                                                <i class="fa-solid fa-coins"></i>
+                                                        </td>
+                                                        <% if (isAdmin) { %>
+                                                            <td style="text-align: right;">
+                                                                <form action="/xpl/admin/delete-registration"
+                                                                    method="POST" style="display: inline;"
+                                                                    onsubmit="return confirm('Are you sure you want to cancel the registration for <%= p.playerName %> (<%= p.platoId %>)?');">
+                                                                    <input type="hidden" name="registrationId"
+                                                                        value="<%= p._id %>">
+                                                                    <input type="hidden" name="seasonNumber"
+                                                                        value="<%= season.seasonNumber %>">
+                                                                    <button type="submit" class="cyber-btn"
+                                                                        style="padding: 0.25rem 0.6rem; font-size: 0.72rem;">
+                                                                        <i class="fa-solid fa-trash-can"></i> UNREGISTER
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                            <% } %>
+                                                    </tr>
+                                                    <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <% } else { %>
+                                        <p class="text-muted empty-state-text"
+                                            style="padding: 1.5rem; text-align: center;">
+                                            No player records found for this season.
+                                        </p>
+                                        <% } %>
+                    </div>
+                </section>
+            </main>
+
+            <%- include('../partials/footer') %>
+
+                <script>
+                    function openTeamRosterModal(teamId) {
+                        const modal = document.getElementById('roster-modal-' + teamId);
+                        if (modal) modal.style.display = 'flex';
+                    }
+
+                    function closeTeamRosterModal(teamId) {
+                        const modal = document.getElementById('roster-modal-' + teamId);
+                        if (modal) modal.style.display = 'none';
+                    }
+
+                    window.addEventListener('click', function (e) {
+                        if (e.target.classList.contains('cyber-modal-overlay')) {
+                            e.target.style.display = 'none';
+                        }
+                    });
+                </script>
+</body>
+
+</html>

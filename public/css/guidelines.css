@@ -1,0 +1,271 @@
+/* =========================================================
+   DIRECTIVE COMMAND CENTER - THEME ADAPTIVE (MOBILE-FIRST)
+   ========================================================= */
+
+.directives-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin: 1rem auto 2.5rem;
+  padding: 0 0.85rem;
+  box-sizing: border-box;
+}
+
+/* Banner Header */
+.terminal-header {
+  background: var(--bg-card, var(--card-bg, rgba(10, 12, 18, 0.9)));
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  border-radius: 12px;
+  padding: 1.25rem 1rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--card-shadow, 0 8px 32px rgba(0, 0, 0, 0.3));
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.terminal-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent-cyan, #00f3ff);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 243, 255, 0.12);
+  color: var(--accent-cyan, #00f3ff);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+}
+
+.pulsing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-cyan, #00f3ff);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-cyan, #00f3ff);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.terminal-title {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.4rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.4rem 0;
+  transition: color 0.3s ease;
+}
+
+.gold-text {
+  color: var(--accent-gold, #ffd700) !important;
+}
+
+.cyan-text {
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.terminal-subtitle {
+  color: var(--text-muted, #9ca3af) !important;
+  font-size: 0.825rem;
+  line-height: 1.45;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* Step-by-Step Directive Timeline Cards */
+.directive-steps-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.directive-step-card {
+  background: var(--bg-card, var(--card-bg, rgba(15, 20, 28, 0.95)));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 12px;
+  padding: 1.15rem;
+  position: relative;
+  box-shadow: var(--card-shadow, 0 4px 15px rgba(0, 0, 0, 0.2));
+  transition:
+    transform 0.2s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.directive-step-card.active-step {
+  border-color: var(--accent-gold, #ffd700);
+  box-shadow: 0 4px 20px var(--border-color, rgba(255, 215, 0, 0.25));
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.step-number {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid var(--accent-gold, #ffd700);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.step-title {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.1rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.5rem 0;
+  transition: color 0.3s ease;
+}
+
+.step-desc {
+  color: var(--text-main, #d1d5db) !important;
+  font-size: 0.825rem;
+  line-height: 1.5;
+  margin-bottom: 0.85rem;
+  transition: color 0.3s ease;
+}
+
+/* Discord CTA Bar Inside Step 1 */
+.discord-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-primary, rgba(88, 101, 242, 0.12));
+  border: 1px solid var(--border-color, rgba(88, 101, 242, 0.3));
+  padding: 0.75rem 0.85rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  transition: background 0.3s ease;
+}
+
+.discord-action-text {
+  font-size: 0.8rem;
+  color: var(--text-heading, #ffffff) !important;
+  font-weight: 600;
+}
+
+.discord-btn {
+  background: #5865f2;
+  color: #ffffff !important;
+  padding: 0.45rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-family: "Share Tech Mono", monospace;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: bold;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.discord-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Checklist Chip Items */
+.checklist-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.check-chip {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.15));
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--text-main, #e5e7eb) !important;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.check-chip i {
+  color: var(--accent-cyan, #00f3ff);
+  font-size: 0.85rem;
+}
+
+/* Warning Rules Grid */
+.rules-notice-card {
+  background: var(--bg-card, rgba(20, 10, 12, 0.9));
+  border: 1px solid var(--accent-danger, #ff4655);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1.25rem;
+  transition: background 0.3s ease;
+}
+
+.notice-title {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.85rem;
+  color: var(--accent-danger, #ff4655) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.notice-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-muted, #9ca3af) !important;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+.notice-list li {
+  margin-bottom: 0.4rem;
+}
+
+/* Tablet & Desktop Progressive Layout */
+@media (min-width: 768px) {
+  .terminal-header {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .terminal-title {
+    font-size: 1.8rem;
+  }
+
+  .checklist-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/winners.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <%- include('partials/flash') %>
+
+            <main class="winners-container">
+                <header class="winners-header">
+
+                    <h1 class="glitch-title" data-text="HALL OF FAME">HALL OF FAME</h1>
+                    <p>Archived tournament champions, event titleholders, and ATX record holders.</p>
+
+                    <% if (locals.isAdmin) { %>
+                        <button class="cyber-btn add-winner-trigger-btn" onclick="openWinnerModal()">
+                            <i class="fa-solid fa-plus"></i> Add Tour Winner
+                        </button>
+                        <% } %>
+                </header>
+
+                <!-- Winners Table Section -->
+                <section class="cyber-card winners-card">
+                    <div class="table-responsive">
+                        <table class="royal-table">
+                            <thead>
+                                <tr>
+                                    <th>GAME</th>
+                                    <th>WINNER</th>
+                                    <th class="col-date-header">DATE</th>
+                                </tr>
+                            </thead>
+                            <tbody id="winnersTableBody">
+                                <% if (winners && winners.length> 0) { %>
+                                    <% winners.forEach((winner)=> { %>
+                                        <tr class="winner-row">
+                                            <td class="col-game">
+                                                <span class="game-tag">
+                                                    <%= winner.gameName %>
+                                                </span>
+                                            </td>
+                                            <td class="col-winner">
+                                                <div class="winner-identity">
+                                                    <span class="winner-name">
+                                                        <%= winner.winnerName %>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td class="col-date">
+                                                <% if (winner.date && !isNaN(new Date(winner.date))) { %>
+                                                    <%= new Date(winner.date).toLocaleDateString('en-GB', {
+                                                        day: '2-digit' , month: 'short' , year: 'numeric'
+                                                        }).replace(/\s+/g, '-' ) %>
+                                                        <% } else { %>
+                                                            Date N/A
+                                                            <% } %>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="3" class="no-records">No tournament records found in
+                                                        the archive.</td>
+                                                </tr>
+                                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Client-Side Pagination UI Container -->
+                    <div id="paginationContainer"></div>
+                </section>
+            </main>
+
+            <!-- Modal for Logging Winner (Admin Only) -->
+            <% if (locals.isAdmin) { %>
+                <div id="addWinnerModal" class="cyber-modal">
+                    <div class="modal-content cyber-card">
+                        <button type="button" class="modal-close" onclick="closeWinnerModal()">&times;</button>
+                        <div class="card-header" style="margin-bottom: 1.25rem;">
+                            <h2><i class="fa-solid fa-award gold-text"></i> Add Tour Winner</h2>
+                        </div>
+                        <form action="/admin/winners/add" method="POST" class="admin-form">
+                            <div class="form-group">
+                                <label class="form-label">Winner Name</label>
+                                <input type="text" name="winnerName" required placeholder="Plato ID"
+                                    class="cyber-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Game Name</label>
+                                <input type="text" name="gameName" required placeholder="e.g. Ocho (or Multi Games)"
+                                    class="cyber-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Tournament Date</label>
+                                <input type="date" name="datePicker" required class="cyber-input cyber-date-picker">
+                            </div>
+
+                            <button type="submit" class="cyber-btn touch-submit-btn"
+                                style="width: 100%; margin-top: 1rem;">
+                                <i class="fa-solid fa-save"></i> Save Winner
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <script>
+                    function openWinnerModal() {
+                        document.getElementById('addWinnerModal').classList.add('active');
+                    }
+                    function closeWinnerModal() {
+                        document.getElementById('addWinnerModal').classList.remove('active');
+                    }
+                    window.onclick = function (event) {
+                        const modal = document.getElementById('addWinnerModal');
+                        if (event.target === modal) closeWinnerModal();
+                    }
+                </script>
+                <% } %>
+
+                    <!-- Client-Side Table Pagination Script -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const rowsPerPage = 10;
+                            const rows = Array.from(document.querySelectorAll('#winnersTableBody .winner-row'));
+                            const paginationContainer = document.getElementById('paginationContainer');
+
+                            if (rows.length <= rowsPerPage) return; // No pagination needed if 10 or fewer items
+
+                            let currentPage = 1;
+                            const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+                            function renderPagination() {
+                                paginationContainer.innerHTML = `
+                            <nav class="pagination-container">
+                                <button id="prevBtn" class="pagination-btn ${currentPage === 1 ? 'disabled' : ''}">
+                                    <i class="fa-solid fa-chevron-left"></i> Prev
+                                </button>
+                                <span class="pagination-info">Page ${currentPage} of ${totalPages}</span>
+                                <button id="nextBtn" class="pagination-btn ${currentPage === totalPages ? 'disabled' : ''}">
+                                    Next <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </nav>
+                        `;
+
+                                document.getElementById('prevBtn').addEventListener('click', () => {
+                                    if (currentPage > 1) {
+                                        currentPage--;
+                                        displayPage(currentPage);
+                                    }
+                                });
+
+                                document.getElementById('nextBtn').addEventListener('click', () => {
+                                    if (currentPage < totalPages) {
+                                        currentPage++;
+                                        displayPage(currentPage);
+                                    }
+                                });
+                            }
+
+                            function displayPage(page) {
+                                const start = (page - 1) * rowsPerPage;
+                                const end = start + rowsPerPage;
+
+                                rows.forEach((row, index) => {
+                                    if (index >= start && index < end) {
+                                        row.style.display = '';
+                                    } else {
+                                        row.style.display = 'none';
+                                    }
+                                });
+
+                                renderPagination();
+                            }
+
+                            // Initial view load
+                            displayPage(1);
+                        });
+                    </script>
+
+                    <%- include('partials/footer') %>
+</body>
+
+</html>

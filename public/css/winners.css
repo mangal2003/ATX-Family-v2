@@ -1,0 +1,252 @@
+/* =========================================================
+   HALL OF FAME (3-COLUMN DIRECT TABLE) - THEME ADAPTIVE
+   ========================================================= */
+
+.winners-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 1.25rem auto 3rem;
+  padding: 0 0.85rem;
+  box-sizing: border-box;
+}
+
+/* Page Header */
+.winners-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.hall-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid var(--accent-gold, #ffd700);
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+}
+
+.winners-header h1 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--text-heading, #ffffff) !important;
+  text-shadow: 0 0 15px var(--border-glow, rgba(0, 243, 255, 0.4));
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.winners-header p {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.85rem;
+  max-width: 600px;
+  margin: 0 auto 1.25rem;
+  transition: color 0.3s ease;
+}
+
+.add-winner-trigger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+/* Clean 3-Column Table */
+.winners-card {
+  background: var(--bg-card, var(--card-bg, #12141d)) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: var(--card-shadow, 0 8px 32px rgba(0, 0, 0, 0.4));
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.royal-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.royal-table th {
+  font-family: "Share Tech Mono", monospace;
+  color: var(--accent-gold, #ffd700) !important;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.3));
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  font-size: 0.775rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.royal-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
+  color: var(--text-main, #e2e8f0) !important;
+  transition: color 0.3s ease;
+}
+
+.royal-table tbody tr:hover {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.2));
+}
+
+.winner-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.winner-name {
+  color: var(--text-heading, #ffffff) !important;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.game-tag {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: var(--accent-cyan, #00f3ff) !important;
+  display: inline-block;
+}
+
+.no-records {
+  text-align: center;
+  padding: 2rem !important;
+  color: var(--text-muted, #94a3b8) !important;
+}
+
+/* Pagination Bar */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, rgba(0, 243, 255, 0.15));
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  color: var(--text-main, #ffffff) !important;
+  text-decoration: none;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  transition: all 0.25s ease;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  border-color: var(--border-glow, #00f3ff);
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.pagination-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8) !important;
+}
+
+/* Responsive Scaling */
+@media (min-width: 768px) {
+  .winners-container {
+    margin: 2rem auto 4rem;
+  }
+
+  .winners-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .winners-card {
+    padding: 1.5rem;
+  }
+}
+
+/* Table Header Alignment */
+.royal-table th.col-date-header,
+.royal-table th:nth-child(3) {
+  text-align: right;
+}
+
+/* Date Column Alignment */
+.col-date {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.col-date i {
+  margin-right: 0.35rem;
+}
+
+/* Modal Overlay */
+.cyber-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.cyber-modal.active {
+  display: flex;
+}
+
+/* Modal Box */
+.modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 480px;
+  padding: 1.75rem;
+  box-sizing: border-box;
+}
+
+/* Close Button */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--text-muted, #94a3b8);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+  color: var(--accent-gold, #ffd700);
+}

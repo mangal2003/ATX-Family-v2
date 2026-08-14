@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+        <link rel="stylesheet" href="/css/admin-dashboard.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <%- include('../partials/flash') %>
+
+            <main class="admin-container">
+                <!-- Header Area -->
+                <div class="admin-header">
+                    <h1>
+                        <i class="fa-solid fa-user-shield"></i> ADMIN PANEL
+                    </h1>
+                    <p>Manage members, update tour winners, and broadcast site alerts.</p>
+                </div>
+
+                <!-- Quick Stats Overview Carousel/Grid -->
+                <div class="admin-stats-grid">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-users stat-icon"></i>
+                        <div class="stat-info">
+                            <h3>
+                                <%= stats?.totalUsers ?? 0 %>
+                            </h3>
+                            <p>Total Members</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-crown stat-icon gold-text"></i>
+                        <div class="stat-info">
+                            <h3>
+                                <%= stats?.adminUsers ?? 0 %>
+                            </h3>
+                            <p>Admins</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Section Stack -->
+                <div class="admin-sections-stack">
+
+                    <!-- User & Role Management Stack -->
+                    <section class="cyber-card admin-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-users-gear gold-text"></i> User & Access Management</h2>
+                        </div>
+                        <p class="admin-card-desc">
+                            View all registered users, perform instant searches, and manage administrator rights.
+                        </p>
+                        <a href="/admin/members" class="cyber-btn touch-submit-btn">
+                            <i class="fa-solid fa-address-book"></i> Open Member Directory
+                        </a>
+                    </section>
+
+
+                    <div class="cyber-card admin-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h2><i class="fa-solid fa-coins gold-text"></i> Site Metrics</h2>
+                            <button type="button" class="cyber-btn" onclick="openSettingsModal()">
+                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                            </button>
+                        </div>
+                        <div class="metrics-display" style="margin-top: 1rem;">
+                            <p>
+                                <strong>Total Prize Sponsored:</strong>
+                                <span class="gold-text">
+                                    <%= (siteSettings.totalPrizeSponsored ?? 0).toLocaleString() %> Coins
+                                </span>
+                            </p>
+                            <p>
+                                <strong>Discord Server:</strong>
+                                <span data-text="<%= siteSettings.discordServerLink || 'Not Set' %>"
+                                    style="color: var(--text-muted);">
+                                    <%= siteSettings.discordServerLink || 'Not Set' %>
+                                </span>
+                            </p>
+
+                            <!-- Loop through dynamic custom metrics -->
+                            <% if (siteSettings.customMetrics && siteSettings.customMetrics.length> 0) { %>
+                                <% siteSettings.customMetrics.forEach(metric=> { %>
+                                    <p>
+                                        <strong>
+                                            <%= metric.label %>:
+                                        </strong>
+                                        <span data-text="<%= metric.value %>" style="color: var(--text-muted);">
+                                            <%= metric.value %>
+                                        </span>
+                                    </p>
+                                    <% }) %>
+                                        <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Settings Modal -->
+                    <div id="editSettingsModal" class="cyber-modal">
+                        <div class="modal-content cyber-card" style="max-width: 600px;">
+                            <button type="button" class="modal-close" onclick="closeSettingsModal()">&times;</button>
+                            <div class="card-header" style="margin-bottom: 1.25rem;">
+                                <h2><i class="fa-solid fa-sliders gold-text"></i> Edit</h2>
+                            </div>
+
+                            <form action="/admin/settings/update" method="POST" class="admin-form">
+                                <div class="form-group">
+                                    <label class="form-label">Total Prize Sponsored (Coins+pips)</label>
+                                    <input type="number" name="totalPrizeSponsored"
+                                        value="<%= siteSettings.totalPrizeSponsored%>" required class="cyber-input">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Discord Server Link</label>
+                                    <input type="url" name="discordServerLink"
+                                        value="<%= siteSettings.discordServerLink || '' %>"
+                                        placeholder="https://discord.gg/..." class="cyber-input">
+                                </div>
+
+
+                                <hr style="border-color: rgba(0, 243, 255, 0.2); margin: 1.25rem 0;">
+
+                                <!-- Dynamic Custom Metrics Container -->
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between align-items-center"
+                                        style="margin-bottom: 0.5rem;">
+                                        <label class="form-label" style="margin: 0;">Add Custom field</label>
+                                        <button type="button" class="cyber-btn" onclick="addMetricRow()"
+                                            style="padding: 0.25rem 0.6rem; font-size: 0.75rem; margin-top: 10px;">
+                                            <i class="fa-solid fa-plus"></i> Add Item
+                                        </button>
+                                    </div>
+
+                                    <div id="dynamicMetricsContainer">
+                                        <% if (siteSettings.customMetrics && siteSettings.customMetrics.length> 0) {
+                                            %>
+                                            <% siteSettings.customMetrics.forEach((metric, index)=> { %>
+                                                <div class="metric-row d-flex gap-2 align-items-center"
+                                                    style="margin-bottom: 0.6rem;">
+                                                    <input type="text" name="metricLabels" value="<%= metric.label %>"
+                                                        placeholder="Label (e.g. Sponsor)" class="cyber-input" required>
+                                                    <input type="text" name="metricValues" value="<%= metric.value %>"
+                                                        placeholder="Value/Link" class="cyber-input" required>
+                                                    <button type="button" class="cyber-btn"
+                                                        onclick="removeMetricRow(this)"
+                                                        style="background: rgba(255, 70, 85, 0.2); border-color: #ff4655; color: #ff4655;">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                                <% }) %>
+                                                    <% } %>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="cyber-btn touch-submit-btn"
+                                    style="width: 100%; margin-top: 1rem;">
+                                    <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Row Controller JS -->
+                    <script>
+                        function openSettingsModal() {
+                            const modal = document.getElementById('editSettingsModal');
+                            if (modal) modal.classList.add('active');
+                        }
+                        function closeSettingsModal() {
+                            const modal = document.getElementById('editSettingsModal');
+                            if (modal) modal.classList.remove('active');
+                        }
+                        window.addEventListener('click', function (event) {
+                            const modal = document.getElementById('editSettingsModal');
+                            if (event.target === modal) closeSettingsModal();
+                        });
+                        function addMetricRow() {
+                            const container = document.getElementById('dynamicMetricsContainer');
+                            const row = document.createElement('div');
+                            row.className = 'metric-row d-flex gap-2 align-items-center';
+                            row.style.marginBottom = '0.6rem';
+                            row.innerHTML = `
+                <input type="text" name="metricLabels" placeholder="Label (e.g. Sponsor)" class="cyber-input" required>
+                <input type="text" name="metricValues" placeholder="Value/Link" class="cyber-input" required>
+                <button type="button" class="cyber-btn" onclick="removeMetricRow(this)" style="background: rgba(255, 70, 85, 0.2); border-color: #ff4655; color: #ff4655;">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            `;
+                            container.appendChild(row);
+                        }
+
+                        function removeMetricRow(btn) {
+                            btn.closest('.metric-row').remove();
+                        }
+                    </script>
+
+                    <%- include('../partials/footer') %>
+</body>
+
+</html>

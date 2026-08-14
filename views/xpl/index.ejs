@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+        <link rel="stylesheet" href="/css/xpl.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+        <%- include('../partials/flash') %>
+
+            <main class="hotstar-app-wrapper">
+                <!-- Hero Banner -->
+                <section class="hotstar-hero-banner">
+                    <div class="cyber-hero-card xpl-hero-theme">
+                        <div class="cyber-hero-bg">
+                            <div class="cyber-grid xpl-grid"></div>
+                            <div class="cyber-laser-scan xpl-laser"></div>
+                            <div class="cyber-orb gold-orb"></div>
+                        </div>
+                        <div class="corner-bracket top-left xpl-bracket"></div>
+                        <div class="corner-bracket top-right xpl-bracket"></div>
+                        <div class="corner-bracket bottom-left xpl-bracket"></div>
+                        <div class="corner-bracket bottom-right xpl-bracket"></div>
+
+                        <div class="cyber-hero-content">
+                            <div class="hero-live-badge xpl-badge">
+                                <span
+                                    class="live-dot <%= (season && season.status === 'ended') ? 'badge-muted' : (season && season.isRegistrationOpen ? 'neon-dot' : 'gold-dot') %>"></span>
+                                <% if (season && season.status==='ended' ) { %>
+                                    UPCOMING: XPL SEASON <%= toRoman((season.seasonNumber || 1) + 1) %>
+                                        <% } else { %>
+                                            XPL SEASON <%= season ? season.seasonRoman : 'I' %>
+                                                <% } %>
+                            </div>
+                            <h1 class="glitch-title" data-text="XTREME PREMIER LEAGUE">XTREME PREMIER LEAGUE</h1>
+                            <p class="hero-meta">Where Strategy Meets Chaos...</p>
+
+                            <div class="hero-metric-pills">
+                                <span class="metric-pill">
+                                    <strong
+                                        class="<%= (season && season.status === 'ended') ? 'gold-text' : (season && season.isRegistrationOpen ? 'neon-text' : 'gold-text') %>">
+                                        <% if (season && season.status==='ended' ) { %>
+                                            SEASON <%= season.seasonRoman %> COMPLETED
+                                                <% } else if (season && season.isRegistrationOpen) { %>
+                                                    REGISTRATION OPEN
+                                                    <% } else { %>
+                                                        REGISTRATION CLOSED
+                                                        <% } %>
+                                    </strong>
+                                </span>
+
+                                <span class="metric-pill">
+                                    <% if (season && season.status==='ended' ) { %>
+                                        Champions:
+                                        <strong class="gold-text">
+
+                                            <%= (season.championTeam && season.championTeam.teamName) ?
+                                                season.championTeam.teamName.toUpperCase() : 'TBD' %> <i
+                                                    class="fa-solid fa-trophy"></i>
+                                        </strong>
+                                        <% } else { %>
+                                            Registered Players:
+                                            <strong class="gold-text">
+                                                <%= registrationsCount %>
+                                            </strong>
+                                            <% } %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- EXPLORE SEASONS SECTION -->
+                <section class="app-rail-section" style="margin-top: 2.5rem;">
+                    <div class="rail-header">
+                        <h3>
+                            <i class="fa-solid fa-compass gold-text"></i>
+                            EXPLORE SEASONS
+                        </h3>
+                    </div>
+
+                    <div class="seasons-grid-container">
+                        <% const currentNum=(season && season.seasonNumber) ? season.seasonNumber : 1; for (let
+                            s=currentNum; s>= 1;
+                            s--) {
+                            %>
+                            <a href="/xpl/season-<%= s %>" class="season-card-link">
+                                <div class="cyber-season-card">
+                                    <div class="season-card-header">
+                                        <span class="season-number-badge">S<%= s %></span>
+                                        <% if (s===currentNum && season && season.status !=='ended' ) { %>
+                                            <span class="season-status-dot active-dot"></span>
+                                            <% } else { %>
+                                                <span class="season-status-dot concluded-dot"></span>
+                                                <% } %>
+                                    </div>
+
+                                    <div class="season-card-body">
+                                        <h4 class="season-roman-title">XPL <%= toRoman(s) %>
+                                        </h4>
+                                        <p class="season-sub-text">
+                                            <% if (s===currentNum && season && season.status !=='ended' ) { %>
+                                                ⚡ LIVE NOW
+                                                <% } else { %>
+                                                    <i class="fa-solid fa-trophy gold-text"></i> View Archives
+                                                    <% } %>
+                                        </p>
+                                    </div>
+
+                                    <div class="season-card-footer">
+                                        <span>EXPLORE <i class="fa-solid fa-arrow-right"></i></span>
+                                    </div>
+                                </div>
+                            </a>
+                            <% } %>
+                    </div>
+                </section>
+
+
+
+                <!-- TEAMS DISPLAY RAIL (MINIMAL STUDIOS FORMAT) -->
+                <% if (season && season.status !=='ended' ) { %>
+                    <section class="app-rail-section" style="margin-top: 2.5rem;">
+                        <div class="rail-header">
+                            <h3>
+                                <i class="fa-solid fa-shield-cat gold-text"></i>
+                                SEASON <%= season.seasonRoman %> TEAMS
+                            </h3>
+                        </div>
+
+                        <div class="horizontal-scroll-rail hub-rail">
+                            <% if (teams.length> 0) { %>
+                                <% teams.forEach(team=> { %>
+                                    <div class="studio-card team-hub-card-minimal">
+                                        <div class="studio-card-inner team-card-inner-minimal">
+                                            <div class="team-card-top">
+                                                <img src="<%= team.logoUrl %>" alt="<%= team.teamName %>"
+                                                    class="team-logo-small" style="border: none;"
+                                                    onerror="this.src='/images/default-team.png';">
+                                                <div class="team-meta-info">
+                                                    <span class="studio-title">
+                                                        <%= team.teamName %> (<%= team.teamTag %>)
+                                                    </span>
+                                                    <span class="team-owner-text" style="margin-top: 0.5rem;">Owner:
+                                                        <strong>
+                                                            <%= team.ownerPlatoId.toUpperCase()%>
+                                                        </strong></span>
+                                                </div>
+
+                                                <% if (user && user.role==='admin' ) { %>
+                                                    <form action="/xpl/admin/delete-team" method="POST"
+                                                        onsubmit="return confirm('Delete <%= team.teamName %>?');">
+                                                        <input type="hidden" name="teamId" value="<%= team._id %>">
+                                                        <button type="submit" class="cyber-btn"
+                                                            style="border:none; padding: 4px 12px;">
+                                                            <i class="fa-solid fa-trash-can"></i>
+                                                        </button>
+                                                    </form>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+                                        <div class="studio-card-glow"></div>
+                                    </div>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <p class="text-muted"
+                                                style="padding: 1rem; font-family: 'Share Tech Mono', monospace;">
+                                                No teams registered for this season yet.
+                                            </p>
+                                            <% } %>
+                        </div>
+                    </section>
+                    <% } %>
+
+
+                        <!-- MEMBER REGISTRATION & ADMIN CONTROLS SECTION -->
+                        <section class="widget-split-section">
+                            <!-- MEMBER SELF-REGISTRATION CARD -->
+                            <div class="widget-card widget-bg-quiz">
+                                <div class="widget-badge">
+                                    <span class="badge-title">
+                                        <i class="fa-solid fa-id-card"></i> MEMBER REGISTRATION
+                                    </span>
+
+                                    <% if (userRegistration) { %>
+                                        <!-- 1. USER ALREADY REGISTERED STATUS -->
+                                        <span class="widget-pill badge-registered">
+                                            ✔ REGISTERED
+                                        </span>
+                                        <% } else if (season && season.status !=='ended' && season.isRegistrationOpen) {
+                                            %>
+                                            <!-- 2. REGISTRATION OPEN STATUS -->
+                                            <span class="widget-pill badge-live">
+                                                ⚡ OPEN
+                                            </span>
+                                            <% } else { %>
+                                                <!-- 3. REGISTRATION CLOSED STATUS -->
+                                                <span class="widget-pill badge-muted">
+                                                    ⏳ CLOSED
+                                                </span>
+                                                <% } %>
+                                </div>
+
+                                <% if (season && season.status !=='ended' && season.isRegistrationOpen) { %>
+                                    <% if (userRegistration) { %>
+                                        <div class="xpl-profile-showcase-card" style="margin-top: 1rem;">
+                                            <p><strong>Games of preference:</strong>
+                                                <%= userRegistration.preferredGames || 'None specified' %>
+                                            </p>
+                                            <p style="margin-top: 0.75rem;"><strong>About the player:</strong>
+                                                <%= userRegistration.aboutPlayer || 'No description provided.' %>
+                                            </p>
+                                            <p style="margin-top: 0.75rem;"><strong>Base price:</strong> <span
+                                                    class="gold-text">
+                                                    <%= userRegistration.basePrice %> <i class="fa-solid fa-coins"></i>
+                                                </span></p>
+                                        </div>
+                                        <% } else if (user) { %>
+                                            <form action="/xpl/register" method="POST" class="xpl-form">
+                                                <input type="hidden" name="seasonNumber"
+                                                    value="<%= season.seasonNumber %>">
+
+                                                <div class="form-group">
+                                                    <label>Plato ID</label>
+                                                    <input type="text" name="platoId" class="form-input"
+                                                        value="<%= user.platoId || '' %>"
+                                                        placeholder="e.g. PlatoUser123" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>In-Game / Player Name</label>
+                                                    <input type="text" name="playerName" class="form-input"
+                                                        value="<%= user.displayName || user.username %>"
+                                                        placeholder="Your Display Name" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Games of Preference</label>
+                                                    <input type="text" name="preferredGames" class="form-input"
+                                                        placeholder="e.g. mm , plox , minesweepers" required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>About the Player</label>
+                                                    <textarea name="aboutPlayer" class="form-input" rows="4"
+                                                        placeholder="Describe your stats, ranks, previous XPL experience, flexibility..."
+                                                        style="resize: none;" required></textarea>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Base Price</label>
+                                                    <input type="number" name="basePrice" class="form-input" value="100"
+                                                        min="50" step="50" required>
+                                                </div>
+
+                                                <!-- Fair Play Oath & Pledge Checkbox -->
+                                                <div class="fairplay-oath-wrapper">
+                                                    <label class="custom-checkbox-container">
+                                                        <input type="checkbox" name="fairPlayOath" id="fairPlayOath"
+                                                            required>
+                                                        <span class="custom-checkmark"></span>
+                                                        <span class="oath-text">
+                                                            <i class="fa-solid fa-shield-halved gold-text"></i>
+                                                            <strong>FAIR PLAY OATH:</strong> I solemnly pledge to uphold
+                                                            integrity, practice good
+                                                            sportsmanship, avoid cheating, account sharing, match
+                                                            manipulation, or toxic behavior,
+                                                            and abide by all XPL tournament rules throughout Season <%=
+                                                                season.seasonRoman %>.
+                                                        </span>
+                                                    </label>
+                                                </div>
+
+                                                <button type="submit" class="cyber-action-btn xpl-action-btn"
+                                                    style="width: fit-content; margin: 0.75rem auto 0.25rem;">
+                                                    SUBMIT XPL REGISTRATION
+                                                </button>
+                                            </form>
+                                            <% } else { %>
+                                                <div class="widget-details" style="margin-top: 1rem;">
+                                                    <h4>Login Required</h4>
+                                                    <p class="text-muted">Please log in to register for XPL.</p>
+                                                    <a href="/login" class="cyber-btn"
+                                                        style="margin-top: 0.5rem; display: inline-block;">LOG IN
+                                                        NOW</a>
+                                                </div>
+                                                <% } %>
+
+                                                    <% } else if (season && season.status !=='ended' &&
+                                                        !season.isRegistrationOpen) { %>
+                                                        <div class="widget-details" style="margin-top: 1rem;">
+                                                            <h4 class="glitch-title"
+                                                                style="font-size: 1.1rem; color: #ffffff;">Registration
+                                                                Closed
+                                                            </h4>
+                                                            <p class="text-muted" style="margin-top: 0.25rem;">Intake
+                                                                for Season <%= season.seasonRoman %> is currently
+                                                                    closed.</p>
+                                                            <p
+                                                                style="margin-top: 0.25rem; color: var(--accent-cyan); font-family: 'Share Tech Mono', monospace; font-size: 0.85rem;">
+                                                                Directly contact admins to register!
+                                                            </p>
+                                                        </div>
+                                                        <% } else { %>
+                                                            <div class="widget-details" style="margin-top: 1rem;">
+                                                                <p class="text-muted" style="margin-top: 0.25rem;">
+                                                                    Registration has not started yet for XPL Season <%=
+                                                                        toRoman((season ? season.seasonNumber : 0) + 1)
+                                                                        %>.
+                                                                </p>
+                                                            </div>
+                                                            <% } %>
+                            </div>
+
+                            <!-- ADMIN CONTROLS TABBED CARD -->
+                            <% if (user && user.role==='admin' ) { %>
+                                <div class="widget-card widget-bg-auction">
+                                    <div class="widget-badge">
+                                        <span class="badge-title"><i class="fa-solid fa-shield-halved"></i> ADMIN
+                                            CONTROL PANEL</span>
+                                    </div>
+
+                                    <!-- ADMIN TOGGLE NAVIGATION MENU -->
+                                    <div class="admin-tab-bar">
+                                        <% if (season && season.status !=='ended' ) { %>
+                                            <button type="button" class="admin-tab-btn active"
+                                                onclick="switchAdminTab(this, 'tab-reg-status')">
+                                                <i class="fa-solid fa-lock"></i> REGISTRATION
+                                            </button>
+                                            <button type="button" class="admin-tab-btn"
+                                                onclick="switchAdminTab(this, 'tab-create-team')">
+                                                <i class="fa-solid fa-plus"></i> ADD TEAM
+                                            </button>
+                                            <button type="button" class="admin-tab-btn"
+                                                onclick="switchAdminTab(this, 'tab-coordinators')">
+                                                <i class="fa-solid fa-user-gear"></i> COORDINATORS
+                                            </button>
+                                            <button type="button" class="admin-tab-btn"
+                                                onclick="switchAdminTab(this, 'tab-bidders')">
+                                                <i class="fa-solid fa-gavel"></i> BIDDERS
+                                            </button>
+                                            <button type="button" class="admin-tab-btn"
+                                                onclick="switchAdminTab(this, 'tab-manual-reg')">
+                                                <i class="fa-solid fa-user-plus"></i> FORCE USER
+                                            </button>
+                                            <% } %>
+                                                <button type="button"
+                                                    class="admin-tab-btn <%= (season && season.status === 'ended') ? 'active' : '' %>"
+                                                    onclick="switchAdminTab(this, 'tab-season-actions')">
+                                                    <i class="fa-solid fa-sliders"></i> SEASON
+                                                </button>
+                                    </div>
+
+                                    <div class="admin-tab-content-container">
+                                        <% if (season && season.status !=='ended' ) { %>
+                                            <!-- TAB 1: TOGGLE REGISTRATION STATUS -->
+                                            <div class="admin-tab-pane active" id="tab-reg-status">
+                                                <form action="/xpl/admin/toggle-registration" method="POST"
+                                                    class="xpl-form">
+                                                    <input type="hidden" name="seasonId" value="<%= season._id %>">
+                                                    <div class="form-group">
+                                                        <label>Registration Status (Season <%= season.seasonRoman %>
+                                                                )</label>
+                                                        <select name="isRegistrationOpen" class="form-input">
+                                                            <option value="true" <%=season.isRegistrationOpen
+                                                                ? 'selected' : '' %>>Open Registration</option>
+                                                            <option value="false" <%=!season.isRegistrationOpen
+                                                                ? 'selected' : '' %>>Close Registration</option>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="cyber-btn" style="width: fit-content;">
+                                                        <i class="fa-solid fa-floppy-disk"></i> UPDATE REGISTRATION
+                                                        STATUS
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                            <!-- TAB 2: CREATE XPL TEAM FORM -->
+                                            <div class="admin-tab-pane" id="tab-create-team">
+                                                <form action="/xpl/admin/create-team" method="POST"
+                                                    enctype="multipart/form-data" class="xpl-form">
+                                                    <input type="hidden" name="seasonNumber"
+                                                        value="<%= season.seasonNumber %>">
+
+                                                    <div class="form-group">
+                                                        <label>Team Name</label>
+                                                        <input type="text" name="teamName" class="form-input"
+                                                            placeholder="e.g. Phoenix Strikers" required>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Team Tag (2-4 Chars)</label>
+                                                        <input type="text" name="teamTag" class="form-input"
+                                                            placeholder="e.g. PHX" maxlength="4" required>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Team Logo Image</label>
+                                                        <div class="file-upload-wrapper">
+                                                            <label for="teamLogoInput" class="custom-file-btn"
+                                                                style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem; width: 100%;">
+                                                                <i class="fa-solid fa-folder-open gold-text"></i>
+                                                                <span id="logoFileName" class="form-input"
+                                                                    style="flex: 1; margin: 0; padding: 0.45rem 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+                                                                    Choose Logo File...
+                                                                </span>
+                                                            </label>
+                                                            <input type="file" id="teamLogoInput" name="logo"
+                                                                accept="image/*" style="display: none;"
+                                                                onchange="document.getElementById('logoFileName').textContent = this.files[0]?.name || 'Choose Logo File...';">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Owner Plato ID</label>
+                                                        <input type="text" name="ownerPlatoId" class="form-input"
+                                                            placeholder="Owner Plato ID" required>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Owner Display Name</label>
+                                                        <input type="text" name="ownerName" class="form-input"
+                                                            placeholder="Owner Name" required>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Total Purse / Budget</label>
+                                                        <input type="number" name="totalBudget" class="form-input"
+                                                            value="100000" min="10000" step="500" required>
+                                                    </div>
+
+                                                    <button type="submit" class="cyber-btn" style="width: fit-content;">
+                                                        <i class="fa-solid fa-plus"></i> CREATE TEAM
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                            <!-- TAB 3: ASSIGN COORDINATORS -->
+                                            <div class="admin-tab-pane" id="tab-coordinators">
+                                                <form action="/xpl/admin/assign-coordinators" method="POST"
+                                                    class="xpl-form">
+                                                    <input type="hidden" name="seasonId" value="<%= season._id %>">
+
+                                                    <div class="cyber-search-select-wrapper"
+                                                        id="coordinators-select-wrapper">
+                                                        <div class="selected-tags-container" id="coordinator-tags">
+                                                            <% if (season.auctionState &&
+                                                                season.auctionState.auctionCoordinators) { %>
+                                                                <% season.auctionState.auctionCoordinators.forEach(c=> {
+                                                                    %>
+                                                                    <span class="cyber-user-tag"
+                                                                        data-user-id="<%= c._id %>">
+                                                                        <%= c.displayName || c.username %> (<%=
+                                                                                c.platoId || 'No Plato ID' %>)
+                                                                                <i class="fa-solid fa-xmark remove-tag-btn"
+                                                                                    onclick="removeUserTag('<%= c._id %>', 'coordinator')"></i>
+                                                                    </span>
+                                                                    <% }) %>
+                                                                        <% } %>
+                                                        </div>
+
+                                                        <input type="text" class="form-input cyber-search-input"
+                                                            id="coordinator-search-input"
+                                                            placeholder="Type Plato ID or Name to search..."
+                                                            autocomplete="off">
+
+                                                        <div class="cyber-dropdown-menu" id="coordinator-dropdown">
+                                                            <% allUsers.forEach(u=> { %>
+                                                                <div class="cyber-dropdown-item"
+                                                                    data-user-id="<%= u._id %>"
+                                                                    data-display-name="<%= u.displayName || u.username %>"
+                                                                    data-plato-id="<%= u.platoId || '' %>"
+                                                                    data-search-text="<%= (u.displayName || u.username) + ' ' + (u.platoId || '') %>"
+                                                                    onclick="selectUserTagFromElement(this, 'coordinator')">
+                                                                    <span class="user-item-name">
+                                                                        <%= u.displayName || u.username %>
+                                                                    </span>
+                                                                    <span class="user-item-plato">
+                                                                        <%= u.platoId || 'No Plato ID' %>
+                                                                    </span>
+                                                                </div>
+                                                                <% }) %>
+                                                        </div>
+
+                                                        <div id="coordinator-hidden-inputs">
+                                                            <% if (season.auctionState &&
+                                                                season.auctionState.auctionCoordinators) { %>
+                                                                <% season.auctionState.auctionCoordinators.forEach(c=> {
+                                                                    %>
+                                                                    <input type="hidden" name="coordinatorUserIds[]"
+                                                                        value="<%= c._id %>"
+                                                                        id="input-coord-<%= c._id %>">
+                                                                    <% }) %>
+                                                                        <% } %>
+                                                        </div>
+                                                    </div>
+
+                                                    <button type="submit" class="cyber-btn"
+                                                        style="width: fit-content; margin-top: 0.75rem;">
+                                                        SAVE COORDINATORS
+                                                    </button>
+                                                </form>
+                                            </div>
+
+                                            <!-- TAB 4: ASSIGN TEAM BIDDERS -->
+                                            <div class="admin-tab-pane" id="tab-bidders">
+                                                <% if (teams.length> 0) { %>
+                                                    <% teams.forEach((t, index)=> { %>
+                                                        <form action="/xpl/admin/assign-bidders" method="POST"
+                                                            class="xpl-form" style="margin-bottom: 1.25rem;">
+                                                            <input type="hidden" name="teamId" value="<%= t._id %>">
+
+                                                            <label
+                                                                style="font-size: 0.75rem; color: var(--text-heading); display: block; margin-bottom: 0.25rem;">
+                                                                <%= t.teamName %> (<%= t.teamTag %>)
+                                                            </label>
+
+                                                            <div class="cyber-search-select-wrapper"
+                                                                id="bidders-wrapper-<%= t._id %>">
+                                                                <div class="selected-tags-container"
+                                                                    id="bidder-tags-<%= t._id %>">
+                                                                    <% if (t.authorizedBidders) { %>
+                                                                        <% t.authorizedBidders.forEach(b=> { %>
+                                                                            <span class="cyber-user-tag"
+                                                                                data-user-id="<%= b._id %>"
+                                                                                id="tag-bidder-<%= t._id %>-<%= b._id %>">
+                                                                                <%= b.displayName || b.username %> (<%=
+                                                                                        b.platoId || 'No Plato ID' %>)
+                                                                                        <i class="fa-solid fa-xmark remove-tag-btn"
+                                                                                            onclick="removeBidderTag('<%= t._id %>', '<%= b._id %>')"></i>
+                                                                            </span>
+                                                                            <% }) %>
+                                                                                <% } %>
+                                                                </div>
+
+                                                                <input type="text"
+                                                                    class="form-input cyber-search-input bidder-search-input"
+                                                                    data-team-id="<%= t._id %>"
+                                                                    placeholder="Search Plato ID or Name for <%= t.teamTag %>..."
+                                                                    autocomplete="off">
+
+                                                                <div class="cyber-dropdown-menu bidder-dropdown"
+                                                                    id="bidder-dropdown-<%= t._id %>">
+                                                                    <% allUsers.forEach(u=> { %>
+                                                                        <div class="cyber-dropdown-item"
+                                                                            data-user-id="<%= u._id %>"
+                                                                            data-display-name="<%= u.displayName || u.username %>"
+                                                                            data-plato-id="<%= u.platoId || '' %>"
+                                                                            data-search-text="<%= (u.displayName || u.username) + ' ' + (u.platoId || '') %>"
+                                                                            onclick="selectBidderFromElement(this, '<%= t._id %>')">
+                                                                            <span class="user-item-name">
+                                                                                <%= u.displayName || u.username %>
+                                                                            </span>
+                                                                            <span class="user-item-plato">
+                                                                                <%= u.platoId || 'No Plato ID' %>
+                                                                            </span>
+                                                                        </div>
+                                                                        <% }) %>
+                                                                </div>
+
+                                                                <div id="bidder-hidden-inputs-<%= t._id %>">
+                                                                    <% if (t.authorizedBidders) { %>
+                                                                        <% t.authorizedBidders.forEach(b=> { %>
+                                                                            <input type="hidden" name="bidderUserIds[]"
+                                                                                value="<%= b._id %>"
+                                                                                id="input-bidder-<%= t._id %>-<%= b._id %>">
+                                                                            <% }) %>
+                                                                                <% } %>
+                                                                </div>
+                                                            </div>
+
+                                                            <button type="submit" class="cyber-btn"
+                                                                style="width: fit-content; font-size: 0.65rem; padding: 0.35rem; margin-top: 0.35rem;">
+                                                                UPDATE <%= t.teamTag %> BIDDERS
+                                                            </button>
+                                                        </form>
+                                                        <% }) %>
+                                                            <% } else { %>
+                                                                <p class="text-muted">No teams created yet.</p>
+                                                                <% } %>
+                                            </div>
+
+                                            <!-- TAB 5: FORCE REGISTER USER -->
+                                            <div class="admin-tab-pane" id="tab-manual-reg">
+                                                <form action="/xpl/admin/register-player" method="POST"
+                                                    class="xpl-form">
+                                                    <input type="hidden" name="seasonNumber"
+                                                        value="<%= season.seasonNumber %>">
+
+                                                    <div class="form-group">
+                                                        <label>Plato ID</label>
+                                                        <input type="text" name="platoId" class="form-input"
+                                                            placeholder="Player Plato ID" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Player Display Name</label>
+                                                        <input type="text" name="playerName" class="form-input"
+                                                            placeholder="Player Name" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Games of Preference</label>
+                                                        <input type="text" name="preferredGames" class="form-input"
+                                                            placeholder="e.g. mm , plox , minesweepers" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>About Player</label>
+                                                        <textarea name="aboutPlayer" class="form-input" rows="2"
+                                                            placeholder="Brief player stats or notes..."
+                                                            required></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Base Price</label>
+                                                        <input type="number" name="basePrice" class="form-input"
+                                                            value="100" min="50" step="50" required>
+                                                    </div>
+
+                                                    <button type="submit" class="cyber-btn"
+                                                        style="width:fit-content; font-size: 0.75rem;">
+                                                        FORCE REGISTER USER
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <% } %>
+
+                                                <!-- TAB 6: SEASON LIFECYCLE ACTIONS -->
+                                                <div class="admin-tab-pane <%= (season && season.status === 'ended') ? 'active' : '' %>"
+                                                    id="tab-season-actions">
+                                                    <% if (season && season.status !=='ended' ) { %>
+                                                        <form action="/xpl/admin/end-current-season" method="POST"
+                                                            onsubmit="return confirm('Are you sure you want to end Season <%= season.seasonRoman %>?');">
+                                                            <input type="hidden" name="seasonId"
+                                                                value="<%= season._id %>">
+                                                            <button type="submit" class="cyber-btn"
+                                                                style="width: fit-content;">
+                                                                <i class="fa-solid fa-flag-checkered"></i> END SEASON
+                                                                <%= season.seasonRoman %>
+                                                            </button>
+                                                        </form>
+                                                        <% } %>
+
+                                                            <% if (!season || season.status==='ended' ) { %>
+                                                                <form action="/xpl/admin/start-next-season"
+                                                                    method="POST"
+                                                                    onsubmit="return confirm('Start next XPL Season now?');">
+                                                                    <button type="submit" class="cyber-btn"
+                                                                        style="width: fit-content;">
+                                                                        <i class="fa-solid fa-square-plus"></i> LAUNCH
+                                                                        SEASON <%= season ? season.seasonNumber + 1 : 1
+                                                                            %>
+                                                                    </button>
+                                                                </form>
+                                                                <% } %>
+                                                </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                        </section>
+            </main>
+
+            <%- include('../partials/footer') %>
+
+                <script>
+                    // ADMIN TAB TOGGLE FUNCTION
+                    function switchAdminTab(btnElement, targetTabId) {
+                        // 1. Remove active class from buttons
+                        const buttons = document.querySelectorAll('.admin-tab-btn');
+                        buttons.forEach(btn => btn.classList.remove('active'));
+
+                        // 2. Hide all tab panes
+                        const panes = document.querySelectorAll('.admin-tab-pane');
+                        panes.forEach(pane => pane.classList.remove('active'));
+
+                        // 3. Set target active
+                        btnElement.classList.add('active');
+                        const targetPane = document.getElementById(targetTabId);
+                        if (targetPane) targetPane.classList.add('active');
+                    }
+
+                    // Search Filter Logic for Coordinators
+                    const searchInput = document.getElementById('coordinator-search-input');
+                    const dropdown = document.getElementById('coordinator-dropdown');
+
+                    if (searchInput && dropdown) {
+                        searchInput.addEventListener('input', function () {
+                            const query = this.value.toLowerCase().trim();
+                            const items = dropdown.querySelectorAll('.cyber-dropdown-item');
+                            let matchCount = 0;
+
+                            items.forEach(item => {
+                                const text = item.getAttribute('data-search-text').toLowerCase();
+                                if (text.includes(query)) {
+                                    item.style.display = 'flex';
+                                    matchCount++;
+                                } else {
+                                    item.style.display = 'none';
+                                }
+                            });
+
+                            dropdown.style.display = (query.length > 0 && matchCount > 0) ? 'block' : 'none';
+                        });
+                    }
+
+                    // Close dropdown on click outside
+                    document.addEventListener('click', function (e) {
+                        if (!e.target.closest('#coordinators-select-wrapper')) {
+                            if (dropdown) dropdown.style.display = 'none';
+                        }
+                    });
+
+                    // Select User & Add Tag
+                    function selectUserTag(id, name, platoId, type) {
+                        const hiddenInputsContainer = document.getElementById('coordinator-hidden-inputs');
+                        const tagsContainer = document.getElementById('coordinator-tags');
+
+                        if (document.getElementById(`input-coord-${id}`)) return;
+
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'coordinatorUserIds[]';
+                        hiddenInput.value = id;
+                        hiddenInput.id = `input-coord-${id}`;
+                        hiddenInputsContainer.appendChild(hiddenInput);
+
+                        const tag = document.createElement('span');
+                        tag.className = 'cyber-user-tag';
+                        tag.setAttribute('data-user-id', id);
+                        tag.id = `tag-coord-${id}`;
+                        tag.innerHTML = `${name} (${platoId || 'No Plato ID'}) <i class="fa-solid fa-xmark remove-tag-btn" onclick="removeUserTag('${id}', '${type}')"></i>`;
+                        tagsContainer.appendChild(tag);
+
+                        if (searchInput) searchInput.value = '';
+                        if (dropdown) dropdown.style.display = 'none';
+                    }
+
+                    function selectUserTagFromElement(el, type) {
+                        const id = el.getAttribute('data-user-id');
+                        const name = el.getAttribute('data-display-name');
+                        const platoId = el.getAttribute('data-plato-id');
+
+                        selectUserTag(id, name, platoId, type);
+                    }
+
+                    function removeUserTag(id, type) {
+                        const hiddenInput = document.getElementById(`input-coord-${id}`);
+                        const tag = document.getElementById(`tag-coord-${id}`) || document.querySelector(`.cyber-user-tag[data-user-id="${id}"]`);
+
+                        if (hiddenInput) hiddenInput.remove();
+                        if (tag) tag.remove();
+                    }
+
+                    // Global Handler for Search Inputs across all Team Bidder forms
+                    document.addEventListener('input', function (e) {
+                        if (e.target && e.target.classList.contains('bidder-search-input')) {
+                            const input = e.target;
+                            const teamId = input.getAttribute('data-team-id');
+                            const query = input.value.toLowerCase().trim();
+                            const dropdown = document.getElementById(`bidder-dropdown-${teamId}`);
+                            const items = dropdown.querySelectorAll('.cyber-dropdown-item');
+                            let matchCount = 0;
+
+                            items.forEach(item => {
+                                const text = item.getAttribute('data-search-text').toLowerCase();
+                                if (text.includes(query)) {
+                                    item.style.display = 'flex';
+                                    matchCount++;
+                                } else {
+                                    item.style.display = 'none';
+                                }
+                            });
+
+                            dropdown.style.display = (query.length > 0 && matchCount > 0) ? 'block' : 'none';
+                        }
+                    });
+
+                    // Close all bidder dropdowns when clicking outside
+                    document.addEventListener('click', function (e) {
+                        if (!e.target.closest('.cyber-search-select-wrapper')) {
+                            document.querySelectorAll('.cyber-dropdown-menu').forEach(menu => {
+                                menu.style.display = 'none';
+                            });
+                        }
+                    });
+
+                    function selectBidderFromElement(el, teamId) {
+                        const userId = el.getAttribute('data-user-id');
+                        const name = el.getAttribute('data-display-name');
+                        const platoId = el.getAttribute('data-plato-id');
+
+                        selectBidderTag(teamId, userId, name, platoId);
+                    }
+
+                    function selectBidderTag(teamId, userId, name, platoId) {
+                        const hiddenInputsContainer = document.getElementById(`bidder-hidden-inputs-${teamId}`);
+                        const tagsContainer = document.getElementById(`bidder-tags-${teamId}`);
+                        const dropdown = document.getElementById(`bidder-dropdown-${teamId}`);
+                        const searchInput = document.querySelector(`.bidder-search-input[data-team-id="${teamId}"]`);
+
+                        if (document.getElementById(`input-bidder-${teamId}-${userId}`)) return;
+
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'bidderUserIds[]';
+                        hiddenInput.value = userId;
+                        hiddenInput.id = `input-bidder-${teamId}-${userId}`;
+                        hiddenInputsContainer.appendChild(hiddenInput);
+
+                        const tag = document.createElement('span');
+                        tag.className = 'cyber-user-tag';
+                        tag.id = `tag-bidder-${teamId}-${userId}`;
+                        tag.style.borderColor = 'var(--accent-cyan)';
+                        tag.style.color = 'var(--accent-cyan)';
+                        tag.style.backgroundColor = 'rgba(0, 229, 255, 0.08)';
+                        tag.innerHTML = `${name} (${platoId || 'No Plato ID'}) <i class="fa-solid fa-xmark remove-tag-btn" onclick="removeBidderTag('${teamId}', '${userId}')"></i>`;
+                        tagsContainer.appendChild(tag);
+
+                        if (searchInput) searchInput.value = '';
+                        if (dropdown) dropdown.style.display = 'none';
+                    }
+
+                    function removeBidderTag(teamId, userId) {
+                        const hiddenInput = document.getElementById(`input-bidder-${teamId}-${userId}`);
+                        const tag = document.getElementById(`tag-bidder-${teamId}-${userId}`);
+
+                        if (hiddenInput) hiddenInput.remove();
+                        if (tag) tag.remove();
+                    }
+                </script>
+</body>
+
+</html>

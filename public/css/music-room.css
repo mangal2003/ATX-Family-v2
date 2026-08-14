@@ -1,0 +1,524 @@
+/* ==========================================================================
+   ATX MUSIC ROOM STYLESHEET - CONSOLIDATED (NO QUEUE CARDS)
+   ========================================================================== */
+
+/* Desktop Grid Layout */
+.music-lounge-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  align-items: start;
+}
+
+/* Player Card */
+.player-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative !important;
+  padding: 2rem 1.5rem;
+  height: 440px;
+  box-sizing: border-box;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  border-radius: 12px;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+  overflow: hidden;
+}
+
+/* Mobile Player Elements (Hidden on Desktop) */
+.mobile-player-info {
+  display: none;
+}
+
+/* Vinyl Visualizer Container */
+.vinyl-container {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 4px solid var(--accent-cyan);
+  box-shadow: 0 0 25px var(--border-color);
+  margin: 0 auto 1.25rem;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.vinyl-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  animation: spinVinyl 8s linear infinite;
+}
+
+.vinyl-art.paused {
+  animation-play-state: paused;
+}
+
+@keyframes spinVinyl {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hidden YouTube Driver */
+.audio-engine-hidden {
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+/* Sync Overlay */
+.sync-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.sync-btn {
+  background: linear-gradient(
+    135deg,
+    var(--accent-cyan) 0%,
+    var(--border-glow) 100%
+  );
+  color: var(--bg-primary);
+  font-family: "Share Tech Mono", monospace;
+  font-weight: bold;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.75rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 20px var(--header-glow);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sync-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px var(--border-glow);
+}
+
+/* Command Console Card */
+.console-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 440px;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.console-header {
+  background: var(--bg-secondary);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.console-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-red {
+  background: #ff5f56;
+}
+.dot-yellow {
+  background: #ffbd2e;
+}
+.dot-green {
+  background: #27c93f;
+}
+
+.console-title {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+/* Terminal Logs Box */
+.terminal-box {
+  background: var(--bg-primary);
+  padding: 1rem;
+  font-family: "Share Tech Mono", monospace;
+  flex: 1;
+  overflow-y: auto;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-main);
+  scroll-behavior: smooth;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.terminal-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminal-box::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.terminal-box code {
+  background: var(--bg-secondary);
+  color: var(--accent-gold);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  border: 1px solid var(--border-color);
+}
+
+.system-log {
+  color: var(--text-muted);
+}
+
+/* Console Input Bar */
+.console-input-wrapper {
+  background: var(--bg-secondary);
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.prompt-symbol {
+  color: var(--accent-cyan);
+  font-family: "Share Tech Mono", monospace;
+  font-weight: bold;
+}
+
+.cyber-input-field {
+  background: transparent;
+  border: none;
+  color: var(--text-heading);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.9rem;
+  width: 100%;
+  outline: none;
+}
+
+.cyber-input-field::placeholder {
+  color: var(--text-muted);
+}
+
+.cyber-send-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.cyber-send-btn:hover {
+  color: var(--text-heading);
+  transform: translateX(2px);
+}
+
+/* Dynamic Help/Queue Boxes */
+.help-console-box {
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--accent-cyan);
+  border-top: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 6px;
+  font-size: 0.84rem;
+}
+
+.help-title {
+  color: var(--accent-cyan);
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.help-cmd-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.help-cmd-list code {
+  background: var(--bg-primary) !important;
+  color: var(--accent-gold) !important;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  border: 1px solid var(--border-color) !important;
+}
+
+.help-desc {
+  color: var(--text-main);
+}
+
+.help-example {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.mobile-console-header {
+  display: none;
+}
+
+/* ==========================================================================
+   ATX MUSIC ROOM - MOBILE VIEWPORT FLEX-LOCK WITH 100DVH (<= 950px)
+   ========================================================================== */
+@media (max-width: 950px) {
+  html,
+  body {
+    height: 100% !important;
+    height: 100dvh !important; /* Dynamic Viewport Height for Mobile Chrome & Safari */
+    min-height: -webkit-fill-available !important;
+    overflow: hidden !important;
+    position: fixed !important; /* Prevents background bounce and address bar shift */
+    width: 100% !important;
+  }
+
+  body {
+    padding-bottom: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+  }
+
+  main.container,
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0.4rem 0.65rem !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    min-height: 0 !important;
+  }
+
+  .desktop-music-sub,
+  main.container > h2.glitch-title {
+    display: none !important;
+  }
+
+  .music-lounge-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+    width: 100% !important;
+    gap: 0.5rem !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* Top Audio Player Bar */
+  .player-card {
+    position: relative !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0.35rem 0.65rem !important;
+    border-radius: 8px !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .vinyl-container {
+    width: 34px !important;
+    height: 34px !important;
+    border-width: 2px !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .player-card > h3,
+  .player-card > p,
+  .player-card > .music-progress-wrapper {
+    display: none !important;
+  }
+
+  .mobile-player-info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    margin-left: 0.65rem !important;
+    margin-right: 0.5rem !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .mobile-player-info .song-title-mini {
+    font-size: 0.82rem !important;
+    font-weight: bold;
+    color: var(--text-heading) !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .mobile-player-info .song-req-mini {
+    font-size: 0.7rem !important;
+    color: var(--text-muted) !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* Audio Sync Overlay Banner */
+  .sync-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 8px !important;
+    background: var(--bg-card) !important;
+    z-index: 500 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0.35rem 0.65rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .sync-overlay i {
+    font-size: 1.1rem !important;
+  }
+
+  .sync-overlay span {
+    font-size: 0.75rem !important;
+    text-align: left !important;
+    color: var(--text-heading) !important;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "Share Tech Mono", monospace;
+    font-weight: bold;
+  }
+
+  .sync-btn {
+    width: auto !important;
+    padding: 0.3rem 0.75rem !important;
+    font-size: 0.72rem !important;
+    flex-shrink: 0;
+  }
+
+  .console-dots {
+    display: none;
+  }
+  .mobile-console-header {
+    display: block;
+  }
+
+  /* Console Card */
+  .console-card {
+    width: 100% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border-radius: 8px !important;
+    margin-bottom: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .console-header {
+    padding: 0.5rem 0.75rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .terminal-box {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    min-height: 0 !important;
+    padding: 0.65rem 0.75rem !important;
+  }
+
+  /* Always-Visible Bottom Console Input Bar */
+  .console-input-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+    z-index: 99 !important;
+    background: var(--bg-card) !important;
+    border-top: 1px solid var(--border-color) !important;
+    padding: 0.5rem 0.75rem !important;
+    padding-bottom: calc(
+      0.5rem + env(safe-area-inset-bottom, 0px)
+    ) !important; /* iOS notch / home bar support */
+    flex-shrink: 0 !important;
+  }
+}

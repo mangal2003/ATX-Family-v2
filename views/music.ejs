@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/music-room.css">
+        <style>
+            /* Progress Bar & Timer Counter Styles */
+            .music-progress-wrapper {
+                width: 100%;
+                max-width: 200px;
+                margin: 0.85rem auto 0.25rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.35rem;
+            }
+
+            .progress-bar-container {
+                width: 100%;
+                height: 6px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 4px;
+                overflow: hidden;
+                border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+            }
+
+            .progress-bar-fill {
+                width: 0%;
+                height: 100%;
+                background: linear-gradient(90deg, var(--accent-cyan, #00f3ff), var(--accent-gold, #ffd700));
+                box-shadow: 0 0 8px var(--accent-cyan, #00f3ff);
+                transition: width 0.3s ease;
+            }
+
+            .time-display-row {
+                display: flex;
+                justify-content: space-between;
+                font-family: 'Share Tech Mono', monospace;
+                font-size: 0.78rem;
+                color: var(--text-muted, #94a3b8);
+            }
+        </style>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+
+        <main class="container">
+            <h2 class="cyan-text glitch-title"
+                style="font-family: 'Share Tech Mono', monospace; margin-bottom: 0.25rem;" data-text="ATX MUSIC ROOM">
+                ATX MUSIC ROOM
+            </h2>
+            <p class="desktop-music-sub" style="color: var(--text-muted); font-size: 0.9rem;">
+                <i class="fa-solid fa-compact-disc"></i> Listen in sync with the community. Use commands like
+                <code>m!play &lt;song/link&gt;</code>, <code>m!queue</code>, <code>m!skip</code>, <code>m!quit</code>,
+                or chat with the room.
+            </p>
+
+            <div class="music-lounge-grid">
+                <!-- Top / Left: Player Card -->
+                <div class="cyber-card text-center player-card">
+
+                    <!-- Audio Sync Overlay -->
+                    <div id="syncOverlay" class="sync-overlay">
+                        <i class="fa-solid fa-headphones cyan-text"></i>
+                        <span>JOIN THE ROOM</span>
+                        <button id="unlockAudioBtn" class="sync-btn">
+                            <i class="fa-solid fa-play"></i> SYNC
+                        </button>
+                    </div>
+
+                    <!-- Vinyl Disc -->
+                    <div class="vinyl-container">
+                        <img id="trackArt"
+                            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23111' stroke='%2300f3ff' stroke-width='4'/><circle cx='50' cy='50' r='15' fill='%23ffd700'/></svg>"
+                            class="vinyl-art paused" alt="Album Art">
+                    </div>
+
+                    <!-- Mobile Header Compact Details -->
+                    <div class="mobile-player-info">
+                        <div id="mobileTrackTitle" class="song-title-mini">No Track Playing</div>
+                        <div id="mobileTrackMeta" class="song-req-mini">Type m!play to queue a song!</div>
+                    </div>
+
+                    <!-- Desktop Song Details -->
+                    <h3 id="trackTitle" class="gold-text" style="font-size: 1.2rem; margin-bottom: 0.25rem;">No Track
+                        Playing</h3>
+                    <p id="trackMeta" style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
+                        Queue is empty. Type m!play to start!
+                    </p>
+
+                    <!-- Track Progress & Duration Display -->
+                    <div class="music-progress-wrapper">
+                        <div class="progress-bar-container">
+                            <div id="progressBarFill" class="progress-bar-fill"></div>
+                        </div>
+                        <div class="time-display-row">
+                            <span id="currentTimeLabel" class="cyan-text">00:00</span>
+                            <span id="totalDurationLabel">00:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Hidden YouTube Audio Driver -->
+                    <div class="audio-engine-hidden">
+                        <div id="ytPlayer"></div>
+                    </div>
+                </div>
+
+                <!-- Bottom / Right: Command Console Terminal -->
+                <div class="console-card">
+                    <div class="console-header">
+                        <h4 class="glitch-title mobile-console-header" data-text="ATX MUSIC ROOM">ATX MUSIC ROOM</h4>
+                        <div class="console-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <span class="console-title">COMMAND CONSOLE</span>
+                    </div>
+
+                    <div id="terminalLogs" class="terminal-box">
+                        <div class="system-log">[SYSTEM] Welcome to ATX Music Room...</div>
+                    </div>
+
+                    <form id="commandForm" class="console-input-wrapper">
+                        <span class="prompt-symbol">&gt;</span>
+                        <% if (user) { %>
+                            <input type="text" id="cmdInput" class="cyber-input-field"
+                                placeholder="Type a message or m!help for commands..." autocomplete="off" required>
+                            <button type="submit" class="cyber-send-btn" title="Send">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                            <% } else { %>
+                                <input type="text" class="cyber-input-field"
+                                    placeholder="Login to chat & use music commands..." disabled
+                                    style="cursor: not-allowed; opacity: 0.6;">
+                                <a href="/login" class="cyber-send-btn" title="Login"
+                                    style="font-size: 0.85rem; font-family: 'Share Tech Mono', monospace; text-decoration: none;">
+                                    LOGIN
+                                </a>
+                                <% } %>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <div id="user-data"
+            data-user="<%= user ? JSON.stringify({ username: user.username, avatar: user.avatar }) : '' %>"></div>
+
+        <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+        <script src="https://www.youtube.com/iframe_api"></script>
+
+        <script>
+            let ytPlayer = null;
+            let pendingTrack = null;
+            let isPlayerReady = false;
+            let isAudioUnlocked = false;
+            let currentTrackVideoId = null;
+            let progressInterval = null;
+
+            function formatTime(seconds) {
+                if (isNaN(seconds) || seconds < 0) return "00:00";
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }
+
+            function startProgressTracker(durationSec) {
+                const currentTimeLabel = document.getElementById('currentTimeLabel');
+                const totalDurationLabel = document.getElementById('totalDurationLabel');
+                const progressBarFill = document.getElementById('progressBarFill');
+
+                if (totalDurationLabel) totalDurationLabel.textContent = formatTime(durationSec || 0);
+
+                if (progressInterval) clearInterval(progressInterval);
+
+                progressInterval = setInterval(() => {
+                    if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+
+                    const currentSec = ytPlayer.getCurrentTime() || 0;
+                    const totalSec = durationSec || (ytPlayer.getDuration ? ytPlayer.getDuration() : 0);
+
+                    if (currentTimeLabel) currentTimeLabel.textContent = formatTime(currentSec);
+                    if (totalDurationLabel && totalSec > 0) totalDurationLabel.textContent = formatTime(totalSec);
+
+                    if (progressBarFill && totalSec > 0) {
+                        const pct = Math.min(100, (currentSec / totalSec) * 100);
+                        progressBarFill.style.width = `${pct}%`;
+                    }
+                }, 1000);
+            }
+
+            function resetProgressTracker() {
+                if (progressInterval) clearInterval(progressInterval);
+                const currentTimeLabel = document.getElementById('currentTimeLabel');
+                const totalDurationLabel = document.getElementById('totalDurationLabel');
+                const progressBarFill = document.getElementById('progressBarFill');
+
+                if (currentTimeLabel) currentTimeLabel.textContent = "00:00";
+                if (totalDurationLabel) totalDurationLabel.textContent = "00:00";
+                if (progressBarFill) progressBarFill.style.width = "0%";
+            }
+
+            function playTrack(track, offset) {
+                const trackTitle = document.getElementById('trackTitle');
+                const trackMeta = document.getElementById('trackMeta');
+                const mobileTrackTitle = document.getElementById('mobileTrackTitle');
+                const mobileTrackMeta = document.getElementById('mobileTrackMeta');
+                const trackArt = document.getElementById('trackArt');
+
+                if (trackTitle) trackTitle.textContent = track.title;
+                if (trackMeta) trackMeta.textContent = `Requested by @${track.requestedBy}`;
+                if (mobileTrackTitle) mobileTrackTitle.textContent = track.title;
+                if (mobileTrackMeta) mobileTrackMeta.textContent = `Req by @${track.requestedBy}`;
+
+                if (trackArt) {
+                    if (track.thumbnail) trackArt.src = track.thumbnail;
+                    trackArt.classList.remove('paused');
+                }
+
+                currentTrackVideoId = track.streamUrl;
+                const targetOffset = Math.max(0, Math.floor(offset || 0));
+
+                startProgressTracker(track.duration || 0);
+
+                if (isPlayerReady && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+                    ytPlayer.loadVideoById({
+                        videoId: currentTrackVideoId,
+                        startSeconds: targetOffset
+                    });
+
+                    if (isAudioUnlocked) {
+                        setTimeout(() => {
+                            if (ytPlayer && typeof ytPlayer.seekTo === 'function') {
+                                ytPlayer.seekTo(targetOffset, true);
+                                try { ytPlayer.playVideo(); } catch (e) { }
+                            }
+                        }, 400);
+                    }
+                } else {
+                    pendingTrack = { track, offset: targetOffset };
+                }
+            }
+
+            function onYouTubeIframeAPIReady() {
+                ytPlayer = new YT.Player('ytPlayer', {
+                    height: '1',
+                    width: '1',
+                    videoId: '',
+                    playerVars: {
+                        'autoplay': 1,
+                        'controls': 0,
+                        'enablejsapi': 1,
+                        'origin': window.location.origin,
+                        'widget_referrer': window.location.origin,
+                        'rel': 0
+                    },
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+
+            function onPlayerReady(event) {
+                isPlayerReady = true;
+                if (pendingTrack) {
+                    playTrack(pendingTrack.track, pendingTrack.offset);
+                    pendingTrack = null;
+                }
+            }
+
+            function onPlayerStateChange(event) {
+                const trackArt = document.getElementById('trackArt');
+                if (event.data === YT.PlayerState.PLAYING) {
+                    if (trackArt) trackArt.classList.remove('paused');
+                } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.BUFFERING) {
+                    if (trackArt) trackArt.classList.add('paused');
+                } else if (event.data === YT.PlayerState.ENDED) {
+                    if (trackArt) trackArt.classList.add('paused');
+                    resetProgressTracker();
+                    if (window.musicSocket) {
+                        window.musicSocket.emit('track_ended');
+                    }
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const socket = io('/music-lounge');
+                window.musicSocket = socket;
+
+                const userDataEl = document.getElementById('user-data');
+                const currentUser = (userDataEl && userDataEl.dataset.user) ? JSON.parse(userDataEl.dataset.user) : null;
+
+                const trackTitle = document.getElementById('trackTitle');
+                const trackMeta = document.getElementById('trackMeta');
+                const mobileTrackTitle = document.getElementById('mobileTrackTitle');
+                const mobileTrackMeta = document.getElementById('mobileTrackMeta');
+                const trackArt = document.getElementById('trackArt');
+                const logsEl = document.getElementById('terminalLogs');
+                const cmdForm = document.getElementById('commandForm');
+                const cmdInput = document.getElementById('cmdInput');
+                const syncOverlay = document.getElementById('syncOverlay');
+                const unlockBtn = document.getElementById('unlockAudioBtn');
+
+                if (unlockBtn && syncOverlay) {
+                    unlockBtn.addEventListener('click', () => {
+                        isAudioUnlocked = true;
+                        syncOverlay.style.opacity = '0';
+                        setTimeout(() => syncOverlay.style.display = 'none', 300);
+
+                        if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+                            ytPlayer.playVideo();
+                        }
+
+                        socket.emit('request_fresh_sync');
+                    });
+                }
+
+                function logMessage(htmlText) {
+                    const line = document.createElement('div');
+                    line.style.margin = '0.35rem 0';
+                    line.innerHTML = htmlText;
+                    logsEl.appendChild(line);
+                    logsEl.scrollTop = logsEl.scrollHeight;
+                }
+
+                socket.on('room_state_sync', (data) => {
+                    if (data.currentTrack && data.currentTrack.title) {
+                        playTrack(data.currentTrack, data.offsetSeconds);
+                    }
+                });
+
+                socket.on('heartbeat_sync', (data) => {
+                    if (!isAudioUnlocked || !isPlayerReady || !ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+
+                    if (data.trackId === currentTrackVideoId) {
+                        const localTime = ytPlayer.getCurrentTime();
+                        const timeDiff = Math.abs(localTime - data.elapsedSeconds);
+
+                        if (timeDiff > 1.2) {
+                            ytPlayer.seekTo(data.elapsedSeconds, true);
+                        }
+                    }
+                });
+
+                socket.on('play_next_track', (data) => {
+                    playTrack(data.track, data.offsetSeconds);
+                });
+
+                socket.on('stop_playback', () => {
+                    currentTrackVideoId = null;
+                    resetProgressTracker();
+                    if (ytPlayer && typeof ytPlayer.stopVideo === 'function') {
+                        ytPlayer.stopVideo();
+                    }
+                    if (trackTitle) trackTitle.textContent = 'No Track Playing';
+                    if (trackMeta) trackMeta.textContent = 'Queue is empty.';
+                    if (mobileTrackTitle) mobileTrackTitle.textContent = 'No Track Playing';
+                    if (mobileTrackMeta) mobileTrackMeta.textContent = 'Queue is empty.';
+                    if (trackArt) {
+                        trackArt.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23111' stroke='%2300f3ff' stroke-width='4'/><circle cx='50' cy='50' r='15' fill='%23ffd700'/></svg>";
+                        trackArt.classList.add('paused');
+                    }
+                });
+
+                socket.on('chat_sys_message', (msg) => logMessage(msg.text));
+
+                if (cmdForm && cmdInput) {
+                    cmdForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        if (!currentUser) return;
+
+                        const text = cmdInput.value.trim();
+                        if (!text) return;
+
+                        socket.emit('process_command', {
+                            command: text,
+                            user: currentUser
+                        });
+
+                        cmdInput.value = '';
+                    });
+                }
+            });
+        </script>
+</body>
+
+</html>

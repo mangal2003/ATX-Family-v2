@@ -1,0 +1,90 @@
+<header class="app-header-unified">
+    <div class="header-container">
+
+        <!-- Left: Brand Logo & Title -->
+        <a href="/" class="nav-brand">
+            <img src="/images/atx-logo.png" alt="ATX Logo" class="nav-logo">
+            <span class="shimmer-text"
+                style="font-family: 'Times New Roman', Times, serif; font-size: 1.75rem;">ATX</span>
+        </a>
+
+        <!-- Center: Primary Navigation Links (Desktop) -->
+        <nav class="nav-links-desktop">
+            <a href="/" class="nav-item">Home</a>
+            <a href="/about" class="nav-item">About</a>
+            <a href="/winners" class="nav-item">Winners</a>
+            <a href="/xpl" class="nav-item">XPL</a>
+            <a href="/admin-team" class="nav-item">Our Team</a>
+            <% if (typeof isAdmin !=='undefined' && isAdmin) { %>
+                <a href="/admin/dashboard" class="nav-item admin-link">
+                    <i class="fa-solid fa-user-shield"></i> Admin
+                </a>
+                <% } %>
+        </nav>
+
+        <!-- Right: Actions -->
+        <div class="header-actions">
+            <!-- Theme Selector (Desktop Only) -->
+            <div class="theme-select-wrapper desktop-theme-select">
+                <i class="fa-solid fa-palette theme-icon"></i>
+                <select id="themeSelector" class="header-select theme-switcher" aria-label="Select Theme">
+                    <option value="cyber-dark">Dark</option>
+                    <option value="gold-neon">Gold</option>
+                    <option value="light-white">Light</option>
+                </select>
+            </div>
+
+            <!-- Dynamic Auth Controls -->
+            <% if (user) { %>
+                <a href="/profile" class="user-pill" title="Edit Profile">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                    <span class="user-name">
+                        <%= user.username %>
+                    </span>
+                </a>
+                <a href="/logout" class="auth-btn logout-btn" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="btn-text">Logout</span>
+                </a>
+                <% } else { %>
+                    <a href="/login" class="auth-btn login-btn">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span class="btn-text">Login</span>
+                    </a>
+                    <% } %>
+
+                        <!-- Mobile Menu Toggle Button -->
+                        <button id="navToggle" class="nav-toggle" aria-label="Toggle Navigation">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+        </div>
+    </div>
+
+    <!-- Mobile Drawer Container -->
+    <div id="mobileDrawer" class="mobile-drawer">
+        <!-- Theme Selector Inside Mobile Menu -->
+        <div class="mobile-theme-row">
+            <span class="mobile-theme-label"><i class="fa-solid fa-palette cyan-text"></i> Theme:</span>
+            <div class="theme-select-wrapper">
+                <select id="themeSelectorMobile" class="header-select theme-switcher" aria-label="Select Mobile Theme">
+                    <option value="cyber-dark">Dark</option>
+                    <option value="gold-neon">Gold</option>
+                    <option value="light-white">Light</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="drawer-links">
+            <a href="/" class="drawer-item">Home</a>
+            <a href="/about" class="drawer-item">About</a>
+            <a href="/winners" class="drawer-item">Winners</a>
+            <a href="/xpl" class="drawer-item">XPL</a>
+            <a href="/admin-team" class="drawer-item">Our Team</a>
+            <% if (typeof isAdmin !=='undefined' && isAdmin) { %>
+                <a href="/admin/dashboard" class="drawer-item admin-link">
+                    <i class="fa-solid fa-user-shield"></i> Admin Panel
+                </a>
+                <% } %>
+        </div>
+    </div>
+</header>

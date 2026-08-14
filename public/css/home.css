@@ -1,0 +1,1629 @@
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;600;700;900&display=swap");
+
+/* =========================================================
+   1. ROOT THEMES & COLOR VARIABLES
+   ========================================================= */
+
+:root,
+[data-theme="cyber-dark"] {
+  --bg-primary: #0a0b10;
+  --bg-secondary: #12141d;
+  --bg-card: #12141d;
+  --bg-card-rgb: 18, 20, 29;
+  --border-color: rgba(0, 243, 255, 0.2);
+  --border-glow: #00f3ff;
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-heading: #ffffff;
+  --accent-gold: #ffd700;
+  --accent-cyan: #00f3ff;
+  --accent-neon: #39ff14;
+  --accent-danger: #ff0055;
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+  --rank-num-color: rgba(255, 255, 255, 0.85);
+  --rank-num-stroke: #000000;
+}
+
+[data-theme="gold-neon"] {
+  --bg-primary: #0d0b00;
+  --bg-secondary: #1a1600;
+  --bg-card: #1a1600;
+  --bg-card-rgb: 26, 22, 0;
+  --border-color: rgba(255, 215, 0, 0.3);
+  --border-glow: #ffd700;
+  --text-main: #fef08a;
+  --text-muted: #ca8a04;
+  --text-heading: #ffffff;
+  --accent-gold: #ffee55;
+  --accent-cyan: #ffd700;
+  --accent-neon: #ffaa00;
+  --accent-danger: #ff3300;
+  --card-shadow: 0 8px 32px 0 rgba(255, 215, 0, 0.15);
+  --rank-num-color: rgba(255, 238, 85, 0.9);
+  --rank-num-stroke: #000000;
+}
+
+[data-theme="light-white"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-rgb: 255, 255, 255;
+  --border-color: #cbd5e1;
+  --border-glow: #0284c7;
+  --text-main: #1e293b;
+  --text-muted: #475569;
+  --text-heading: #0f172a;
+  --accent-gold: #b45309;
+  --accent-cyan: #0284c7;
+  --accent-neon: #15803d;
+  --accent-danger: #dc2626;
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+  --rank-num-color: rgba(15, 23, 42, 0.85);
+  --rank-num-stroke: #ffffff;
+}
+
+/* =========================================================
+   2. BASE RESET & CONTAINER WRAPPER
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-mono {
+  font-family: "Share Tech Mono", monospace;
+  color: var(--text-heading);
+  word-break: break-word;
+}
+
+.gold-text {
+  color: var(--accent-gold) !important;
+}
+.cyan-text {
+  color: var(--accent-cyan) !important;
+}
+.neon-text {
+  color: var(--accent-neon) !important;
+}
+
+.hotstar-app-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 0.85rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* =========================================================
+   3. APP QUICK SUB-NAVBAR
+   ========================================================= */
+
+.app-quick-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-quick-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.subnav-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.4rem 0.75rem;
+  border-radius: 20px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: var(--card-shadow);
+}
+
+.subnav-item:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.admin-subnav {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+/* =========================================================
+   4. NEXT-GEN CYBERPUNK HERO CARD
+   ========================================================= */
+
+.hotstar-hero-banner {
+  width: 100%;
+}
+
+.cyber-hero-card {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Hero Animated Background */
+.cyber-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cyber-grid {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background-image:
+    linear-gradient(var(--border-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: perspective(500px) rotateX(60deg);
+  animation: gridScroll 12s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes gridScroll {
+  0% {
+    transform: perspective(500px) rotateX(60deg) translateY(0);
+  }
+  100% {
+    transform: perspective(500px) rotateX(60deg) translateY(40px);
+  }
+}
+
+.cyber-laser-scan {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 243, 255, 0.12) 50%,
+    rgba(0, 243, 255, 0) 100%
+  );
+  animation: scanline 4s ease-in-out infinite;
+}
+
+@keyframes scanline {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.cyber-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.3;
+  animation: orbPulse 6s ease-in-out infinite alternate;
+}
+
+.cyan-orb {
+  width: 220px;
+  height: 220px;
+  background: var(--accent-cyan);
+  top: -40px;
+  right: -20px;
+}
+.magenta-orb {
+  width: 180px;
+  height: 180px;
+  background: var(--accent-danger);
+  bottom: -30px;
+  left: -20px;
+}
+
+@keyframes orbPulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+}
+
+/* Corner Frame Accents */
+.corner-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  z-index: 3;
+  border-color: var(--accent-cyan);
+  border-style: solid;
+}
+
+.top-left {
+  top: 10px;
+  left: 10px;
+  border-width: 2px 0 0 2px;
+}
+.top-right {
+  top: 10px;
+  right: 10px;
+  border-width: 2px 2px 0 0;
+}
+.bottom-left {
+  bottom: 10px;
+  left: 10px;
+  border-width: 0 0 2px 2px;
+}
+.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  border-width: 0 2px 2px 0;
+}
+
+/* Hero Content Overlay */
+.cyber-hero-content {
+  position: relative;
+  z-index: 4;
+  padding: 1.5rem 1.25rem;
+  width: 100%;
+  background: linear-gradient(
+    0deg,
+    rgba(var(--bg-card-rgb), 0.98) 0%,
+    rgba(var(--bg-card-rgb), 0.6) 60%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hero-live-badge {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.725rem;
+  color: var(--accent-cyan);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-neon);
+  box-shadow: 0 0 8px var(--accent-neon);
+}
+
+.cyber-hero-content h1 {
+  font-size: 1.6rem;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.hero-meta {
+  font-size: 0.825rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.hero-metric-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+
+.metric-pill {
+  background: rgba(var(--bg-card-rgb), 0.85);
+  border: 1px solid var(--border-color);
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--text-heading);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cyber-action-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, #0088ff 100%);
+  color: #000;
+  font-family: "Share Tech Mono", monospace;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 30px;
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+  margin-top: 0.3rem;
+}
+
+.cyber-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+}
+
+.btn-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: btnShimmer 3s infinite;
+}
+
+@keyframes btnShimmer {
+  0% {
+    left: -100%;
+  }
+  20% {
+    left: 200%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+/* =========================================================
+   5. VERTICAL POSTER RAIL SYSTEM (2:3 RATIO & EMOJI ART)
+   ========================================================= */
+
+.app-rail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.rail-header h3 {
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.horizontal-scroll-rail {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-scroll-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.poster-card {
+  position: relative;
+  min-width: 135px;
+  width: 135px;
+  height: 195px; /* 2:3 ratio */
+  border-radius: 12px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--card-shadow);
+}
+
+.poster-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-glow);
+}
+
+.poster-center-art {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.center-emoji {
+  font-size: 3rem;
+  transition: transform 0.3s ease;
+}
+
+.poster-card:hover .center-emoji {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Emoji Background Radial Themes */
+.poster-fallback-auction {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 215, 0, 0.15) 0%,
+    var(--bg-card) 75%
+  );
+}
+.poster-fallback-music {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 243, 255, 0.15) 0%,
+    var(--bg-card) 75%
+  );
+}
+.poster-fallback-quiz {
+  background: radial-gradient(
+    circle at center,
+    rgba(57, 255, 20, 0.15) 0%,
+    var(--bg-card) 75%
+  );
+}
+.poster-fallback-discord {
+  background: radial-gradient(
+    circle at center,
+    rgba(88, 101, 242, 0.2) 0%,
+    var(--bg-card) 75%
+  );
+}
+
+.poster-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 0.75rem 0.6rem;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(var(--bg-card-rgb), 0.85) 60%,
+    rgba(var(--bg-card-rgb), 0.98) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.poster-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.55rem;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  z-index: 3;
+}
+
+.badge-cyan {
+  background: rgba(0, 243, 255, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+}
+.badge-gold {
+  background: rgba(255, 215, 0, 0.15);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+.badge-live {
+  background: rgba(57, 255, 20, 0.15);
+  color: var(--accent-neon);
+  border: 1px solid var(--accent-neon);
+}
+.badge-muted {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-muted);
+  border: 1px solid var(--text-muted);
+}
+
+.poster-title {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.825rem;
+  color: var(--text-heading);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.poster-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.discord-color-text {
+  color: #5865f2;
+}
+
+/* =========================================================
+   6. RANKED TOP LEADERBOARD (HOTSTAR TOP 10 OVERLAY STYLE)
+   ========================================================= */
+
+.ranked-poster-card {
+  display: flex;
+  align-items: flex-end;
+  min-width: 145px;
+  flex-shrink: 0;
+  margin: 0.5rem 0.3rem;
+}
+
+.rank-number {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-size: 4.25rem;
+  line-height: 0.8;
+  color: var(--rank-num-color);
+  text-shadow:
+    -2px -2px 0 var(--rank-num-stroke),
+    2px -2px 0 var(--rank-num-stroke),
+    -2px 2px 0 var(--rank-num-stroke),
+    2px 2px 0 var(--rank-num-stroke);
+  margin-right: -12px;
+  z-index: 3;
+}
+
+.ranked-poster-content {
+  position: relative;
+  width: 110px;
+  height: 160px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+}
+
+/* =========================================================
+   7. HOURLY ELECTRIFYING XP BANNER
+   ========================================================= */
+
+.xp-electrifying-banner {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--card-shadow);
+}
+
+.xp-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.xp-bolt-wrapper {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  background: rgba(255, 215, 0, 0.1);
+  border: 1.5px solid #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bolt-icon {
+  font-size: 1.25rem;
+  color: #ffd700;
+}
+.xp-badge-pill {
+  font-size: 0.65rem;
+  font-family: "Share Tech Mono", monospace;
+  color: var(--accent-cyan);
+}
+.xp-banner-details h2 {
+  font-size: 1.15rem;
+  margin: 0.1rem 0;
+}
+.xp-balance-display {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.xp-banner-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.electric-claim-btn,
+.electric-login-btn {
+  width: 100%;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, #00a8ff 100%);
+  color: #000;
+  font-family: "Share Tech Mono", monospace;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+}
+
+.electric-claim-btn[disabled] {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  cursor: not-allowed;
+}
+
+.electric-timer-badge {
+  text-align: center;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--accent-cyan);
+  background: rgba(0, 243, 255, 0.08);
+  border: 1px solid rgba(0, 243, 255, 0.25);
+  padding: 0.4rem;
+  border-radius: 6px;
+}
+
+/* =========================================================
+   8. WIDGET SPLIT & DISCORD ANNOUNCEMENTS
+   ========================================================= */
+
+.widget-split-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.widget-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  box-shadow: var(--card-shadow);
+}
+
+.widget-badge {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.725rem;
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.widget-details h4 {
+  font-size: 0.95rem;
+  margin: 0 0 0.2rem 0;
+}
+.widget-details p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0.1rem 0;
+}
+
+.vertical-bid-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.bid-item-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-family: "Share Tech Mono", monospace;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.widget-action-btn {
+  padding: 0.4rem 0.75rem !important;
+  font-size: 0.8rem !important;
+  min-height: 36px !important;
+  width: 100%;
+  text-align: center;
+}
+
+.announcements-section {
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.announcements-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+
+.discord-join-btn {
+  border-color: #5865f2 !important;
+  color: #5865f2 !important;
+  font-size: 0.85rem !important;
+  padding: 0.5rem 1rem !important;
+  min-height: 38px !important;
+}
+
+.announcement-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--card-shadow);
+}
+
+/* Footer Legal Links */
+.footer-legal-rail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-legal-rail a {
+  color: var(--text-muted);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+/* =========================================================
+   9. GLOBAL LIGHT THEME SYNCHRONIZATION OVERRIDES
+   ========================================================= */
+
+[data-theme="light-white"] .cyber-hero-card {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light-white"] .cyber-hero-content {
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.7) 60%,
+    transparent 100%
+  ) !important;
+}
+
+[data-theme="light-white"] .cyber-hero-content h1,
+[data-theme="light-white"] .poster-title {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+[data-theme="light-white"] .hero-meta,
+[data-theme="light-white"] .poster-sub {
+  color: #475569 !important;
+  font-weight: 500;
+}
+
+[data-theme="light-white"] .metric-pill,
+[data-theme="light-white"] .subnav-item,
+[data-theme="light-white"] .poster-card,
+[data-theme="light-white"] .widget-card,
+[data-theme="light-white"] .xp-electrifying-banner,
+[data-theme="light-white"] .announcement-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light-white"] .cyber-action-btn {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+[data-theme="light-white"] .poster-overlay {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.85) 60%,
+    rgba(255, 255, 255, 0.98) 100%
+  ) !important;
+}
+
+/* =========================================================
+   10. DESKTOP RESPONSIVE MEDIA QUERIES
+   ========================================================= */
+
+@media (min-width: 768px) {
+  .widget-split-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .xp-electrifying-banner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .xp-banner-right {
+    width: auto;
+  }
+  .poster-card {
+    min-width: 155px;
+    width: 155px;
+    height: 220px;
+  }
+  .ranked-poster-content {
+    width: 130px;
+    height: 190px;
+  }
+  .rank-number {
+    font-size: 5.25rem;
+  }
+}
+
+/* =========================================================
+   MUSIC LOUNGE ELECTRIFYING BANNER STYLES
+   ========================================================= */
+
+.music-electrifying-banner {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.music-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.music-vinyl-wrapper {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  background: rgba(0, 243, 255, 0.1);
+  border: 1.5px solid var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+.vinyl-icon {
+  font-size: 1.25rem;
+  color: var(--accent-cyan);
+}
+
+.fa-spin-slow {
+  animation: fa-spin 8s linear infinite;
+}
+
+.music-badge-pill {
+  font-size: 0.65rem;
+  font-family: "Share Tech Mono", monospace;
+  color: var(--accent-cyan);
+  letter-spacing: 0.5px;
+}
+
+.music-banner-details h2 {
+  font-size: 1.15rem;
+  margin: 0.1rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.music-meta-display {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.cyan-glow-text {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
+}
+
+.music-banner-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.electric-music-btn {
+  width: 100%;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, #0088ff 100%);
+  color: #000;
+  font-family: "Share Tech Mono", monospace;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.electric-music-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+}
+
+.electric-status-badge {
+  text-align: center;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--accent-neon);
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.25);
+  padding: 0.4rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+/* --- LIGHT THEME SYNC OVERRIDES --- */
+[data-theme="light-white"] .music-electrifying-banner {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light-white"] .music-banner-details h2 {
+  color: #0f172a !important;
+}
+
+[data-theme="light-white"] .music-meta-display {
+  color: #475569 !important;
+}
+
+[data-theme="light-white"] .electric-music-btn {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+[data-theme="light-white"] .electric-status-badge {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #15803d !important;
+}
+
+/* --- DESKTOP RESPONSIVE LAYOUT --- */
+@media (min-width: 768px) {
+  .music-electrifying-banner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .music-banner-right {
+    width: auto;
+    min-width: 180px;
+  }
+  .music-banner-details h2 {
+    max-width: 450px;
+  }
+}
+
+/* =========================================================
+   LAST 5 WINNERS RANKED RAIL STYLES
+   ========================================================= */
+
+/* Winner Poster Fallback Canvas */
+.winner-poster-bg {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 215, 0, 0.18) 0%,
+    var(--bg-card) 80%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Winner Card Date Subtitle */
+.poster-date {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-family: "Share Tech Mono", monospace;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------
+   LIGHT THEME SYNCHRONIZATION OVERRIDES
+   --------------------------------------------------------- */
+
+[data-theme="light-white"] .winner-poster-bg {
+  background: radial-gradient(
+    circle at center,
+    rgba(217, 119, 6, 0.12) 0%,
+    #ffffff 80%
+  ) !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light-white"] .winner-poster-bg .poster-title {
+  color: #0f172a !important;
+}
+
+[data-theme="light-white"] .winner-poster-bg .poster-date {
+  color: #64748b !important;
+  font-weight: 500;
+}
+
+/* =========================================================
+   WIDGET CARD BACKGROUND EFFECTS & THEME SYNCHRONIZATION
+   ========================================================= */
+
+.widget-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.widget-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 25px rgba(var(--bg-card-rgb), 0.8);
+}
+
+/* --- 1. ACTIVE AUCTION BACKGROUND EFFECT (Gold Circuit Glow) --- */
+.widget-bg-auction {
+  background-image:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(255, 215, 0, 0.12) 0%,
+      transparent 55%
+    ),
+    linear-gradient(135deg, rgba(255, 215, 0, 0.03) 0%, transparent 100%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 19px,
+      rgba(255, 215, 0, 0.04) 19px,
+      rgba(255, 215, 0, 0.04) 20px
+    );
+}
+
+.widget-bg-auction:hover {
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.15);
+}
+
+/* --- 2. QUIZ ARENA BACKGROUND EFFECT (Cyan/Neon Pulse) --- */
+.widget-bg-quiz {
+  background-image:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(0, 243, 255, 0.12) 0%,
+      transparent 55%
+    ),
+    linear-gradient(135deg, rgba(0, 243, 255, 0.03) 0%, transparent 100%),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 19px,
+      rgba(0, 243, 255, 0.04) 19px,
+      rgba(0, 243, 255, 0.04) 20px
+    );
+}
+
+.widget-bg-quiz:hover {
+  border-color: rgba(0, 243, 255, 0.5);
+  box-shadow: 0 8px 25px rgba(0, 243, 255, 0.15);
+}
+
+/* Elevate details and controls above background layers */
+.widget-badge,
+.widget-details,
+.widget-action-btn {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   LIGHT THEME SYNCHRONIZATION OVERRIDES
+   ========================================================= */
+
+[data-theme="light-white"] .widget-bg-auction {
+  background-color: #ffffff !important;
+  background-image:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(217, 119, 6, 0.08) 0%,
+      transparent 55%
+    ),
+    linear-gradient(135deg, rgba(217, 119, 6, 0.02) 0%, transparent 100%) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light-white"] .widget-bg-quiz {
+  background-color: #ffffff !important;
+  background-image:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(2, 132, 199, 0.08) 0%,
+      transparent 55%
+    ),
+    linear-gradient(135deg, rgba(2, 132, 199, 0.02) 0%, transparent 100%) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light-white"] .widget-details h4 {
+  color: #0f172a !important;
+}
+
+[data-theme="light-white"] .widget-details p {
+  color: #475569 !important;
+}
+
+/* Widget Header Flex Alignment */
+.widget-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--accent-gold);
+}
+
+.badge-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Inline Flow Badge for Widget Headers */
+.widget-pill {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+/* =========================================================
+   XPL (XTREME PREMIER LEAGUE) HERO CARD STYLES
+   ========================================================= */
+
+/* Gold/Cyber Override Theme */
+.xpl-hero-theme {
+  border-color: rgba(255, 215, 0, 0.35) !important;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.8),
+    inset 0 0 30px rgba(255, 215, 0, 0.08) !important;
+}
+
+.xpl-grid {
+  background-image:
+    linear-gradient(rgba(255, 215, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 215, 0, 0.08) 1px, transparent 1px) !important;
+}
+
+.xpl-laser {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 215, 0, 0.15) 50%,
+    rgba(255, 215, 0, 0) 100%
+  ) !important;
+}
+
+.gold-orb {
+  width: 250px;
+  height: 250px;
+  background: var(--accent-gold);
+  top: -40px;
+  right: -20px;
+  opacity: 0.25;
+}
+
+.gold-dot {
+  background: var(--accent-gold) !important;
+  box-shadow: 0 0 8px var(--accent-gold) !important;
+}
+
+.xpl-bracket {
+  border-color: var(--accent-gold) !important;
+}
+
+.xpl-badge {
+  color: var(--accent-gold) !important;
+}
+
+.xpl-action-btn {
+  background: linear-gradient(
+    135deg,
+    var(--accent-gold) 0%,
+    #ff8800 100%
+  ) !important;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3) !important;
+}
+
+.xpl-action-btn:hover {
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6) !important;
+}
+
+/* --- LIGHT THEME OVERRIDES FOR XPL HERO --- */
+[data-theme="light-white"] .xpl-hero-theme {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light-white"] .xpl-action-btn {
+  background: #b45309 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.2) !important;
+}
+
+/* =========================================================
+   TOP 5 EP COLLECTORS RANKED RAIL STYLES
+   ========================================================= */
+
+/* Fallback background when user avatar is not present */
+.ep-poster-bg {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 243, 255, 0.18) 0%,
+    var(--bg-card) 80%
+  );
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ---------------------------------------------------------
+   LIGHT THEME SYNCHRONIZATION OVERRIDES
+   --------------------------------------------------------- */
+
+[data-theme="light-white"] .ep-poster-bg {
+  background: radial-gradient(
+    circle at center,
+    rgba(2, 132, 199, 0.12) 0%,
+    #ffffff 80%
+  ) !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light-white"] .ep-poster-bg .poster-title {
+  color: #0f172a !important;
+}
+
+[data-theme="light-white"] .ep-poster-bg .poster-sub {
+  color: #b45309 !important;
+  font-weight: 600;
+}
+/* =========================================================
+   HOTSTAR "STUDIOS" QUICK LINKS RAIL STYLES
+   ========================================================= */
+
+.hub-rail {
+  padding: 0.5rem 0.5rem 1rem;
+}
+
+.studio-card {
+  position: relative;
+  min-width: 140px;
+  width: 140px;
+  height: 85px; /* ~16:9 Landscape Ratio */
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.25s ease;
+}
+
+.studio-card-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+}
+
+.studio-icon {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.studio-title {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.725rem;
+  font-weight: bold;
+  color: var(--text-heading);
+  letter-spacing: 0.5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Ambient Radial Background Glows */
+.hub-hof {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 215, 0, 0.15) 0%,
+    var(--bg-card) 80%
+  );
+}
+.hub-xpl {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 243, 255, 0.15) 0%,
+    var(--bg-card) 80%
+  );
+}
+.hub-quiz {
+  background: radial-gradient(
+    circle at center,
+    rgba(57, 255, 20, 0.15) 0%,
+    var(--bg-card) 80%
+  );
+}
+.hub-auction {
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 215, 0, 0.15) 0%,
+    var(--bg-card) 80%
+  );
+}
+.hub-lounge {
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 243, 255, 0.15) 0%,
+    var(--bg-card) 80%
+  );
+}
+.hub-discord {
+  background: radial-gradient(
+    circle at center,
+    rgba(88, 101, 242, 0.2) 0%,
+    var(--bg-card) 80%
+  );
+}
+
+/* Hover Animations */
+.studio-card:hover {
+  transform: scale(1.05);
+  border-color: var(--border-glow);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.studio-card:hover .studio-icon {
+  transform: scale(1.15) translateY(-2px);
+}
+
+/* ---------------------------------------------------------
+   LIGHT THEME SYNCHRONIZATION OVERRIDES
+   --------------------------------------------------------- */
+
+[data-theme="light-white"] .studio-card {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light-white"] .hub-hof {
+  background: radial-gradient(
+    circle at center,
+    rgba(217, 119, 6, 0.08) 0%,
+    #ffffff 80%
+  ) !important;
+}
+[data-theme="light-white"] .hub-xpl {
+  background: radial-gradient(
+    circle at center,
+    rgba(2, 132, 199, 0.08) 0%,
+    #ffffff 80%
+  ) !important;
+}
+[data-theme="light-white"] .hub-quiz {
+  background: radial-gradient(
+    circle at center,
+    rgba(21, 128, 61, 0.08) 0%,
+    #ffffff 80%
+  ) !important;
+}
+[data-theme="light-white"] .hub-auction {
+  background: radial-gradient(
+    circle at center,
+    rgba(217, 119, 6, 0.08) 0%,
+    #ffffff 80%
+  ) !important;
+}
+[data-theme="light-white"] .hub-lounge {
+  background: radial-gradient(
+    circle at center,
+    rgba(2, 132, 199, 0.08) 0%,
+    #ffffff 80%
+  ) !important;
+}
+[data-theme="light-white"] .hub-discord {
+  background: radial-gradient(
+    circle at center,
+    rgba(88, 101, 242, 0.1) 0%,
+    #ffffff 80%
+  ) !important;
+}
+
+[data-theme="light-white"] .studio-title {
+  color: #0f172a !important;
+}
+
+/* Mobile Responsiveness */
+@media (min-width: 768px) {
+  .studio-card {
+    min-width: 170px;
+    width: 170px;
+    height: 98px;
+  }
+  .studio-icon {
+    font-size: 1.75rem;
+  }
+  .studio-title {
+    font-size: 0.8rem;
+  }
+}
+/* =========================================================
+   ANONYMOUS CONTACT STUDIO CARD STYLES
+   ========================================================= */
+
+/* Ambient Radial Background Glow (Dark Mode) */
+.hub-contact {
+  background: radial-gradient(
+    circle at center,
+    rgba(57, 255, 20, 0.15) 0%,
+    var(--bg-card) 80%
+  );
+}
+
+.hub-contact:hover {
+  border-color: var(--accent-neon);
+  box-shadow: 0 8px 20px rgba(57, 255, 20, 0.25);
+}
+
+/* Light Theme Synchronization Override */
+[data-theme="light-white"] .hub-contact {
+  background: radial-gradient(
+    circle at center,
+    rgba(21, 128, 61, 0.08) 0%,
+    #ffffff 80%
+  ) !important;
+}

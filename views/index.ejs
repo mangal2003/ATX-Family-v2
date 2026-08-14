@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <%- include('partials/flash') %>
+
+            <main class="hotstar-app-wrapper">
+                <!-- CYBERPUNK HIGH-TECH HERO CARD -->
+                <section class="hotstar-hero-banner">
+                    <div class="cyber-hero-card">
+                        <!-- Animated Background Effects -->
+                        <div class="cyber-hero-bg">
+                            <div class="cyber-grid"></div>
+                            <div class="cyber-laser-scan"></div>
+                            <div class="cyber-orb cyan-orb"></div>
+                            <div class="cyber-orb magenta-orb"></div>
+                        </div>
+
+                        <!-- Futuristic Frame Accents -->
+                        <div class="corner-bracket top-left"></div>
+                        <div class="corner-bracket top-right"></div>
+                        <div class="corner-bracket bottom-left"></div>
+                        <div class="corner-bracket bottom-right"></div>
+
+                        <!-- Content Overlay -->
+                        <div class="cyber-hero-content">
+
+                            <h1 class="glitch-title" data-text="ATX FAMILY">ATX FAMILY</h1>
+                            <p class="hero-meta">Quiz • EP Auction • Music Room</p>
+
+                            <div class="hero-metric-pills">
+                                <span class="metric-pill">
+                                    Total Sponsored:
+                                    <strong id="prizePoolCounter"
+                                        data-target="<%= siteSettings.totalPrizeSponsored || 0 %>">0</strong>+ <i
+                                        class="fa-solid fa-coins gold-text"></i>
+                                </span>
+                                <span class="metric-pill">
+                                    <strong>
+                                        <%= user ? (user.streak || 1) + ' DAYS' : '0 DAYS' %>
+                                    </strong> STREAK <i class="fa-solid fa-fire gold-text"></i>
+                                </span>
+                            </div>
+
+                            <div class="hero-action-row">
+                                <a href="/about" class="cyber-action-btn">
+                                    <i class="fa-solid fa-book"></i> READ MORE
+                                    <div class="btn-shimmer"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. FEATURED HIGHLIGHTS (VERTICAL POSTER CARDS) -->
+                <section class="app-rail-section">
+                    <div class="rail-header">
+                        <h3><i class="fa-solid fa-fire gold-text"></i> FEATURED</h3>
+                    </div>
+                    <div class="horizontal-scroll-rail">
+
+                        <% if (locals.hasActiveAuction) { %>
+                            <!-- XPL LIVE AUCTION CARD -->
+                            <a href="/xpl/auction" class="poster-card poster-fallback-discord">
+                                <span class="poster-badge badge-live">LIVE</span>
+                                <div class="poster-center-art">
+                                    <span class="center-emoji">🔨</span>
+                                </div>
+                                <div class="poster-overlay">
+                                    <h4 class="poster-title"><i class="fa-solid fa-gavel gold-text"></i> XPL AUCTION
+                                    </h4>
+                                    <p class="poster-sub">Bid for Players Live</p>
+                                </div>
+                            </a>
+                            <% } %>
+
+
+                                <!-- MUSIC LOUNGE CARD -->
+                                <a href="/music-room"
+                                    class="poster-card poster-fallback-music <%= currentTrack ? 'is-playing' : '' %>">
+                                    <span class="poster-badge badge-cyan">
+                                        <% if (currentTrack) { %>
+                                            <span class="badge-equalizer">
+                                                <span class="eq-bar"></span>
+                                                <span class="eq-bar"></span>
+                                                <span class="eq-bar"></span>
+                                            </span>
+                                            NOW PLAYING
+                                            <% } else { %>
+                                                24/7 LIVE
+                                                <% } %>
+                                    </span>
+
+                                    <div class="poster-center-art">
+                                        <% if (currentTrack) { %>
+                                            <!-- Sound Wave Visualizer Center Effect -->
+                                            <div class="sound-wave-bars">
+                                                <span class="wave-bar"></span>
+                                                <span class="wave-bar"></span>
+                                                <span class="wave-bar"></span>
+                                                <span class="wave-bar"></span>
+                                                <span class="wave-bar"></span>
+                                            </div>
+                                            <% } else { %>
+                                                <span class="center-emoji">🎶</span>
+                                                <% } %>
+                                    </div>
+
+                                    <div class="poster-overlay">
+                                        <h4 class="poster-title">
+                                            <i class="fa-solid fa-compact-disc cyan-text fa-spin-slow"></i>
+                                            MUSIC LOUNGE
+                                        </h4>
+                                        <p class="poster-sub">
+                                            <%= currentTrack ? currentTrack.title : 'Music rooms' %>
+                                        </p>
+                                    </div>
+                                </a>
+                                <!-- PROFILE CARD -->
+                                <a href="/profile" class="poster-card poster-fallback-discord">
+                                    <span class="poster-badge badge-cyan">PROFILE</span>
+                                    <div class="poster-center-art">
+                                        <span class="center-emoji">😎</span>
+                                    </div>
+                                    <div class="poster-overlay">
+                                        <h4 class="poster-title">🥰PROFILE
+                                        </h4>
+                                        <p class="poster-sub">Admire Yourself</p>
+                                    </div>
+                                </a>
+
+                                <!-- XP AUCTION CARD -->
+                                <a href="/auction" class="poster-card poster-fallback-auction">
+                                    <span class="poster-badge badge-gold">WEEKLY</span>
+                                    <div class="poster-center-art">
+                                        <span class="center-emoji">🪙</span>
+                                    </div>
+                                    <div class="poster-overlay">
+                                        <h4 class="poster-title">🔨 EP AUCTION
+                                        </h4>
+                                        <p class="poster-sub">Outbid rivals</p>
+                                    </div>
+                                </a>
+
+
+
+                                <!-- QUIZ ARENA CARD -->
+                                <a href="/quiz" class="poster-card poster-fallback-quiz">
+                                    <span class="poster-badge badge-live">ARENA</span>
+                                    <div class="poster-center-art">
+                                        <span class="center-emoji">🧠</span>
+                                    </div>
+                                    <div class="poster-overlay">
+                                        <h4 class="poster-title"><i class="fa-solid fa-brain neon-text"></i> QUIZ ARENA
+                                        </h4>
+                                        <p class="poster-sub">Climb Ranks</p>
+                                    </div>
+                                </a>
+
+                    </div>
+                </section>
+
+                <!-- QUICK LINKS / ARENA HUBS (HOTSTAR "STUDIOS" STYLE) -->
+                <section class="app-rail-section" style="margin-top: 1.5rem;">
+                    <div class="rail-header">
+                        <h3><i class="fa-solid fa-shapes cyan-text"></i> QUICK LINKS</h3>
+                    </div>
+                    <div class="horizontal-scroll-rail hub-rail">
+                        <!-- ANONYMOUS CONTACT CARD -->
+                        <a href="/contact" class="studio-card hub-contact">
+                            <div class="studio-card-inner">
+                                <i class="fa-solid fa-user-secret studio-icon neon-text"></i>
+                                <span class="studio-title">ANONYMOUS CONTACT</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
+                        <!-- DISCORD CARD -->
+                        <a href="<%= siteSettings.discordServerLink || '#' %>" target="_blank"
+                            class="studio-card hub-discord">
+                            <div class="studio-card-inner">
+                                <i class="fa-brands fa-discord studio-icon discord-color-text"></i>
+                                <span class="studio-title">DISCORD</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
+                        <!-- LOUNGE CARD -->
+                        <a href="/music-room" class="studio-card hub-lounge">
+                            <div class="studio-card-inner">
+                                <i class="fa-solid fa-compact-disc studio-icon cyan-text"></i>
+                                <span class="studio-title">MUSIC ROOM</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
+
+                        <!-- AUCTION CARD -->
+                        <a href="/auction" class="studio-card hub-auction">
+                            <div class="studio-card-inner">
+                                <i class="fa-solid fa-gavel studio-icon gold-text"></i>
+                                <span class="studio-title">EP AUCTION</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
+
+                        <!-- QUIZ CARD -->
+                        <a href="/quiz" class="studio-card hub-quiz">
+                            <div class="studio-card-inner">
+                                <i class="fa-solid fa-brain studio-icon neon-text"></i>
+                                <span class="studio-title">QUIZ</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
+
+                        <!-- XPL CARD -->
+                        <a href="/xpl" class="studio-card hub-xpl">
+                            <div class="studio-card-inner">
+                                <i class="fa-solid fa-trophy studio-icon cyan-text"></i>
+                                <span class="studio-title">XPL</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
+
+                        <!-- HOF CARD -->
+                        <a href="/winners" class="studio-card hub-hof">
+                            <div class="studio-card-inner">
+                                <i class="fa-solid fa-crown studio-icon gold-text"></i>
+                                <span class="studio-title">HALL OF FAME</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
+                    </div>
+                </section>
+
+
+                <!-- 4. HOURLY EP CLAIM BANNER -->
+                <section class="app-standalone-card-section">
+                    <div class="xp-electrifying-banner">
+                        <div class="xp-banner-left">
+                            <div class="xp-bolt-wrapper">
+                                <i class="fa-solid fa-bolt bolt-icon"></i>
+                            </div>
+                            <div class="xp-banner-details">
+                                <div class="xp-badge-pill"><i class="fa-solid fa-rotate"></i> HOURLY EP DROP</div>
+                                <h2 class="glitch-title" data-text="CLAIM REWARD">CLAIM REWARD</h2>
+                                <p class="xp-balance-display">
+                                    Balance: <span id="userXpBalance" class="gold-glow-text">
+                                        <%= user ? (user.xpBalance || 0).toLocaleString() : 0 %>
+                                    </span> EP
+                                </p>
+                            </div>
+                        </div>
+                        <div class="xp-banner-right">
+                            <% if (user) { %>
+                                <% const DROP_INTERVAL_MS=1 * 60 * 60 * 1000; const lastClaim=user.lastXpClaim ? new
+                                    Date(user.lastXpClaim).getTime() : 0; const elapsed=Date.now() - lastClaim; const
+                                    remainingMs=Math.max(0, DROP_INTERVAL_MS - elapsed); const canClaim=remainingMs===0;
+                                    %>
+                                    <button id="claimXpBtn" class="electric-claim-btn"
+                                        data-remaining="<%= remainingMs %>" <%=!canClaim ? 'disabled' : '' %>>
+                                        <i class="fa-solid fa-bolt-lightning"></i>
+                                        <span id="claimBtnText">
+                                            <%= canClaim ? 'CLAIM +100 EP' : 'COOLDOWN' %>
+                                        </span>
+                                    </button>
+                                    <div id="xpCountdown" class="electric-timer-badge">
+                                        <%= !canClaim ? '00:00:00' : 'READY!' %>
+                                    </div>
+                                    <% } else { %>
+                                        <a href="/login" class="electric-login-btn">
+                                            <i class="fa-solid fa-right-to-bracket"></i> Login to Collect
+                                        </a>
+                                        <% } %>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. TOP 3 RANKED LEADERBOARD (HOTSTAR TOP 10 STYLE) -->
+                <section class="app-rail-section">
+                    <div class="rail-header">
+                        <h3><i class="fa-solid fa-trophy gold-text"></i>TOP 3 IN QUIZ</h3>
+                    </div>
+                    <div class="horizontal-scroll-rail">
+                        <% if (topUsers && topUsers.length> 0) { %>
+                            <% topUsers.forEach((u, i)=> { %>
+                                <div class="ranked-poster-card">
+                                    <span class="rank-number">
+                                        <%= i + 1 %>
+                                    </span>
+                                    <div class="ranked-poster-content"
+                                        style="background-image: url('<%= u.avatar %>');">
+                                        <div class="poster-overlay">
+                                            <h4 class="poster-title" style="text-transform: uppercase;">
+                                                <%= u.username %>
+                                            </h4>
+                                            <p class="poster-sub gold-text">
+                                                <%= (u.weeklyScore || 0).toLocaleString() %> PTS
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                                    <% } else { %>
+                                        <p class="text-muted" style="font-size: 0.8rem;">No rankings recorded yet.</p>
+                                        <% } %>
+                    </div>
+                </section>
+
+                <!-- 6. MUSIC LOUNGE BANNER CARD -->
+                <section class="app-standalone-card-section">
+                    <div class="music-electrifying-banner <%= currentTrack ? 'is-playing' : '' %>">
+                        <!-- Top Section: Vinyl Art & Song Details -->
+                        <div class="music-banner-left">
+                            <div class="music-vinyl-wrapper">
+                                <i
+                                    class="fa-solid fa-compact-disc vinyl-icon <%= currentTrack ? 'fa-spin-slow' : '' %>"></i>
+                            </div>
+
+                            <div class="music-banner-details">
+                                <div class="music-badge-pill">
+                                    <% if (currentTrack) { %>
+                                        <div class="banner-badge-equalizer">
+                                            <span class="bar"></span>
+                                            <span class="bar"></span>
+                                            <span class="bar"></span>
+                                        </div>
+                                        <span>NOW PLAYING</span>
+                                        <% } else { %>
+                                            <i class="fa-solid fa-headphones"></i>
+                                            <span>24/7 AUDIO LOUNGE</span>
+                                            <% } %>
+                                </div>
+
+                                <h2 class="music-track-title"
+                                    title="<%= currentTrack ? currentTrack.title : 'MUSIC LOUNGE' %>">
+                                    <%= currentTrack ? currentTrack.title : 'MUSIC LOUNGE' %>
+                                </h2>
+
+                                <p class="music-meta-display">
+                                    <% if (currentTrack) { %>
+                                        Requested by: <span class="cyan-glow-text">@<%= currentTrack.requestedBy %>
+                                        </span>
+                                        <% } else { %>
+                                            Listen synchronously in real-time.
+                                            <% } %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Action Row -->
+                        <div class="music-banner-right">
+                            <a href="/music-room" class="electric-music-btn">
+                                <i class="fa-solid fa-circle-play"></i>
+                                <span>ENTER ROOM</span>
+                            </a>
+
+                            <div
+                                class="electric-status-badge equalizer-status-badge <%= currentTrack ? 'is-playing' : 'is-idle' %>">
+                                <% if (currentTrack) { %>
+                                    <!-- Animated 5-Bar Wave Equalizer -->
+                                    <span class="eq-status-bar"></span>
+                                    <span class="eq-status-bar"></span>
+                                    <span class="eq-status-bar"></span>
+                                    <span class="eq-status-bar"></span>
+                                    <span class="eq-status-bar"></span>
+                                    <% } else { %>
+                                        <!-- Static / Idle Muted Line Indicator -->
+                                        <span class="eq-idle-bar"></span>
+                                        <span class="eq-idle-bar"></span>
+                                        <span class="eq-idle-bar"></span>
+                                        <span class="eq-idle-bar"></span>
+                                        <span class="eq-idle-bar"></span>
+                                        <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LAST 5 WINNERS (HOTSTAR TOP RANKED STYLE) -->
+                <section class="app-rail-section" style="margin-top:1.5rem;">
+                    <div class="rail-header">
+                        <h3><i class="fa-solid fa-crown gold-text"></i> LAST 5 TOUR WINNERS</h3>
+                    </div>
+                    <div class="horizontal-scroll-rail">
+                        <% if (recentWinners && recentWinners.length> 0) { %>
+                            <% const rankEmojis=['💎', '🥳' , '✨' , '🍾' , '⚡' ]; %>
+                                <% recentWinners.forEach((w, i)=> { %>
+                                    <div class="ranked-poster-card">
+                                        <!-- Big JioHotstar Rank Number Overlay (1 to 5) -->
+                                        <span class="rank-number">
+                                            <%= i + 1 %>
+                                        </span>
+
+                                        <div class="ranked-poster-content winner-poster-bg">
+                                            <!-- Dynamic Badge -->
+                                            <span class="poster-badge badge-gold">
+                                                WINNER
+                                            </span>
+
+                                            <!-- Distinct Central Emoji Accent -->
+                                            <div class="poster-center-art">
+                                                <span class="center-emoji">
+                                                    <%= rankEmojis[i] || '✨' %>
+                                                </span>
+                                            </div>
+
+                                            <!-- Card Bottom Details -->
+                                            <div class="poster-overlay">
+                                                <h4 class="poster-title" style="text-transform: uppercase;">
+                                                    <%= w.winnerName %>
+                                                </h4>
+                                                <p class="poster-sub gold-text">
+                                                    <i class="fa-solid fa-gamepad"></i>
+                                                    <%= w.gameName %>
+                                                </p>
+                                                <p class="poster-date">
+                                                    <%= new Date(w.date).toLocaleDateString('en-US', { month: 'short' ,
+                                                        day: 'numeric' }) %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <p class="text-muted" style="font-size: 0.8rem; padding: 0.5rem;">No winners
+                                                archived yet.
+                                            </p>
+                                            <% } %>
+                    </div>
+                </section>
+
+
+                <!-- 7. ACTIVE AUCTION & QUIZ WIDGETS -->
+                <section class="widget-split-section">
+                    <!-- ACTIVE AUCTION WIDGET CARD -->
+                    <div class="widget-card widget-bg-auction">
+                        <div class="widget-badge"><i class="fa-solid fa-gavel"></i> ACTIVE AUCTION</div>
+                        <div class="widget-details">
+                            <% if (activeAuction) { %>
+                                <h4>
+                                    <%= activeAuction.itemName %>
+                                </h4>
+                                <p style="margin: 0.5rem auto;">Current Bid: <strong class="gold-text">
+                                        <%= (activeAuction.currentHighestBid || 0).toLocaleString() %> EP
+                                    </strong></p>
+                                <p style="margin: 0.5rem auto;">
+                                    Top Bidder:
+                                    <span class="cyan-text">
+                                        <%= (activeAuction && activeAuction.highestBidder &&
+                                            activeAuction.highestBidder.username) ? activeAuction.highestBidder.username
+                                            : 'None' %>
+                                    </span>
+                                </p>
+                                <% } else { %>
+                                    <h4>No Active Auction</h4>
+                                    <p class="text-muted">Check back soon for drops.</p>
+                                    <% } %>
+                        </div>
+                        <a href="/auction" class="cyber-btn widget-action-btn">Enter Auction House</a>
+                    </div>
+
+                    <!-- QUIZ ARENA WIDGET CARD -->
+                    <div class="widget-card widget-bg-quiz">
+                        <div class="widget-badge">
+                            <span class="badge-title"><i class="fa-solid fa-brain"></i> QUIZ ARENA</span>
+                            <span id="quizStatusBadge"
+                                class="widget-pill <%= isQuizActive ? 'badge-live' : 'badge-muted' %>">
+                                <%= isQuizActive ? '⚡ ACTIVE' : '⏳ COOLDOWN' %>
+                            </span>
+                        </div>
+                        <div class="widget-details">
+                            <h4 id="quizSessionLabel">
+                                <%= isQuizActive ? 'Session Live Now!' : 'Next Session' %>
+                            </h4>
+                            <p style="margin: 0.5rem auto;"><span id="quizTimerText">Time Remaining:</span> <strong
+                                    class="cyan-text" id="quizCountdown">--:--:--</strong></p>
+                            <p style="margin: 0.5rem auto;">
+                                <span>Your Score:</span> <strong style="color: var(--text-main);">
+                                    <%= user ? (user.weeklyScore || 0).toLocaleString() : 0 %> PTS
+                                </strong>
+                            </p>
+                        </div>
+                        <a href="/quiz" class="cyber-btn widget-action-btn" id="quizActionBtn">
+                            <%= isQuizActive ? 'Join Session' : 'Enter Arena' %>
+                        </a>
+                    </div>
+                </section>
+
+
+                <!-- TOP 5 EP COLLECTORS (HOTSTAR TOP RANKED STYLE) -->
+                <section class="app-rail-section" style="margin-top: 1.5rem;">
+                    <div class="rail-header">
+                        <h3><i class="fa-solid fa-coins gold-text"></i> TOP EP COLLECTORS</h3>
+                    </div>
+                    <div class="horizontal-scroll-rail">
+                        <% if (topEpUsers && topEpUsers.length> 0) { %>
+                            <% const epRankEmojis=['👑', '🪙' , '💰' , '✨' , '⚡' ]; %>
+                                <% topEpUsers.forEach((u, i)=> { %>
+                                    <div class="ranked-poster-card">
+                                        <!-- Big JioHotstar Rank Number Overlay (1 to 5) -->
+                                        <span class="rank-number">
+                                            <%= i + 1 %>
+                                        </span>
+
+                                        <div class="ranked-poster-content ep-poster-bg" <% if (u.avatar) { %>
+                                            style="background-image: url('<%= u.avatar %>');" <% } %>>
+                                                    <!-- Dynamic Badge -->
+                                                    <span
+                                                        class="poster-badge <%= i === 0 ? 'badge-gold' : (i === 1 ? 'badge-cyan' : 'badge-muted') %>">
+                                                        <%= i===0 ? 'TOP COLLECTOR' : '#' + (i + 1) + ' RANK' %>
+                                                    </span>
+
+                                                    <!-- Distinct Central Emoji Accent (if no avatar available) -->
+                                                    <% if (!u.avatar) { %>
+                                                        <div class="poster-center-art">
+                                                            <span class="center-emoji">
+                                                                <%= epRankEmojis[i] || '🪙' %>
+                                                            </span>
+                                                        </div>
+                                                        <% } %>
+
+                                                            <!-- Card Bottom Details -->
+                                                            <div class="poster-overlay">
+                                                                <h4 class="poster-title"
+                                                                    style="text-transform: uppercase;">
+                                                                    <%= u.username %>
+                                                                </h4>
+                                                                <p class="poster-sub gold-text">
+                                                                    <i class="fa-solid fa-coins"></i>
+                                                                    <%= (u.xpBalance || 0).toLocaleString() %> EP
+                                                                </p>
+                                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <p class="text-muted" style="font-size: 0.8rem; padding: 0.5rem;">No
+                                                collectors recorded
+                                                yet.</p>
+                                            <% } %>
+                    </div>
+                </section>
+
+                <!-- XPL (XTREME PREMIER LEAGUE) HERO CARD -->
+                <!-- XPL (XTREME PREMIER LEAGUE) HERO CARD -->
+                <section class="hotstar-hero-banner">
+                    <div class="cyber-hero-card xpl-hero-theme">
+                        <!-- Animated Background Effects -->
+                        <div class="cyber-hero-bg">
+                            <div class="cyber-grid xpl-grid"></div>
+                            <div class="cyber-laser-scan xpl-laser"></div>
+                            <div class="cyber-orb gold-orb"></div>
+                            <div class="cyber-orb cyan-orb"></div>
+                        </div>
+
+                        <!-- Futuristic Frame Accents -->
+                        <div class="corner-bracket top-left xpl-bracket"></div>
+                        <div class="corner-bracket top-right xpl-bracket"></div>
+                        <div class="corner-bracket bottom-left xpl-bracket"></div>
+                        <div class="corner-bracket bottom-right xpl-bracket"></div>
+
+                        <!-- Content Overlay -->
+                        <div class="cyber-hero-content">
+                            <div class="hero-live-badge xpl-badge">
+                                <span class="live-dot <%= xplStatus.isLive ? 'neon-dot' : 'gold-dot' %>"></span>
+                                <%= xplStatus.isLive ? 'ATX MEGA TOURNAMENT (LIVE)' : 'ATX MEGA TOURNAMENT' %>
+                            </div>
+
+                            <h1 class="glitch-title" data-text="XTREME PREMIER LEAGUE">XTREME PREMIER LEAGUE</h1>
+                            <p class="hero-meta">Teams • Rivals • Trophy</p>
+
+                            <div class="hero-metric-pills">
+                                <span class="metric-pill">
+                                    <% if (xplStatus.isLive) { %>
+                                        <strong class="neon-text">SEASON <%= xplStatus.seasonRoman %> IS
+                                                LIVE</strong>
+                                        <i class="fa-solid fa-bolt neon-text"></i>
+                                        <% } else { %>
+                                            <strong class="gold-text">SEASON <%= xplStatus.seasonRoman %> :
+                                                    COMING
+                                                    SOON</strong>
+                                            <i class="fa-solid fa-trophy gold-text"></i>
+                                            <% } %>
+                                </span>
+                                <span class="metric-pill">
+                                    <strong class="cyan-text">LEAGUE FIXTURES</strong>
+                                    <i class="fa-solid fa-sitemap cyan-text"></i>
+                                </span>
+                            </div>
+
+                            <div class="hero-action-row">
+                                <a href="/xpl" class="cyber-action-btn xpl-action-btn">
+                                    <i class="fa-solid <%= xplStatus.isLive ? 'fa-play' : 'fa-trophy' %>"></i>
+                                    <%= xplStatus.isLive ? 'JOIN XPL ARENA' : 'ENTER XPL ARENA' %>
+                                        <div class="btn-shimmer"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. DISCORD ANNOUNCEMENTS FEED -->
+                <section class="announcements-section">
+                    <div class="announcements-header">
+                        <div class="announcements-title-group">
+                            <h2 class="glitch-title" data-text="ANNOUNCEMENTS">ANNOUNCEMENTS</h2>
+                        </div>
+                    </div>
+
+                    <div id="announcementsFeed" class="announcements-grid">
+                        <div class="announcement-card loading-state">
+                            <i class="fa-solid fa-spinner fa-spin"></i> Loading live announcements...
+                        </div>
+                    </div>
+
+                    <div id="announcementToggleWrapper" style="display: none; text-align: center; margin-top: 1rem;">
+                        <button id="toggleAnnouncementsBtn" class="cyber-btn"
+                            style="padding: 0.4rem 1rem; font-size: 0.8rem;">
+                            <i class="fa-solid fa-chevron-down"></i> Show Previous
+                        </button>
+                    </div>
+                </section>
+
+            </main>
+
+            <%- include('partials/footer') %>
+
+                <!-- CLIENT SCRIPT -->
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        // 1. PRIZE COUNTER ANIMATION
+                        const counterEl = document.getElementById("prizePoolCounter");
+                        if (counterEl) {
+                            const targetValue = parseInt(counterEl.getAttribute("data-target"), 10) || 0;
+                            const duration = 1500;
+                            const frameRate = 1000 / 60;
+                            const totalFrames = Math.round(duration / frameRate);
+                            const easeOutQuad = (t) => t * (2 - t);
+
+                            function startLoopingAnimation() {
+                                let currentFrame = 0;
+                                counterEl.textContent = "0";
+
+                                function step() {
+                                    currentFrame++;
+                                    const progress = easeOutQuad(currentFrame / totalFrames);
+                                    const currentCount = Math.floor(targetValue * progress);
+                                    counterEl.textContent = currentCount.toLocaleString();
+
+                                    if (currentFrame < totalFrames) {
+                                        requestAnimationFrame(step);
+                                    } else {
+                                        counterEl.textContent = targetValue.toLocaleString();
+                                        setTimeout(startLoopingAnimation, 4500);
+                                    }
+                                }
+                                requestAnimationFrame(step);
+                            }
+                            setTimeout(startLoopingAnimation, 100);
+                        }
+
+                        // 2. XP CLAIM & TIMER LOGIC
+                        const claimBtn = document.getElementById('claimXpBtn');
+                        const countdownEl = document.getElementById('xpCountdown');
+                        const btnText = document.getElementById('claimBtnText');
+                        const xpBalanceEl = document.getElementById('userXpBalance');
+
+                        if (claimBtn) {
+                            let timerInterval = null;
+                            let remainingMs = parseInt(claimBtn.getAttribute('data-remaining'), 10) || 0;
+
+                            function renderTimerUI(ms) {
+                                if (ms <= 0) {
+                                    claimBtn.removeAttribute('disabled');
+                                    if (btnText) btnText.textContent = 'CLAIM +100 EP';
+                                    if (countdownEl) countdownEl.textContent = 'READY!';
+                                    return;
+                                }
+
+                                claimBtn.setAttribute('disabled', 'true');
+                                if (btnText) btnText.textContent = 'COOLDOWN';
+
+                                const totalSeconds = Math.floor(ms / 1000);
+                                const hours = Math.floor(totalSeconds / 3600);
+                                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                                const seconds = totalSeconds % 60;
+
+                                if (countdownEl) {
+                                    countdownEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                                }
+                            }
+
+                            function startCountdown(durationMs) {
+                                if (timerInterval) clearInterval(timerInterval);
+                                remainingMs = durationMs;
+                                renderTimerUI(remainingMs);
+
+                                if (remainingMs <= 0) return;
+
+                                timerInterval = setInterval(() => {
+                                    remainingMs -= 1000;
+                                    if (remainingMs <= 0) {
+                                        clearInterval(timerInterval);
+                                        timerInterval = null;
+                                        remainingMs = 0;
+                                    }
+                                    renderTimerUI(remainingMs);
+                                }, 1000);
+                            }
+
+                            if (remainingMs > 0) {
+                                startCountdown(remainingMs);
+                            } else {
+                                renderTimerUI(0);
+                            }
+
+                            claimBtn.addEventListener('click', async () => {
+                                try {
+                                    const res = await fetch('/xp/claim-xp', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' }
+                                    });
+                                    const data = await res.json();
+
+                                    if (res.ok && data.success) {
+                                        if (xpBalanceEl) xpBalanceEl.textContent = data.newXpBalance.toLocaleString();
+                                        startCountdown(data.nextClaimMs || 3600000);
+                                    } else {
+                                        alert(data.message || 'Failed to claim EP.');
+                                    }
+                                } catch (err) {
+                                    console.error('EP Claim error:', err);
+                                    alert('An error occurred while claiming EP.');
+                                }
+                            });
+                        }
+
+                        // 3. DYNAMIC IST QUIZ COUNTDOWN
+                        function updateQuizTimer() {
+                            const countdownEl = document.getElementById("quizCountdown");
+                            const labelEl = document.getElementById("quizSessionLabel");
+                            const badgeEl = document.getElementById("quizStatusBadge");
+                            const actionBtn = document.getElementById("quizActionBtn");
+                            const timerTextEl = document.getElementById("quizTimerText");
+
+                            if (!countdownEl) return;
+
+                            const now = new Date();
+                            const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
+                            const istDate = new Date(utcMs + (5.5 * 3600000));
+
+                            const hours = istDate.getHours();
+                            const minutes = istDate.getMinutes();
+
+                            const isEvenHour = hours % 2 === 0;
+                            const isActive = isEvenHour && minutes < 30;
+
+                            let targetDate = new Date(istDate);
+
+                            if (isActive) {
+                                targetDate.setMinutes(30, 0, 0);
+                                if (labelEl) labelEl.textContent = "Session Live Now!";
+                                if (timerTextEl) timerTextEl.textContent = "Ends In:";
+                                if (badgeEl) {
+                                    badgeEl.className = "widget-pill badge-live";
+                                    badgeEl.textContent = "⚡ ACTIVE";
+                                }
+                                if (actionBtn) actionBtn.textContent = "Join Session";
+                            } else {
+                                let nextEvenHour = hours;
+                                if (isEvenHour && minutes >= 30) {
+                                    nextEvenHour += 2;
+                                } else if (!isEvenHour) {
+                                    nextEvenHour += 1;
+                                }
+
+                                targetDate.setHours(nextEvenHour, 0, 0, 0);
+
+                                if (labelEl) labelEl.textContent = "Next Session";
+                                if (timerTextEl) timerTextEl.textContent = "Starts In:";
+                                if (badgeEl) {
+                                    badgeEl.className = "widget-pill badge-muted";
+                                    badgeEl.textContent = "⏳ COOLDOWN";
+                                }
+                                if (actionBtn) actionBtn.textContent = "Enter Arena";
+                            }
+
+                            const diffMs = targetDate.getTime() - istDate.getTime();
+                            const totalSecs = Math.max(0, Math.floor(diffMs / 1000));
+
+                            const h = Math.floor(totalSecs / 3600);
+                            const m = Math.floor((totalSecs % 3600) / 60);
+                            const s = totalSecs % 60;
+
+                            countdownEl.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                        }
+
+                        setInterval(updateQuizTimer, 1000);
+                        updateQuizTimer();
+
+                        // 4. DISCORD ANNOUNCEMENTS FEED FETCH
+                        const feedContainer = document.getElementById("announcementsFeed");
+                        const toggleWrapper = document.getElementById("announcementToggleWrapper");
+                        const toggleBtn = document.getElementById("toggleAnnouncementsBtn");
+
+                        if (feedContainer) {
+                            fetch("/api/announcements")
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.success && data.announcements.length > 0) {
+                                        const announcements = data.announcements;
+                                        const latestItem = announcements[0];
+                                        let feedHtml = `
+                                            <div class="announcement-card cyber-card latest-announcement" style="padding: 0.5rem; text-align: center;">
+                                                <img src="${latestItem.image}" alt="Latest Discord Announcement" style="max-width: 100%; height: auto; border-radius: 8px;" />
+                                            </div>
+                                        `;
+
+                                        if (announcements.length > 1) {
+                                            const previousItems = announcements.slice(1);
+                                            const previousHtml = previousItems.map(item => `
+                                                <div class="announcement-card cyber-card previous-item" style="padding: 0.5rem; text-align: center; margin-top: 1rem;">
+                                                    <img src="${item.image}" alt="Discord Announcement" style="max-width: 100%; height: auto; border-radius: 8px;" />
+                                                </div>
+                                            `).join("");
+
+                                            feedHtml += `<div id="previousAnnouncements" style="display: none; width: 100%;">${previousHtml}</div>`;
+                                            if (toggleWrapper) toggleWrapper.style.display = "block";
+                                        }
+
+                                        feedContainer.innerHTML = feedHtml;
+
+                                        if (toggleBtn) {
+                                            toggleBtn.addEventListener("click", () => {
+                                                const prevContainer = document.getElementById("previousAnnouncements");
+                                                if (!prevContainer) return;
+                                                const isHidden = prevContainer.style.display === "none";
+                                                prevContainer.style.display = isHidden ? "block" : "none";
+                                                toggleBtn.innerHTML = isHidden
+                                                    ? `<i class="fa-solid fa-chevron-up"></i> Hide Previous`
+                                                    : `<i class="fa-solid fa-chevron-down"></i> Show Previous`;
+                                            });
+                                        }
+                                    } else {
+                                        feedContainer.innerHTML = `<div class="announcement-card empty-state">No recent announcements found.</div>`;
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    feedContainer.innerHTML = `<div class="announcement-card error-state">Failed to load announcements.</div>`;
+                                });
+                        }
+                    });
+
+                </script>
+</body>
+
+</html>

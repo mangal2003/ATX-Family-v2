@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/contact.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <%- include('partials/flash') %>
+
+            <main class="container">
+                <section class="contact-section">
+                    <div class="cyber-card contact-card">
+                        <div class="contact-header">
+                            <h1 class="glitch-title" data-text="Anonymous Reports & Suggestions">Anonymous Reports &
+                                Suggestions</h1>
+                            <p>Submit feedback, platform suggestions, or report user violations 100% anonymously to ATX
+                                Admins.</p>
+                        </div>
+
+                        <form action="/contact" method="POST" class="contact-form">
+                            <div class="form-group">
+                                <label for="category" class="form-label">Submission Category</label>
+                                <select id="category" name="category" class="cyber-input" required>
+                                    <option value="General Feedback">💡 General Feedback & Suggestion</option>
+                                    <option value="Anonymous Report">🚨 Anonymous User / Violation Report</option>
+                                    <option value="Feature Request">⚡ Feature Request</option>
+                                    <option value="Bug / Technical Issue">🛠️ Bug Report</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Title / Subject</label>
+                                <input type="text" id="subject" name="subject" required
+                                    placeholder="Brief summary of your report or suggestion" class="cyber-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message" class="form-label">Report Details / Message</label>
+                                <textarea id="message" name="message" rows="5" required
+                                    placeholder="Provide detailed information here..."
+                                    class="cyber-input cyber-textarea"></textarea>
+                            </div>
+
+                            <button type="submit" class="cyber-btn contact-submit-btn">
+                                <i class="fa-solid fa-paper-plane"></i> Submit Anonymously
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </main>
+
+            <%- include('partials/footer') %>
+</body>
+
+</html>

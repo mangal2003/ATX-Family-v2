@@ -1,0 +1,29 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0a0b10">
+<meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>
+    <%= typeof title !=='undefined' ? title : 'ATX Family' %>
+</title>
+
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Core Base Styles -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/home.css">
+
+<!-- Optional Page-Specific CSS -->
+<% if (typeof pageCss !=='undefined' && pageCss) { %>
+    <link rel="stylesheet" href="/css/<%= pageCss %>">
+    <% } %>
+
+        <!-- Favicons -->
+        <link rel="icon" type="image/png" href="/images/atx-logo.png">
+        <link rel="apple-touch-icon" href="/images/atx-logo.png">
+
+        <!-- Core Client Scripts -->
+        <script src="/js/audio-effects.js"></script>
+        <script src="/js/theme-toggle.js" defer></script>
+        <script src="/js/main.js" defer></script>

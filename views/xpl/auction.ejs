@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head') %>
+        <link rel="stylesheet" href="/css/xpl-auction.css">
+        <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body class="auction-page-body">
+    <%- include('../partials/header') %>
+
+        <!-- Centered Fixed-Width Viewport Container (Max-Width 850px) -->
+        <main class="auction-layout-container">
+
+            <!-- 1. STICKY TOP NOMINATIONS BAR -->
+            <section class="nomination-pill-bar sticky-top-bar">
+                <!-- LEFT SECTION: Plato ID & Games of Preference -->
+                <div class="pill-bar-left">
+                    <span class="plato-id-text cyan-text" id="current-plato-id">
+                        <%= currentNominatedPlayer ? (currentNominatedPlayer.platoId) : 'Waiting for Nomination...' %>
+                    </span>
+                    <span class="games-pref-text text-muted" id="current-pref-games">
+                        <%= currentNominatedPlayer ? (currentNominatedPlayer.preferredGames || 'No preferred games' )
+                            : '' %>
+                    </span>
+                </div>
+
+                <!-- RIGHT SECTION: Base Price & Current Live Bid -->
+                <div class="pill-bar-right">
+                    <div class="metric-col">
+
+                        <span class="metric-val gold-text" id="current-base-price">
+                            <span class="metric-label">Base Price</span>
+                            <%= currentNominatedPlayer ? currentNominatedPlayer.basePrice : 0 %> <i
+                                    class="fa-solid fa-coins gold-text"></i>
+                        </span>
+                    </div>
+
+                    <div class="metric-col" id="live-bid-display-card">
+
+                        <span class="metric-val bid-glow-text" id="current-bid-amount">
+                            <span class="metric-label cyan-text">Current Bid</span>
+                            <%= season.auctionState ? season.auctionState.currentBid.toLocaleString() : 0 %> <i
+                                    class="fa-solid fa-coins gold-text"></i>
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. FLEXIBLE MIDDLE CONSOLE (LIVE STREAM) -->
+            <section class="auction-console-flex">
+                <div class="command-box live-log-box">
+
+                    <div id="auction-impact-overlay" class="impact-overlay hidden">
+                        <div class="gavel-disc">
+                            <i class="fa-solid fa-gavel gold-text gavel-icon"></i>
+                        </div>
+                        <div id="impact-stamp" class="impact-stamp">
+                            <span id="stamp-text">SOLD</span>
+                        </div>
+                    </div>
+
+                    <div class="box-header">
+                        <h3><i class="fa-solid fa-list-ul cyan-text"></i> LIVE BID LOGS</h3>
+
+                        <div class="console-header-actions" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <% if (isCoordinator) { %>
+                                <!-- START AUCTION TRIGGER FOR COORDINATOR -->
+                                <button class="cyber-btn start-auction-btn" onclick="startAuctionSession()"
+                                    style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
+                                    <i class="fa-solid fa-play"></i> Start Auction
+                                </button>
+                                <% } %>
+
+                                    <span class="badge-tag" id="auction-status-badge">
+                                        <%= season.auctionState ? season.auctionState.status.toUpperCase() : 'IDLE' %>
+                                    </span>
+                        </div>
+                    </div>
+
+                    <div class="bid-stream-list" id="bid-stream-container">
+                        <div class="stream-empty-state">No bids placed for current nomination yet.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. STICKY BOTTOM CONTROL DECK -->
+            <section class="bottom-control-deck sticky-bottom-bar">
+                <% if (isCoordinator) { %>
+                    <!-- AUCTION COORDINATOR DECK -->
+                    <div class="deck-wrapper coordinator-deck">
+                        <div class="deck-title-bar">
+                            <span class="gold-text"><i class="fa-solid fa-sliders"></i> COORDINATOR
+                                CONTROLS</span>
+                            <span id="break-timer-display" class="cyan-text" style="display: none;">BREAK ENDS IN:
+                                00:00</span>
+                        </div>
+
+                        <div class="coord-state-controls">
+                            <button class="cyber-btn pause-btn" onclick="togglePauseAuction()"><i
+                                    class="fa-solid fa-pause"></i> Pause/Resume</button>
+                            <!-- <button class="cyber-btn break-btn" onclick="triggerAuctionBreak()"><i
+                                    class="fa-solid fa-mug-hot"></i>Break</button> -->
+                        </div>
+                    </div>
+
+                    <% } else if (userTeam) { %>
+                        <!-- AUTHORIZED TEAM BIDDER DECK -->
+                        <div class="deck-wrapper bidder-deck">
+                            <div class="deck-title-bar">
+                                <span>BIDDING AS: <strong class="cyan-text">
+                                        <%= userTeam.teamName %>
+                                    </strong></span>
+                                <span>PURSE: <strong class="gold-text" id="my-team-purse">
+                                        <%= userTeam.remainingBudget.toLocaleString() %> <i
+                                                class="fa-solid fa-coins gold-text"></i>
+                                    </strong></span>
+                            </div>
+
+                            <div class="bidder-inputs-grid">
+                                <div class="quick-bids">
+                                    <span class="label-text">QUICK AUTO-BIDS</span>
+                                    <div class="btn-group" id="quick-bids-btn-group">
+                                        <button id="btn-bid-100" class="auto-bid-btn"
+                                            onclick="submitBidIncrement(100)">+100</button>
+                                        <button id="btn-bid-500" class="auto-bid-btn" onclick="submitBidIncrement(500)"
+                                            style="display: none;">+500</button>
+                                        <button id="btn-bid-1000" class="auto-bid-btn"
+                                            onclick="submitBidIncrement(1000)" style="display: none;">+1000</button>
+                                    </div>
+                                </div>
+
+                                <div class="custom-bid">
+                                    <span class="label-text">CUSTOM BID</span>
+                                    <div class="input-group">
+                                        <input type="number" id="custom-bid-input" class="form-input"
+                                            placeholder="MUST END IN 00 OR 50" step="50">
+                                        <button class="cyber-action-btn bid-submit-btn"
+                                            onclick="submitCustomBid()">PLACE BID</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <% } else { %>
+                            <!-- PUBLIC SPECTATOR DECK -->
+                            <div class="deck-wrapper spectator-deck">
+                                <div class="spectator-stat-line" id="last-auction-result">
+                                    <i class="fa-solid fa-eye cyan-text"></i> LAST SALE: <span class="gold-text"
+                                        id="spectator-stat-text">Awaiting next nomination...</span>
+                                </div>
+                            </div>
+                            <% } %>
+            </section>
+
+        </main>
+
+        <script>
+            const SOCKET_USER = {
+                id: "<%= user ? user._id : '' %>",
+                platoId: "<%= user ? user.platoId : '' %>",
+                isCoordinator: <%= isCoordinator %>,
+                userTeamId: "<%= userTeam ? userTeam._id : '' %>",
+                userTeamTag: "<%= userTeam ? userTeam.teamTag : '' %>"
+        };
+            const ACTIVE_SEASON_NUM = <%= season.seasonNumber %>;
+        </script>
+        <script src="/js/xpl-auction.js"></script>
+</body>
+
+</html>
