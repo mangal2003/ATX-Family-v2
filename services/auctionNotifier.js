@@ -26,12 +26,12 @@ const sendAuctionAnnouncement = async ({
       embedTitle = "🔨 WEEKLY AUCTION STARTED! ";
       formattedDescription = [
         `# ${auction.itemName}`,
-        `### **Starting Bid:** ${auction.startingBid.toLocaleString()} EP ✓`,
-        `### **Duration:** 50 mins ⏳`,
+        `### **Starting Bid:** ${auction.startingBid.toLocaleString()} EP`,
+        `### **Duration:** 50 Hours ⏳`,
         ``,
         `**Note:** ${auction.description || "No description provided."}`,
         ``,
-        `-# 🔗 Keep an eye on [**ATX Website**](https://atx-family.onrender.com/)!`,
+        `-# 🔗 [**Bid here**](https://atx-family.onrender.com/auction)!`,
       ].join("\n");
     } else if (type === "END") {
       embedColor = 0xffd700; // Gold for Winner
@@ -42,7 +42,9 @@ const sendAuctionAnnouncement = async ({
         `### **Winning Bid:** ${winnerName ? `${(winningBid || 0).toLocaleString()} EP` : "N/A"}`,
         ``,
         `# 🎉 Congratulations Winner!`,
-        `-# EP balance has updated! [**Explore More on Website**](https://atx-family.onrender.com/auction)`,
+        `-# EP balance has updated!`,
+        ``,
+        `[**Explore More on Website**](https://atx-family.onrender.com/auction)`,
       ].join("\n");
     }
 
