@@ -1,46 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const puppeteer = require("puppeteer");
-const fs = require("fs");
-
-let browserInstance = null;
-
-/**
- * Launches Puppeteer, falling back to local Chrome or Edge if the cached binary is missing
- */
-async function getBrowser() {
-  if (!browserInstance) {
-    // Check standard Windows executable paths
-    const chromePath =
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-    const chromePathX86 =
-      "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
-    const edgePath =
-      "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
-
-    let executablePath = null;
-    if (fs.existsSync(chromePath)) executablePath = chromePath;
-    else if (fs.existsSync(chromePathX86)) executablePath = chromePathX86;
-    else if (fs.existsSync(edgePath)) executablePath = edgePath;
-
-    const launchOptions = {
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    };
-
-    if (executablePath) {
-      launchOptions.executablePath = executablePath;
-    }
-
-    browserInstance = await puppeteer.launch(launchOptions);
-  }
-  return browserInstance;
-}
 
 /**
  * Converts Discord custom emoji codes (<:name:id> / <a:name:id>) into actual CDN image tags
  */
 function replaceDiscordEmojis(text = "") {
+  if (!text) return "";
   return text
     .replace(
       /<a:([a-zA-Z0-9_]+):(\d+)>/g,
@@ -53,118 +19,189 @@ function replaceDiscordEmojis(text = "") {
 }
 
 /**
- * Renders HTML content into a PNG base64 image buffer
+ * Helper: Converts Discord message object (content + embeds) into stylized HTML card
  */
-async function generateAnnouncementImage(msg) {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage",
-    ],
-  });
-  const page = await browser.newPage();
+function buildDiscordAnnouncementHtml(msg) {
+  const content = replaceDiscordEmojis(msg.content || "");
+  const firstEmbed = msg.embeds && msg.embeds.length > 0 ? msg.embeds[0] : null;
 
-  // Parse custom emojis and line breaks
-  const formattedContent = replaceDiscordEmojis(msg.content)
-    .replace(/\n/g, "<br>")
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  const embedTitle = firstEmbed
+    ? replaceDiscordEmojis(firstEmbed.title || "")
+    : "";
+  const embedDesc = firstEmbed
+    ? replaceDiscordEmojis(firstEmbed.description || "").replace(/\n/g, "<br/>")
+    : "";
+  const embedImage = firstEmbed?.image?.url || "";
+  const embedColor = firstEmbed?.color
+    ? `#${firstEmbed.color.toString(16).padStart(6, "0")}`
+    : "#00f3ff";
 
-  const avatarUrl = msg.author.avatar
-    ? `https://cdn.discordapp.com/avatars/${msg.author.id}/${msg.author.avatar}.png`
-    : "https://cdn.discordapp.com/embed/avatars/0.png";
-
-  const dateStr = new Date(msg.timestamp).toLocaleString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
-  // HTML Template simulating Discord Dark Theme
-  const htmlTemplate = `
+  return `
     <!DOCTYPE html>
     <html>
     <head>
+      <meta charset="utf-8">
       <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-          background-color: #313338;
-          color: #dbdee1;
-          font-family: 'gg sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          margin: 0;
-          padding: 20px;
-          width: 650px;
-          box-sizing: border-box;
-        }
-        .message-box {
+          width: 800px;
+          background: #0f111a;
+          color: #e2e8f0;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+          padding: 24px;
           display: flex;
-          gap: 16px;
+          justify-content: center;
+          align-items: center;
         }
-        .avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-        }
-        .content {
-          flex: 1;
+        .discord-card {
+          width: 100%;
+          background: #181b26;
+          border-radius: 12px;
+          border: 1px solid #2d3748;
+          border-left: 6px solid ${embedColor};
+          padding: 20px;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         .header {
           display: flex;
-          align-items: baseline;
-          gap: 8px;
-          margin-bottom: 6px;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 12px;
         }
-        .username {
-          color: #f2f3f5;
-          font-weight: 600;
-          font-size: 16px;
+        .avatar {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: #2d3748;
         }
-        .timestamp {
-          color: #949ba4;
-          font-size: 12px;
+        .author-name {
+          font-weight: 700;
+          color: #ffffff;
+          font-size: 1.1rem;
         }
-        .text-body {
-          font-size: 15px;
-          line-height: 1.375;
-          word-break: break-word;
+        .tag-bot {
+          background: #5865f2;
+          color: #fff;
+          font-size: 0.65rem;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-weight: 700;
+          margin-left: 6px;
+        }
+        .msg-content {
+          font-size: 0.95rem;
+          line-height: 1.5;
+          margin-bottom: 14px;
+          color: #cbd5e1;
+        }
+        .embed-box {
+          background: #11141d;
+          border-radius: 8px;
+          padding: 16px;
+          border: 1px solid rgba(255,255,255,0.06);
+        }
+        .embed-title {
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: #ffffff;
+          margin-bottom: 8px;
+        }
+        .embed-desc {
+          font-size: 0.9rem;
+          line-height: 1.6;
+          color: #94a3b8;
+        }
+        .embed-image {
+          margin-top: 12px;
+          max-width: 100%;
+          border-radius: 8px;
+          display: block;
         }
         .discord-emoji {
-          width: 22px;
-          height: 22px;
-          vertical-align: middle;
-          object-fit: contain;
+          width: 20px;
+          height: 20px;
+          vertical-align: -3px;
+          display: inline-block;
         }
       </style>
     </head>
     <body>
-      <div id="capture-target" class="message-box">
-        <img class="avatar" src="${avatarUrl}" />
-        <div class="content">
-          <div class="header">
-            <span class="username">${msg.author.global_name || msg.author.username}</span>
-            <span class="timestamp">${dateStr}</span>
+      <div class="discord-card">
+        <div class="header">
+          <img class="avatar" src="https://cdn.discordapp.com/avatars/${msg.author?.id}/${msg.author?.avatar}.png" onerror="this.src='https://atx-family.onrender.com/images/atx.webp';" />
+          <div>
+            <span class="author-name">${msg.author?.username || "ATX System"}</span>
+            ${msg.author?.bot ? '<span class="tag-bot">BOT</span>' : ""}
           </div>
-          <div class="text-body">${formattedContent}</div>
         </div>
+
+        ${content ? `<div class="msg-content">${content}</div>` : ""}
+
+        ${
+          firstEmbed
+            ? `
+          <div class="embed-box">
+            ${embedTitle ? `<div class="embed-title">${embedTitle}</div>` : ""}
+            ${embedDesc ? `<div class="embed-desc">${embedDesc}</div>` : ""}
+            ${embedImage ? `<img class="embed-image" src="${embedImage}" />` : ""}
+          </div>
+        `
+            : ""
+        }
       </div>
     </body>
     </html>
   `;
-
-  await page.setContent(htmlTemplate, { waitUntil: "networkidle0" });
-
-  const element = await page.$("#capture-target");
-  const imageBuffer = await element.screenshot({
-    type: "png",
-    omitBackground: true,
-  });
-  await page.close();
-
-  return `data:image/png;base64,${imageBuffer.toString("base64")}`;
 }
 
+/**
+ * Renders an HTML string into a Base64 PNG string
+ */
+async function generateAnnouncementImage(htmlContent) {
+  let browser = null;
+  try {
+    browser = await puppeteer.launch({
+      headless: "new",
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--no-first-run",
+        "--no-zygote",
+        "--single-process",
+      ],
+    });
+
+    const page = await browser.newPage();
+    await page.setViewport({ width: 800, height: 450, deviceScaleFactor: 1.5 });
+
+    // Set valid HTML content
+    await page.setContent(htmlContent, {
+      waitUntil: "domcontentloaded",
+      timeout: 10000,
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    // Return as base64 string
+    const imageBuffer = await page.screenshot({
+      type: "png",
+      encoding: "base64",
+    });
+
+    return `data:image/png;base64,${imageBuffer}`;
+  } catch (err) {
+    console.error("[ANNOUNCEMENT RENDER ERROR]", err.message);
+    return null;
+  } finally {
+    if (browser) {
+      await browser.close();
+    }
+  }
+}
+
+// GET /api/announcements
 router.get("/api/announcements", async (req, res) => {
   try {
     const channelId = process.env.DISCORD_ANNOUNCEMENTS_CHANNEL_ID;
@@ -184,22 +221,25 @@ router.get("/api/announcements", async (req, res) => {
     if (!response.ok) throw new Error(`Discord API Status ${response.status}`);
 
     const messages = await response.json();
+    const announcementImages = [];
 
-    // Generate screenshot image for each message
-    const announcementImages = await Promise.all(
-      messages.map(async (msg) => {
-        const imageBase64 = await generateAnnouncementImage(msg);
-        return {
+    // Process sequentially to save memory on Render
+    for (const msg of messages) {
+      const html = buildDiscordAnnouncementHtml(msg);
+      const base64Image = await generateAnnouncementImage(html);
+
+      if (base64Image) {
+        announcementImages.push({
           id: msg.id,
-          image: imageBase64,
+          image: base64Image,
           timestamp: msg.timestamp,
-        };
-      }),
-    );
+        });
+      }
+    }
 
     return res.json({ success: true, announcements: announcementImages });
   } catch (err) {
-    console.error("[ANNOUNCEMENT RENDER ERROR]", err);
+    console.error("[ANNOUNCEMENT API ERROR]", err);
     return res.status(500).json({
       success: false,
       message: "Could not generate announcement images.",
