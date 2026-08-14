@@ -13,6 +13,13 @@ function extractVideoId(url) {
   return match && match[2].length === 11 ? match[2] : null;
 }
 
+if (process.env.YOUTUBE_COOKIE) {
+  play.setToken({
+    youtube: {
+      cookie: process.env.YOUTUBE_COOKIE,
+    },
+  });
+}
 /**
  * Keywords indicating movie, TV show, or drama episode content
  */

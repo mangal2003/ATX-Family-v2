@@ -56,7 +56,14 @@ function replaceDiscordEmojis(text = "") {
  * Renders HTML content into a PNG base64 image buffer
  */
 async function generateAnnouncementImage(msg) {
-  const browser = await getBrowser();
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+    ],
+  });
   const page = await browser.newPage();
 
   // Parse custom emojis and line breaks
