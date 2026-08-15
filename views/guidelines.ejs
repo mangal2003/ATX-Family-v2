@@ -11,37 +11,69 @@
         <%- include('partials/flash') %>
 
             <main class="directives-wrapper">
-                <!-- Header Banner -->
-                <header class="terminal-header">
-                    <h1 class="terminal-title" data-text="EVENT SPONSORSHIP PROTOCOL">EVENT SPONSORSHIP <span
-                            class="gold-text">PROTOCOL</span></h1>
-                    <p class="terminal-subtitle">
-                        Framework for member-sponsored birthday events, commemorative tours, and custom server
-                        tournaments.
-                    </p>
-                </header>
+                <!-- HOTSTAR-STYLE AMBIENT HERO BANNER -->
+                <section class="directive-hero-card">
+                    <div class="directive-hero-backdrop"></div>
+                    <div class="directive-overlay-left"></div>
+                    <div class="directive-overlay-bottom"></div>
 
-                <!-- Timeline Steps -->
+                    <div class="directive-hero-content">
+                        <div class="hero-tags">
+                            <span class="hotstar-pill protocol-pill">
+                                <i class="fa-solid fa-bolt"></i> OFFICIAL PROTOCOL
+                            </span>
+                            <span class="hotstar-pill status-pill">
+                                <span class="pulsing-dot"></span> DIRECTIVE
+                            </span>
+                        </div>
+
+                        <h1 class="glitch-title" data-text="EVENT SPONSORSHIP PROTOCOL">
+                            EVENT SPONSORSHIP <span class="gold-text">PROTOCOL</span>
+                        </h1>
+
+                        <p class="hero-subtitle">
+                            Standard framework for member-sponsored tournaments, commemorative tours, birthday specials,
+                            and custom server events.
+                        </p>
+
+                        <div class="hero-meta-strip">
+                            <span class="meta-item">
+                                <i class="fa-solid fa-user-shield cyan-text"></i> STAFF AUTHORIZED
+                            </span>
+                            <span class="meta-dot">•</span>
+                            <span class="meta-item">
+                                <i class="fa-solid fa-file-circle-check gold-text"></i> 3-STEP PIPELINE
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PROGRESSIVE STEP-BY-STEP DIRECTIVE TIMELINE -->
                 <div class="directive-steps-stack">
 
                     <!-- Step 1 -->
                     <article class="directive-step-card active-step">
+                        <div class="step-card-ambient"></div>
                         <div class="step-header">
                             <span class="step-number">STEP 01</span>
-                            <i class="fa-solid fa-headset gold-text"></i>
+                            <div class="step-icon-badge">
+                                <i class="fa-solid fa-headset gold-text"></i>
+                            </div>
                         </div>
                         <h2 class="step-title">Submit Staff Ticket</h2>
                         <p class="step-desc">
                             Before announcing any member-sponsored event, you must log a formal request ticket. All
-                            planning, prizes, and timing must be confirmed prior to public posting.
+                            planning, prize pools, tournament format, and timing must be officially confirmed prior to
+                            public posting.
                         </p>
 
                         <div class="discord-action-bar">
-                            <span class="discord-action-text"><i class="fa-brands fa-discord"></i> Open Ticket
-                                &raquo;
-                            </span>
-                            <a href="<%= locals.links ? links.discord_contact_staff : '#' %>" target="_blank"
-                                class="discord-btn">
+                            <div class="action-label-group">
+                                <i class="fa-brands fa-discord discord-icon"></i>
+                                <span class="discord-action-text">Submit Details via Staff Desk &raquo;</span>
+                            </div>
+                            <a href="<%= locals.links && links.discord_contact_staff ? links.discord_contact_staff : '#' %>"
+                                target="_blank" class="discord-btn">
                                 Contact Staff <i class="fa-solid fa-arrow-up-right-from-square"></i>
                             </a>
                         </div>
@@ -49,55 +81,77 @@
 
                     <!-- Step 2 -->
                     <article class="directive-step-card">
+                        <div class="step-card-ambient"></div>
                         <div class="step-header">
                             <span class="step-number">STEP 02</span>
-                            <i class="fa-solid fa-user-shield cyan-text"></i>
+                            <div class="step-icon-badge">
+                                <i class="fa-solid fa-user-shield cyan-text"></i>
+                            </div>
                         </div>
                         <h2 class="step-title">Assign Lead Organiser</h2>
                         <p class="step-desc">
-                            Each event requires <strong>ONE (1) Lead Organiser</strong> who acts as the primary
-                            contact with <strong>ONE (1) assigned Staff Representative</strong>.
+                            Each event requires <strong>ONE (1) Lead Organiser</strong> who acts as the sole
+                            representative communicating directly with <strong>ONE (1) assigned Staff
+                                Representative</strong>.
                         </p>
-                        <p class="step-desc" style="color: #9ca3af; font-size: 0.78rem;">
-                            * For multi-sponsor events, organisers must provide a clear claim allocation list
-                            following our standard prize distribution system.
-                        </p>
+                        <div class="sub-notice-pill">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>For multi-sponsor events, organisers must provide a clear claim allocation list
+                                following our standard prize distribution system.</span>
+                        </div>
                     </article>
 
                     <!-- Step 3 -->
                     <article class="directive-step-card">
+                        <div class="step-card-ambient"></div>
                         <div class="step-header">
                             <span class="step-number">STEP 03</span>
-                            <i class="fa-solid fa-list-check cyan-text"></i>
+                            <div class="step-icon-badge">
+                                <i class="fa-solid fa-list-check cyan-text"></i>
+                            </div>
                         </div>
                         <h2 class="step-title">Required Information Checklist</h2>
                         <p class="step-desc">Your staff ticket submission must include the following finalized
-                            details:</p>
+                            parameters:</p>
 
                         <div class="checklist-grid">
-                            <div class="check-chip"><i class="fa-solid fa-calendar-day"></i> Confirmed Date & Time
+                            <div class="check-chip">
+                                <i class="fa-solid fa-calendar-day"></i>
+                                <span>Confirmed Date & Time</span>
                             </div>
-                            <div class="check-chip"><i class="fa-solid fa-gamepad"></i> Plato / Discord Activities
+                            <div class="check-chip">
+                                <i class="fa-solid fa-gamepad"></i>
+                                <span>Plato / Discord Activities</span>
                             </div>
-                            <div class="check-chip"><i class="fa-solid fa-microphone"></i> Assigned Event Hosts
+                            <div class="check-chip">
+                                <i class="fa-solid fa-microphone"></i>
+                                <span>Assigned Event Hosts</span>
                             </div>
-                            <div class="check-chip"><i class="fa-solid fa-image"></i> Posters & Visual Assets</div>
-                            <div class="check-chip"><i class="fa-solid fa-clover"></i> Special Requests (Wheel Spins
-                                / GA)</div>
-                            <div class="check-chip"><i class="fa-solid fa-wallet"></i> Sponsor Roster & Amounts
+                            <div class="check-chip">
+                                <i class="fa-solid fa-image"></i>
+                                <span>Posters & Visual Assets</span>
+                            </div>
+                            <div class="check-chip">
+                                <i class="fa-solid fa-clover"></i>
+                                <span>Special Requests (Wheel Spins / GA)</span>
+                            </div>
+                            <div class="check-chip">
+                                <i class="fa-solid fa-wallet"></i>
+                                <span>Sponsor Roster & Amounts</span>
                             </div>
                         </div>
                     </article>
 
                 </div>
 
-                <!-- Mandatory Rules Callout -->
+                <!-- MANDATORY EXECUTION POLICIES CALLOUT -->
                 <footer class="rules-notice-card">
                     <div class="notice-title">
                         <i class="fa-solid fa-triangle-exclamation"></i> MANDATORY EXECUTION POLICIES
                     </div>
                     <ul class="notice-list">
-                        <li>Staff holds final authority on event scheduling, format, and execution mechanics.</li>
+                        <li>Staff holds final authority on event scheduling, tournament format, dispute resolution, and
+                            execution mechanics.</li>
                         <li>Member-sponsored events will <strong>NOT</strong> change server identity assets (group
                             avatar or server name) unless explicitly authorized by senior administration.</li>
                     </ul>

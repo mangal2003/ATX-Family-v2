@@ -11,55 +11,70 @@
         <%- include('partials/flash') %>
 
             <main class="team-wrapper">
+                <!-- COMMAND ROSTER HEADER -->
                 <header class="team-header">
-                    <h1 class="glitch-title" data-text="ATX ADMIN TEAM">ATX ADMIN TEAM</h1>
-                    <p style="color: #888; font-size: 0.9rem;">Server leadership, tournament hosts, and platform
-                        moderators.</p>
+                    <h1 class="glitch-title" data-text="ATX ADMIN TEAM">ATX ADMIN <span class="gold-text">TEAM</span>
+                    </h1>
+                    <p class="team-subtitle">Server leadership, tournament adjudicators, architecture engineers, and
+                        platform moderators.</p>
                 </header>
 
-                <div class="team-grid">
+                <!-- ADMIN GRID MATRIX -->
+                <section class="team-grid">
                     <% admins.forEach(admin=> { %>
-                        <!-- Encoded JSON string to prevent HTML attribute breaking -->
                         <% const adminData=JSON.stringify(admin).replace(/'/g, "&#39;" ); %>
 
-                            <div class="admin-card" onclick="openViewModal('<%= adminData %>')">
+                            <article class="admin-card" onclick="openViewModal('<%= adminData %>')">
+                                <!-- High-Tech Corner HUD Brackets -->
+                                <div class="hud-corner tl"></div>
+                                <div class="hud-corner br"></div>
 
                                 <!-- Editable Trigger (Visible to logged-in admins) -->
                                 <% if (currentUser && currentUser.role==='admin' ) { %>
                                     <button type="button" class="card-edit-btn" title="Edit Profile"
                                         onclick="event.stopPropagation(); openEditModal('<%= adminData %>')">
-                                        <i class="fa-solid fa-pen text-xs"></i>
+                                        <i class="fa-solid fa-pen"></i>
                                     </button>
                                     <% } %>
 
-                                        <span
-                                            class="rank-badge rank-<%= (admin.adminshipRole || 'Admin').toLowerCase() %>">
-                                            <%= admin.adminshipRole || 'Admin' %>
-                                        </span>
+                                        <div class="card-top-bar">
+                                            <span
+                                                class="rank-badge rank-<%= (admin.adminshipRole || 'Admin').toLowerCase() %>">
+                                                <i
+                                                    class="fa-solid <%= (admin.adminshipRole === 'Owner') ? 'fa-crown' : ((admin.adminshipRole === 'Moderator') ? 'fa-gavel' : 'fa-shield') %>"></i>
+                                                <%= admin.adminshipRole || 'Admin' %>
+                                            </span>
+                                        </div>
 
-                                        <div class="avatar-frame">
+                                        <div
+                                            class="avatar-frame rank-ring-<%= (admin.adminshipRole || 'Admin').toLowerCase() %>">
                                             <img src="<%= admin.avatar || '/images/default-avatar.png' %>"
-                                                alt="<%= admin.displayName || admin.username %>">
+                                                alt="<%= admin.displayName || admin.username %>"
+                                                onerror="this.src='/images/default-avatar.png';" loading="lazy">
                                         </div>
 
                                         <h3 class="admin-name">
                                             <%= admin.displayName || admin.username %>
                                         </h3>
+
                                         <p class="admin-bio-snippet">
-                                            <%= admin.bio || 'ATX Staff Member' %>
+                                            <%= admin.bio || 'ATX Command Team Member' %>
                                         </p>
-                            </div>
+
+                                        <div class="card-footer-cta">
+                                            <span class="view-profile-label">VIEW CREDENTIALS <i
+                                                    class="fa-solid fa-arrow-right-long"></i></span>
+                                        </div>
+                            </article>
                             <% }) %>
-                </div>
+                </section>
             </main>
 
-            <!-- Royalty Showcase Profile Modal -->
+            <!-- ROYALTY SHOWCASE PROFILE MODAL -->
             <div id="viewModal" class="cyber-modal">
                 <div class="royalty-modal-card">
-
                     <!-- Background Banner Backplate -->
                     <div class="modal-banner-wrap">
-                        <!-- Banner image updated dynamically via JS -->
                         <img src="/images/gc-banner.webp" alt="ATX Banner" class="modal-banner-img" id="viewBanner"
                             onerror="this.onerror=null; this.src='/images/gc-banner.webp';">
                         <div class="banner-overlay"></div>
@@ -68,14 +83,12 @@
 
                     <!-- Modal Body Content -->
                     <div class="royalty-body">
-                        <!-- Floating Avatar with Glow Ring -->
                         <div class="royalty-avatar-wrapper">
                             <div class="royalty-avatar-ring" id="viewAvatarRing">
                                 <img id="viewAvatar" src="" alt="Admin Avatar">
                             </div>
                         </div>
 
-                        <!-- Header Info -->
                         <div class="royalty-header-info">
                             <h2 id="viewName" class="royalty-title"></h2>
                             <div class="rank-badge-wrap">
@@ -83,14 +96,12 @@
                             </div>
                         </div>
 
-                        <!-- Biography Showcase -->
                         <div class="royalty-bio-box">
-                            <span class="bio-label"><i class="fa-solid fa-quote-left gold-text"></i>
-                                ABOUT</span>
+                            <span class="bio-label"><i class="fa-solid fa-quote-left gold-text"></i> DOSSIER
+                                OVERVIEW</span>
                             <p id="viewBio" class="bio-text"></p>
                         </div>
 
-                        <!-- Credential Details Grid -->
                         <div class="royalty-credentials-grid">
                             <div class="credential-card discord-card">
                                 <div class="credential-icon">
@@ -114,26 +125,26 @@
                         </div>
 
                         <div class="royalty-footer-seal">
-                            <i class="fa-solid fa-shield-halved gold-text"></i> ATX ADMIN
+                            <i class="fa-solid fa-shield-halved gold-text"></i> ATX VERIFIED OFFICER
                         </div>
-
                     </div>
                 </div>
             </div>
 
-            <!-- Profile Edit Modal (Admins Only) -->
+            <!-- PROFILE EDIT MODAL (ADMINS ONLY) -->
             <% if (currentUser && currentUser.role==='admin' ) { %>
                 <div id="editModal" class="cyber-modal">
                     <div class="modal-content">
                         <button class="modal-close" onclick="closeModal('editModal')">&times;</button>
-                        <h3 style="color: #ffd700; font-family: 'Share Tech Mono', monospace; margin-top: 0;">Edit
-                            Admin Profile</h3>
+                        <div class="modal-header-bar">
+                            <h3><i class="fa-solid fa-sliders gold-text"></i> EDIT OFFICER PROFILE</h3>
+                        </div>
 
                         <form action="/admin-team/update-profile" method="POST">
                             <input type="hidden" name="targetUserId" id="editUserId">
 
                             <div class="modal-field-group">
-                                <label>Adminship Role</label>
+                                <label>Adminship Rank / Role</label>
                                 <select name="adminshipRole" id="editRole" class="form-input">
                                     <option value="Owner">Owner</option>
                                     <option value="Admin">Admin</option>
@@ -150,17 +161,18 @@
                             <div class="modal-field-group">
                                 <label>Plato ID</label>
                                 <input type="text" name="platoId" id="editPlato" class="form-input"
-                                    placeholder="Plato ID">
+                                    placeholder="Plato Handle">
                             </div>
 
                             <div class="modal-field-group">
-                                <label>About</label>
+                                <label>About / Bio</label>
                                 <textarea name="bio" id="editBio" class="form-input" rows="3"
                                     placeholder="Brief admin bio..."></textarea>
                             </div>
 
-                            <button type="submit" class="cyber-btn" style="width: 100%; margin-top: 0.5rem;">Save
-                                Updates</button>
+                            <button type="submit" class="cyber-btn modal-submit-btn">
+                                <i class="fa-solid fa-floppy-disk"></i> Save Updates
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -170,31 +182,26 @@
                         function openViewModal(rawAdmin) {
                             const admin = typeof rawAdmin === 'string' ? JSON.parse(rawAdmin) : rawAdmin;
 
-                            // 1. Dynamic Banner with Fallback Check
                             const viewBannerEl = document.getElementById('viewBanner');
                             viewBannerEl.src = (admin.banner && admin.banner.trim() !== '')
                                 ? admin.banner
                                 : '/images/gc-banner.webp';
 
-                            // 2. Set Profile Image & Display Info
                             document.getElementById('viewAvatar').src = admin.avatar || '/images/default-avatar.png';
                             document.getElementById('viewName').innerText = admin.displayName || admin.username;
                             document.getElementById('viewBio').innerText = admin.bio || 'ATX Command Team Member.';
                             document.getElementById('viewDiscord').innerText = admin.discordId || 'Not linked';
                             document.getElementById('viewPlato').innerText = admin.platoId || 'Not linked';
 
-                            // 3. Apply Role Badges & Dynamic Glow Effects
                             const rankElem = document.getElementById('viewRank');
                             const role = admin.adminshipRole || 'Admin';
                             rankElem.innerText = role;
 
-                            // Reset previous glow classes
                             rankElem.className = 'royalty-rank-badge';
                             if (role === 'Owner') rankElem.classList.add('rank-owner-glow');
                             else if (role === 'Moderator') rankElem.classList.add('rank-moderator-glow');
                             else rankElem.classList.add('rank-admin-glow');
 
-                            // Display Modal
                             document.getElementById('viewModal').classList.add('active');
                         }
 
@@ -212,6 +219,12 @@
                         function closeModal(modalId) {
                             document.getElementById(modalId).classList.remove('active');
                         }
+
+                        window.onclick = function (event) {
+                            if (event.target.classList.contains('cyber-modal')) {
+                                event.target.classList.remove('active');
+                            }
+                        };
                     </script>
 
                     <%- include('partials/footer') %>

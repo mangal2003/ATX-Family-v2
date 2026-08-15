@@ -12,9 +12,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "auction_items",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
-    // PRESERVE NATIVE ASPECT RATIO:
-    // Limit max dimensions if needed, but DO NOT use 'crop: fill' or fixed width/height
+    resource_type: "image",
     transformation: [{ quality: "auto", fetch_format: "auto" }],
   },
 });

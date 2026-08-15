@@ -125,7 +125,6 @@ app.use(async (req, res, next) => {
 });
 
 // --- Web Push Notification Trigger (Every Even Hour IST at 00 mins) ---
-// Triggers at minute 0 of every even hour in IST: 00:00, 02:00, 04:00, ..., 22:00 IST
 cron.schedule(
   "0 0,2,4,6,8,10,12,14,16,18,20,22 * * *",
   async () => {
@@ -135,8 +134,13 @@ cron.schedule(
 
     try {
       const usersWithPush = await User.find({
-        pushSubscription: { $ne: null },
+        "pushSubscription.endpoint": { $exists: true, $ne: null, $ne: "" },
       });
+
+      if (!usersWithPush || usersWithPush.length === 0) {
+        console.log("[CRON] No active push subscribers found.");
+        return;
+      }
 
       const payload = JSON.stringify({
         title: "ATX Quiz is NOW LIVE!",
@@ -144,23 +148,33 @@ cron.schedule(
         icon: "/images/atx-logo.png",
       });
 
-      const notifications = usersWithPush.map((user) =>
-        webpush
+      const notifications = usersWithPush.map((user) => {
+        // Defensive check
+        if (!user.pushSubscription || !user.pushSubscription.endpoint) {
+          return User.findByIdAndUpdate(user._id, {
+            $set: { pushSubscription: null },
+          });
+        }
+
+        return webpush
           .sendNotification(user.pushSubscription, payload)
           .catch(async (err) => {
-            // If subscription expired/invalid (410 Gone / 404 Not Found), clean it up
+            // Remove invalid / expired subscriptions (410 Gone / 404 Not Found)
             if (err.statusCode === 410 || err.statusCode === 404) {
               await User.findByIdAndUpdate(user._id, {
-                pushSubscription: null,
+                $set: { pushSubscription: null },
               });
             }
             console.error(`[PUSH ERROR] ${user.username}:`, err.message);
-          }),
-      );
+          });
+      });
 
       await Promise.allSettled(notifications);
     } catch (err) {
-      console.error("[CRON ERROR] Failed to send push notifications:", err);
+      console.error(
+        "[CRON ERROR] Failed to broadcast push notifications:",
+        err,
+      );
     }
   },
   {
@@ -173,9 +187,9 @@ setInterval(() => {
   checkAndEndAuctions();
 }, 30 * 1000);
 
-// =========================================================
-// ROUTES MOUNTING
-// =========================================================
+// ======================
+//    ROUTES MOUNTING
+// ======================
 app.use("/admin", adminRoutes);
 app.use("/", require("./routes/index"));
 app.use("/", require("./routes/auth"));
@@ -189,7 +203,7 @@ app.use("/xp", xpRoutes);
 app.use("/", contactRoutes);
 app.use("/auction", auctionRoutes);
 app.use("/music-room", musicRouter);
-app.use("/xpl", xplRouter); // <--- XPL League Route
+app.use("/xpl", xplRouter);
 app.use("/", require("./routes/announcements"));
 
 // --- 404 Catch-All Route ---
@@ -200,10 +214,10 @@ app.use((req, res) => {
 });
 
 // =========================================================
-// SOCKET NAMESPACES INITIALIZATION
+//       SOCKET NAMESPACES INITIALIZATION
 // =========================================================
 initMusicSocket(io);
-initXplAuctionSocket(io); // <--- Real-time XPL Bidding Engine initialized
+initXplAuctionSocket(io);
 
 // Start Server
 const PORT = process.env.PORT || 3000;

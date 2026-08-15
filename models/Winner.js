@@ -12,6 +12,7 @@ const winnerSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    // Final date of multi day tournament
     date: { type: Date, required: true },
   },
   { timestamps: true },

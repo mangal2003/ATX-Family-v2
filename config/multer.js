@@ -12,13 +12,13 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "atx_features",
-    resource_type: "auto", // Automatically detects image, video, or raw file formats
+    resource_type: "auto",
   },
 });
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB Limit
+  limits: { fileSize: 10 * 1024 * 1024 },
 });
 
 module.exports = upload;

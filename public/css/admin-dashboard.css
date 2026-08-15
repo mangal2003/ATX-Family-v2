@@ -263,7 +263,7 @@
 }
 
 .cyber-modal.active {
-  display: flex !important; /* Displayed when openSettingsModal() is executed */
+  display: flex !important; /* ---Displayed when openSettingsModal() is executed--- */
 }
 
 .modal-content {

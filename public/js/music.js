@@ -1,4 +1,4 @@
-// Connect to the music lounge socket namespace
+// Connect to the music lounge socket
 const socket = io("/music-lounge");
 let player;
 

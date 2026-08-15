@@ -75,7 +75,7 @@
                                 <div class="poster-overlay">
                                     <h4 class="poster-title"><i class="fa-solid fa-gavel gold-text"></i> XPL AUCTION
                                     </h4>
-                                    <p class="poster-sub">Bid for Players Live</p>
+                                    <p class="poster-sub">Bidders in Action</p>
                                 </div>
                             </a>
                             <% } %>
@@ -129,7 +129,7 @@
                                         <span class="center-emoji">😎</span>
                                     </div>
                                     <div class="poster-overlay">
-                                        <h4 class="poster-title">🥰PROFILE
+                                        <h4 class="poster-title">🥰 PROFILE
                                         </h4>
                                         <p class="poster-sub">Admire Yourself</p>
                                     </div>
@@ -148,8 +148,6 @@
                                     </div>
                                 </a>
 
-
-
                                 <!-- QUIZ ARENA CARD -->
                                 <a href="/quiz" class="poster-card poster-fallback-quiz">
                                     <span class="poster-badge badge-live">ARENA</span>
@@ -160,6 +158,18 @@
                                         <h4 class="poster-title"><i class="fa-solid fa-brain neon-text"></i> QUIZ ARENA
                                         </h4>
                                         <p class="poster-sub">Climb Ranks</p>
+                                    </div>
+                                </a>
+                                <!-- QUIZ ARENA CARD -->
+                                <a href="/features" class="poster-card poster-fallback-quiz">
+                                    <span class="poster-badge badge-cyan">PERKS</span>
+                                    <div class="poster-center-art">
+                                        <span class="center-emoji">💎</span>
+                                    </div>
+                                    <div class="poster-overlay">
+                                        <h4 class="poster-title"><i class="fa-solid fa-bolt cyan-text"></i> FEATURES
+                                        </h4>
+                                        <p class="poster-sub">Unique & Awesome</p>
                                     </div>
                                 </a>
 
@@ -198,6 +208,15 @@
                             <div class="studio-card-glow"></div>
                         </a>
 
+
+                        <!-- guidelines CARD -->
+                        <a href="/guidelines" class="studio-card hub-discord">
+                            <div class="studio-card-inner">
+                                <i class="fa-solid fa-headset studio-icon discord-color-text"></i>
+                                <span class="studio-title">GUIDELINES</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
                         <!-- AUCTION CARD -->
                         <a href="/auction" class="studio-card hub-auction">
                             <div class="studio-card-inner">
@@ -282,7 +301,7 @@
                 <!-- 5. TOP 3 RANKED LEADERBOARD (HOTSTAR TOP 10 STYLE) -->
                 <section class="app-rail-section">
                     <div class="rail-header">
-                        <h3><i class="fa-solid fa-trophy gold-text"></i>TOP 3 IN QUIZ</h3>
+                        <h3><i class="fa-solid fa-trophy gold-text"></i>TOP 5 IN QUIZ</h3>
                     </div>
                     <div class="horizontal-scroll-rail">
                         <% if (topUsers && topUsers.length> 0) { %>
@@ -387,7 +406,7 @@
                     </div>
                     <div class="horizontal-scroll-rail">
                         <% if (recentWinners && recentWinners.length> 0) { %>
-                            <% const rankEmojis=['💎', '🥳' , '✨' , '🍾' , '⚡' ]; %>
+                            <% const rankEmojis=['💎', '🥳' , '✨' , '🎖️' , '⚡' ]; %>
                                 <% recentWinners.forEach((w, i)=> { %>
                                     <div class="ranked-poster-card">
                                         <!-- Big JioHotstar Rank Number Overlay (1 to 5) -->

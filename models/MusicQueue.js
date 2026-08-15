@@ -20,7 +20,7 @@ const musicRoomSchema = new mongoose.Schema(
     queue: [songSchema],
     pendingSkip: {
       requestedBy: { type: String, default: null },
-      status: { type: String, default: null }, // 'pending', null
+      status: { type: String, default: null },
     },
   },
   { timestamps: true },

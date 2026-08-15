@@ -4,9 +4,9 @@ const mongoose = require("mongoose");
 const bidSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   username: { type: String, required: true },
-  platoId: { type: String, default: "" }, // Added: stores platoId snapshot
+  platoId: { type: String, default: "" },
   amount: { type: Number, required: true },
-  outbiddedUser: { type: String, default: null }, // Stores platoId/username of outbidded user
+  outbiddedUser: { type: String, default: null },
   createdAt: { type: Date, default: Date.now },
 });
 
@@ -27,7 +27,7 @@ const auctionSchema = new mongoose.Schema(
       ref: "User",
       default: null,
     },
-    winnerUsername: { type: String, default: null }, // Kept optional for fallback
+    winnerUsername: { type: String, default: null },
     winningBidAmount: { type: Number, default: 0 },
     status: { type: String, enum: ["active", "ended"], default: "active" },
     endsAt: { type: Date, required: true },

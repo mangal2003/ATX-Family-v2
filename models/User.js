@@ -36,7 +36,7 @@ const UserSchema = new mongoose.Schema({
   weeklyScore: { type: Number, default: 0 },
   lastQuizSlot: { type: String, default: null },
   pushSubscription: { type: Object, default: null },
-  banner: { type: String, default: "" },
+  banner: { type: String, default: "/images/gc-banner.webp" },
   streak: { type: Number, default: 1 },
   lastLoginDate: { type: Date, default: Date.now },
   xpBalance: { type: Number, default: 0 },

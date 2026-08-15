@@ -49,7 +49,7 @@ router.get("/", ensureAuth, async (req, res) => {
       .lean();
 
     res.render("quiz", {
-      title: "Quiz & Leaderboard | ATX Family",
+      title: "Quiz | ATX Family",
       isActive,
       hasAttempted,
       leaderboard,

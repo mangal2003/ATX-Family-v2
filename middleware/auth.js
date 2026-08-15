@@ -7,7 +7,7 @@ function ensureAuth(req, res, next) {
   res.redirect("/auth/google");
 }
 
-// Ensure user has admin privileges
+// Ensure the user has admin privileges
 function ensureAdmin(req, res, next) {
   if (req.isAuthenticated() && req.user.role === "admin") {
     return next();

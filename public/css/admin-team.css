@@ -1,52 +1,145 @@
-/* ATX Admin Team Grid & Profile Modal */
+/* =========================================================
+   ATX ADMIN TEAM COMMAND ROSTER - THEME SYNC & MODERN UI
+   ========================================================= */
+
 .team-wrapper {
   width: 100%;
-  max-width: 1100px;
-  margin: 2rem auto;
+  max-width: 1200px;
+  margin: 1.5rem auto 4.5rem;
   padding: 0 1rem;
   box-sizing: border-box;
 }
 
+/* Page Header */
 .team-header {
   text-align: center;
   margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.team-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid var(--accent-gold, #ffd700);
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+  letter-spacing: 1px;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.15);
 }
 
 .team-header h1 {
   font-family: "Share Tech Mono", monospace;
-  font-size: 2rem;
-  color: #fff;
+  font-size: 2.3rem;
+  letter-spacing: 2px;
+  color: var(--text-heading, #ffffff) !important;
+  text-shadow: 0 0 20px var(--border-glow, rgba(0, 243, 255, 0.4));
+  margin-bottom: 0.45rem;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
-/* Grid Stack */
+.gold-text {
+  color: var(--accent-gold, #ffd700) !important;
+}
+
+.team-subtitle {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.925rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.55;
+  transition: color 0.3s ease;
+}
+
+/* --- Team Grid Matrix --- */
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
-/* Admin Card */
+/* --- Admin Roster Card --- */
 .admin-card {
-  background: #09090b;
-  border: 1px solid rgba(0, 243, 255, 0.2);
-  border-radius: 12px;
-  padding: 1.25rem;
   position: relative;
+  background: var(--bg-card, #10131d);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  border-radius: 18px;
+  padding: 1.6rem 1.25rem 1.4rem;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  box-shadow: var(--card-shadow, 0 10px 30px rgba(0, 0, 0, 0.5));
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.3s ease;
 }
 
 .admin-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 215, 0, 0.5);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+  transform: translateY(-7px);
+  border-color: var(--border-glow, var(--accent-cyan, #00f3ff));
+  box-shadow:
+    0 15px 35px var(--border-color, rgba(0, 243, 255, 0.25)),
+    0 0 20px var(--border-glow, rgba(0, 243, 255, 0.3));
+}
+
+/* Subtle sweep light on card hover */
+.admin-card::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 215, 0, 0.08) 50%,
+    transparent 55%
+  );
+  transform: rotate(30deg);
+  transition: transform 0.8s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.admin-card:hover::before {
+  transform: rotate(30deg) translate(25%, 25%);
+}
+
+/* HUD Corner Brackets */
+.hud-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.hud-corner.tl {
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid var(--accent-gold, #ffd700);
+  border-left: 2px solid var(--accent-gold, #ffd700);
+}
+
+.hud-corner.br {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 2px solid var(--accent-cyan, #00f3ff);
+  border-right: 2px solid var(--accent-cyan, #00f3ff);
 }
 
 /* Edit Trigger Icon */
@@ -54,436 +147,182 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  background: rgba(255, 215, 0, 0.1);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  color: #ffd700;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.7));
+  border: 1px solid var(--accent-gold, rgba(255, 215, 0, 0.4));
+  color: var(--accent-gold, #ffd700);
   width: 32px;
   height: 32px;
-  border-radius: 50%;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 5;
-  transition: background 0.2s ease;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
 }
 
 .card-edit-btn:hover {
-  background: #ffd700;
-  color: #000;
+  background: var(--accent-gold, #ffd700);
+  color: #000000 !important;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.card-top-bar {
+  margin-bottom: 1rem;
 }
 
 /* Role Badges */
 .rank-badge {
   font-family: "Share Tech Mono", monospace;
-  font-size: 0.7rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
+  font-size: 0.725rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .rank-owner {
   background: rgba(255, 215, 0, 0.15);
-  border: 1px solid #ffd700;
-  color: #ffd700;
+  border: 1px solid var(--accent-gold, #ffd700);
+  color: var(--accent-gold, #ffd700) !important;
 }
 
 .rank-admin {
-  background: rgba(0, 243, 255, 0.15);
-  border: 1px solid #00f3ff;
-  color: #00f3ff;
+  background: rgba(0, 243, 255, 0.12);
+  border: 1px solid var(--accent-cyan, #00f3ff);
+  color: var(--accent-cyan, #00f3ff) !important;
 }
 
 .rank-moderator {
   background: rgba(168, 85, 247, 0.15);
   border: 1px solid #a855f7;
-  color: #a855f7;
+  color: #c084fc !important;
 }
 
+/* Elevated Profile Avatar Frame */
 .avatar-frame {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 3px;
+  background: var(--bg-primary, #0a0b10);
+  border: 2px solid var(--border-color, rgba(255, 255, 255, 0.1));
   overflow: hidden;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.9rem;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.admin-card:hover .avatar-frame {
+  transform: scale(1.06);
+}
+
+.rank-ring-owner {
+  border-color: var(--accent-gold, #ffd700);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.3);
+}
+
+.rank-ring-admin {
+  border-color: var(--accent-cyan, #00f3ff);
+  box-shadow: 0 0 16px rgba(0, 243, 255, 0.3);
+}
+
+.rank-ring-moderator {
+  border-color: #a855f7;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.3);
 }
 
 .avatar-frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
 .admin-name {
   font-family: "Share Tech Mono", monospace;
-  font-size: 1.1rem;
-  color: #fff;
-  margin: 0 0 0.25rem 0;
+  font-size: 1.25rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.35rem 0;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
 }
 
 .admin-bio-snippet {
-  color: #888;
-  font-size: 0.8rem;
-  line-height: 1.4;
-  margin-top: 0.5rem;
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.825rem;
+  line-height: 1.5;
+  margin: 0 0 1.25rem 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: color 0.3s ease;
 }
 
-/* Modals */
+.card-footer-cta {
+  margin-top: auto;
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.06));
+  padding-top: 0.75rem;
+  width: 100%;
+}
+
+.view-profile-label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.725rem;
+  color: var(--accent-cyan, #00f3ff);
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: transform 0.2s ease;
+}
+
+.admin-card:hover .view-profile-label {
+  transform: translateX(4px);
+}
+
+/* =========================================================
+   ROYALTY SHOWCASE PROFILE MODAL (FULL THEME SYNC)
+   ========================================================= */
 .cyber-modal {
   display: none;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 1000;
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  box-sizing: border-box;
 }
 
 .cyber-modal.active {
-  display: flex;
+  display: flex !important;
 }
 
-.modal-content {
-  background: #09090b;
-  border: 1px solid var(--accent-cyan, #00f3ff);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 480px;
-  padding: 1.5rem;
-  position: relative;
-  box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
-}
-
-.modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 1.25rem;
-  cursor: pointer;
-}
-
-.modal-close:hover {
-  color: #fff;
-}
-
-.modal-field-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin-bottom: 0.85rem;
-  text-align: left;
-}
-
-.modal-field-group label {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.75rem;
-  color: #888;
-}
-
-.form-input {
-  background: #000;
-  border: 1px solid #27272a;
-  color: #fff;
-  padding: 0.6rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  outline: none;
-}
-
-.form-input:focus {
-  border-color: #ffd700;
-}
-
-/* Royalty Showcase Overlay Container */
 .royalty-modal-card {
-  background: #050508;
-  border: 1px solid rgba(255, 215, 0, 0.35);
+  background: var(--bg-card, #10131d) !important;
+  border: 1px solid var(--border-color, rgba(255, 215, 0, 0.35));
   border-radius: 20px;
-  width: 100%;
-  max-width: 520px;
-  overflow: hidden;
-  position: relative;
-  box-shadow:
-    0 0 40px rgba(255, 215, 0, 0.15),
-    0 20px 50px rgba(0, 0, 0, 0.9);
-  animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes modalPop {
-  0% {
-    transform: scale(0.92);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Banner Backplate */
-.modal-banner-wrap {
-  position: relative;
-  width: 100%;
-  height: 140px;
-  background: #0a0a0f;
-  overflow: hidden;
-}
-
-.modal-banner-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.9;
-  filter: contrast(110%) brightness(90%);
-}
-
-.banner-overlay {
-  position: absolute;
-  inset: 0;
-  /* background: linear-gradient(to bottom, rgba(5, 5, 8, 0.1) 0%, #050508 100%); */
-}
-
-.royalty-close-btn {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 1.2rem;
-  cursor: pointer;
-  z-index: 10;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.royalty-close-btn:hover {
-  background: #ffd700;
-  color: #000;
-  border-color: #ffd700;
-}
-
-/* Modal Content Stack */
-.royalty-body {
-  padding: 0 1.5rem 1.5rem 1.5rem;
-  position: relative;
-  margin-top: -50px; /* Pulls avatar over the banner */
-  text-align: center;
-}
-
-/* Elevated Profile Avatar */
-.royalty-avatar-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.75rem;
-}
-
-.royalty-avatar-ring {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  padding: 3px;
-  background: linear-gradient(135deg, #ffd700, #00f3ff, #111);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.25);
-  position: relative;
-}
-
-.royalty-avatar-ring img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  background: #000;
-}
-
-/* Names & Ranks */
-.royalty-title {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 1.5rem;
-  color: #fff;
-  margin: 0 0 0.35rem 0;
-  letter-spacing: 1px;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-.rank-badge-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-}
-
-.royalty-rank-badge {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.85rem;
-  border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-weight: bold;
-}
-
-/* Rank Glow Variants */
-.rank-owner-glow {
-  background: rgba(255, 215, 0, 0.1);
-  border: 1px solid #ffd700;
-  color: #ffd700;
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
-}
-
-.rank-admin-glow {
-  background: rgba(0, 243, 255, 0.1);
-  border: 1px solid #00f3ff;
-  color: #00f3ff;
-  box-shadow: 0 0 12px rgba(0, 243, 255, 0.2);
-}
-
-.rank-moderator-glow {
-  background: rgba(168, 85, 247, 0.1);
-  border: 1px solid #a855f7;
-  color: #a855f7;
-  box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
-}
-
-/* Bio Showcase Box */
-.royalty-bio-box {
-  background: rgba(10, 12, 18, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  text-align: left;
-  position: relative;
-}
-
-.bio-label {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.65rem;
-  color: #71717a;
-  letter-spacing: 1.5px;
-  display: block;
-  margin-bottom: 0.35rem;
-}
-
-.bio-text {
-  color: #e4e4e7;
-  font-size: 0.85rem;
-  line-height: 1.55;
-  margin: 0;
-}
-
-/* Credentials Grid */
-.royalty-credentials-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-}
-
-.credential-card {
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  text-align: left;
-}
-
-.credential-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-.discord-card .credential-icon {
-  background: rgba(88, 101, 242, 0.15);
-  color: #5865f2;
-  border: 1px solid rgba(88, 101, 242, 0.3);
-}
-
-.plato-card .credential-icon {
-  background: rgba(0, 243, 255, 0.15);
-  color: #00f3ff;
-  border: 1px solid rgba(0, 243, 255, 0.3);
-}
-
-.credential-details {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.credential-label {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.6rem;
-  color: #71717a;
-  letter-spacing: 1px;
-}
-
-.credential-value {
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.royalty-footer-seal {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.7rem;
-  color: #52525b;
-  letter-spacing: 1.5px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 0.85rem;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 480px) {
-  .royalty-credentials-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Royalty Showcase Overlay Container - Mobile First Base */
-.royalty-modal-card {
-  background: #050508;
-  border: 1px solid rgba(255, 215, 0, 0.35);
-  border-radius: 16px;
   width: 92vw;
   max-width: 500px;
-  max-height: 85vh; /* Prevents modal from stretching off mobile screens */
+  max-height: 88vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  box-shadow:
-    0 0 35px rgba(255, 215, 0, 0.15),
-    0 20px 50px rgba(0, 0, 0, 0.95);
+  box-shadow: var(--card-shadow, 0 20px 50px rgba(0, 0, 0, 0.8));
   animation: modalPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.2);
 }
 
@@ -498,13 +337,12 @@
   }
 }
 
-/* Fixed Banner Backplate */
 .modal-banner-wrap {
   position: relative;
   width: 100%;
-  height: 100px; /* Compact banner height on mobile */
-  min-height: 100px;
-  background: #0a0a0f;
+  height: 120px;
+  min-height: 120px;
+  background: var(--bg-primary, #0a0b10);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -513,14 +351,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 1;
-  filter: contrast(110%) brightness(80%);
+  opacity: 0.85;
+  filter: contrast(110%) brightness(85%);
 }
 
 .banner-overlay {
   position: absolute;
   inset: 0;
-  /* background: linear-gradient(to bottom, rgba(5, 5, 8, 0.1) 0%, #050508 100%); */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--bg-card, #10131d) 100%
+  );
 }
 
 .royalty-close-btn {
@@ -529,9 +371,9 @@
   right: 12px;
   background: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
-  width: 36px; /* Larger hit target for touch devices */
-  height: 36px;
+  color: #ffffff;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   font-size: 1.25rem;
   cursor: pointer;
@@ -539,49 +381,41 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  touch-action: manipulation;
+  transition: all 0.2s ease;
 }
 
-.royalty-close-btn:active,
 .royalty-close-btn:hover {
-  background: #ffd700;
-  color: #000;
-  border-color: #ffd700;
+  background: var(--accent-gold, #ffd700);
+  color: #000000;
+  border-color: var(--accent-gold, #ffd700);
 }
 
-/* Scrollable Inner Body for Small Mobile Screens */
 .royalty-body {
-  padding: 0 1rem 1.25rem 1rem;
+  padding: 0 1.25rem 1.5rem 1.25rem;
   position: relative;
-  margin-top: -42px; /* Pull avatar over banner */
+  margin-top: -46px;
   text-align: center;
-  overflow-y: auto; /* Enables touch scrolling if content overflows mobile viewport */
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Custom Scrollbar styling for modal body */
-.royalty-body::-webkit-scrollbar {
-  width: 4px;
-}
-.royalty-body::-webkit-scrollbar-thumb {
-  background: rgba(255, 215, 0, 0.3);
-  border-radius: 4px;
-}
-
-/* Mobile Avatar Frame */
 .royalty-avatar-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .royalty-avatar-ring {
-  width: 80px;
-  height: 80px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
   padding: 3px;
-  background: linear-gradient(135deg, #ffd700, #00f3ff, #111);
-  box-shadow: 0 0 18px rgba(255, 215, 0, 0.25);
+  background: linear-gradient(
+    135deg,
+    var(--accent-gold, #ffd700),
+    var(--accent-cyan, #00f3ff)
+  );
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
   position: relative;
 }
 
@@ -590,37 +424,238 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  background: #000;
+  background: var(--bg-primary, #000);
 }
 
-/* Mobile Credentials Grid (Single Column Default) */
-.royalty-credentials-grid {
-  display: grid;
-  grid-template-columns: 1fr; /* Single column on mobile viewports */
-  gap: 0.6rem;
-  margin-bottom: 1rem;
+.royalty-title {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.45rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.35rem 0;
+  letter-spacing: 1px;
 }
 
-.credential-card {
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 0.65rem 0.75rem;
+.rank-badge-wrap {
   display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  justify-content: center;
+  margin-bottom: 1.15rem;
+}
+
+.royalty-rank-badge {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.85rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+}
+
+.rank-owner-glow {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid var(--accent-gold, #ffd700);
+  color: var(--accent-gold, #ffd700) !important;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.25);
+}
+
+.rank-admin-glow {
+  background: rgba(0, 243, 255, 0.15);
+  border: 1px solid var(--accent-cyan, #00f3ff);
+  color: var(--accent-cyan, #00f3ff) !important;
+  box-shadow: 0 0 12px rgba(0, 243, 255, 0.25);
+}
+
+.rank-moderator-glow {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid #a855f7;
+  color: #c084fc !important;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+}
+
+.royalty-bio-box {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 12px;
+  padding: 0.95rem;
+  margin-bottom: 1rem;
   text-align: left;
 }
 
-/* Tablet & Desktop Adjustments */
+.bio-label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--text-muted, #71717a);
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.bio-text {
+  color: var(--text-main, #e4e4e7) !important;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.royalty-credentials-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+  margin-bottom: 1.15rem;
+}
+
+.credential-card {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.35));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.credential-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.discord-card .credential-icon {
+  background: rgba(88, 101, 242, 0.15);
+  color: #5865f2;
+  border: 1px solid rgba(88, 101, 242, 0.3);
+}
+
+.plato-card .credential-icon {
+  background: rgba(0, 243, 255, 0.15);
+  color: var(--accent-cyan, #00f3ff);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+.credential-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.credential-label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--text-muted, #71717a);
+  letter-spacing: 1px;
+}
+
+.credential-value {
+  color: var(--text-heading, #ffffff) !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.royalty-footer-seal {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.725rem;
+  color: var(--text-muted, #52525b);
+  letter-spacing: 1.5px;
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
+  padding-top: 0.85rem;
+}
+
+/* =========================================================
+   ADMIN EDIT MODAL & FORM CONTROLS
+   ========================================================= */
+.modal-content {
+  background: var(--bg-card, #12141d) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.3));
+  border-radius: 18px;
+  width: 100%;
+  max-width: 480px;
+  padding: 1.75rem;
+  position: relative;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.75);
+}
+
+.modal-header-bar {
+  margin-bottom: 1.25rem;
+}
+
+.modal-header-bar h3 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.2rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--text-muted, #888);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: var(--accent-gold, #ffd700);
+}
+
+.modal-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.modal-field-group label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--accent-gold, #ffd700);
+  text-transform: uppercase;
+}
+
+.form-input {
+  background: var(--bg-primary, #0a0b10) !important;
+  border: 1px solid var(--border-color, #27272a) !important;
+  color: var(--text-heading, #ffffff) !important;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  border-color: var(--accent-cyan, #00f3ff) !important;
+  box-shadow: 0 0 10px var(--border-color, rgba(0, 243, 255, 0.3));
+}
+
+.modal-submit-btn {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+/* Tablet & Desktop Layouts */
 @media (min-width: 600px) {
   .royalty-modal-card {
     border-radius: 20px;
-    max-height: 80vh;
+    max-height: 82vh;
   }
 
   .modal-banner-wrap {
-    height: 130px;
+    height: 140px;
   }
 
   .royalty-body {
@@ -629,15 +664,12 @@
   }
 
   .royalty-avatar-ring {
-    width: 92px;
-    height: 92px;
+    width: 96px;
+    height: 96px;
   }
 
   .royalty-credentials-grid {
-    grid-template-columns: repeat(
-      2,
-      1fr
-    ); /* Split into 2 columns on larger screens */
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
 }

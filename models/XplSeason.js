@@ -12,7 +12,7 @@ const xplSeasonSchema = new mongoose.Schema(
     registrationDeadline: { type: Date, default: null },
     isRegistrationOpen: { type: Boolean, default: false },
 
-    // Live Auction State & Controls
+    // Live Auction State and Controls
     auctionState: {
       status: {
         type: String,

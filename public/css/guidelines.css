@@ -1,53 +1,115 @@
 /* =========================================================
-   DIRECTIVE COMMAND CENTER - THEME ADAPTIVE (MOBILE-FIRST)
+   EVENT SPONSORSHIP PROTOCOL - FULL THEME SYNC (MOBILE-FIRST)
    ========================================================= */
 
 .directives-wrapper {
   width: 100%;
-  max-width: 1000px;
-  margin: 1rem auto 2.5rem;
-  padding: 0 0.85rem;
+  max-width: 1050px;
+  margin: 1.25rem auto 3.5rem;
+  padding: 0 1rem;
   box-sizing: border-box;
 }
 
-/* Banner Header */
-.terminal-header {
-  background: var(--bg-card, var(--card-bg, rgba(10, 12, 18, 0.9)));
-  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
-  border-radius: 12px;
-  padding: 1.25rem 1rem;
-  margin-bottom: 1.25rem;
+/* =========================================================
+   HOTSTAR-STYLE AMBIENT HERO CARD
+   ========================================================= */
+.directive-hero-card {
   position: relative;
+  width: 100%;
+  min-height: 280px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: var(--card-shadow, 0 8px 32px rgba(0, 0, 0, 0.3));
+  margin-bottom: 2rem;
+  background: var(--bg-card, #12141d);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  box-shadow: var(--card-shadow, 0 15px 35px rgba(0, 0, 0, 0.5));
+  display: flex;
+  align-items: center;
   transition:
     background 0.3s ease,
     border-color 0.3s ease;
 }
 
-.terminal-header::before {
-  content: "";
+.directive-hero-backdrop {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 4px;
+  right: 0;
+  width: 60%;
   height: 100%;
-  background: var(--accent-cyan, #00f3ff);
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(0, 243, 255, 0.15),
+    rgba(255, 215, 0, 0.08) 50%,
+    transparent 80%
+  );
+  filter: blur(20px);
+  pointer-events: none;
 }
 
-.status-pill {
+.directive-overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--bg-card, #12141d) 0%,
+    var(--bg-card, #12141d) 45%,
+    rgba(18, 20, 29, 0.85) 70%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.directive-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(
+    to top,
+    var(--bg-card, #12141d) 0%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.directive-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  padding: 2.2rem 2.5rem;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.hotstar-pill {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.7rem;
+  border-radius: 6px;
+  letter-spacing: 1px;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+}
+
+.protocol-pill {
+  background: var(--accent-gold, #ffd700);
+  color: #0b0b0e !important;
+}
+
+.status-pill {
   background: rgba(0, 243, 255, 0.12);
-  color: var(--accent-cyan, #00f3ff);
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.7rem;
-  padding: 0.2rem 0.55rem;
-  border-radius: 4px;
-  letter-spacing: 1px;
-  margin-bottom: 0.5rem;
-  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  color: var(--accent-cyan, #00f3ff) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
 }
 
 .pulsing-dot {
@@ -71,11 +133,13 @@
   }
 }
 
-.terminal-title {
+.directive-hero-content h1 {
   font-family: "Share Tech Mono", monospace;
-  font-size: 1.4rem;
+  font-size: 2rem;
+  letter-spacing: 1.5px;
   color: var(--text-heading, #ffffff) !important;
-  margin: 0 0 0.4rem 0;
+  margin: 0 0 0.6rem 0;
+  text-shadow: 0 0 15px var(--border-glow, rgba(0, 243, 255, 0.35));
   transition: color 0.3s ease;
 }
 
@@ -87,102 +151,177 @@
   color: var(--accent-cyan, #00f3ff) !important;
 }
 
-.terminal-subtitle {
-  color: var(--text-muted, #9ca3af) !important;
-  font-size: 0.825rem;
-  line-height: 1.45;
-  margin: 0;
+.hero-subtitle {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0 0 1rem 0;
   transition: color 0.3s ease;
 }
 
-/* Step-by-Step Directive Timeline Cards */
+.hero-meta-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8) !important;
+}
+
+.meta-dot {
+  color: var(--border-color, #475569);
+}
+
+/* =========================================================
+   DIRECTIVE PIPELINE STEP CARDS
+   ========================================================= */
 .directive-steps-stack {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .directive-step-card {
-  background: var(--bg-card, var(--card-bg, rgba(15, 20, 28, 0.95)));
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-  border-radius: 12px;
-  padding: 1.15rem;
   position: relative;
-  box-shadow: var(--card-shadow, 0 4px 15px rgba(0, 0, 0, 0.2));
+  background: var(--bg-card, #12141d) !important;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08)) !important;
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  box-shadow: var(--card-shadow, 0 8px 25px rgba(0, 0, 0, 0.35));
+  overflow: hidden;
   transition:
-    transform 0.2s ease,
+    transform 0.25s ease,
     border-color 0.3s ease,
-    background 0.3s ease;
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.directive-step-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-glow, rgba(0, 243, 255, 0.35)) !important;
 }
 
 .directive-step-card.active-step {
-  border-color: var(--accent-gold, #ffd700);
-  box-shadow: 0 4px 20px var(--border-color, rgba(255, 215, 0, 0.25));
+  border-color: var(--accent-gold, #ffd700) !important;
+  box-shadow: 0 10px 30px rgba(255, 215, 0, 0.12);
+}
+
+.step-card-ambient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent-cyan, #00f3ff);
+  opacity: 0.6;
+}
+
+.active-step .step-card-ambient {
+  background: var(--accent-gold, #ffd700);
+  opacity: 1;
 }
 
 .step-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
 }
 
 .step-number {
   font-family: "Share Tech Mono", monospace;
   font-size: 0.75rem;
-  color: var(--accent-gold, #ffd700);
+  font-weight: 700;
+  color: var(--accent-gold, #ffd700) !important;
   background: rgba(255, 215, 0, 0.12);
   border: 1px solid var(--accent-gold, #ffd700);
-  padding: 0.2rem 0.5rem;
+  padding: 0.25rem 0.6rem;
   border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.step-icon-badge {
+  font-size: 1.15rem;
 }
 
 .step-title {
   font-family: "Share Tech Mono", monospace;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   color: var(--text-heading, #ffffff) !important;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.55rem 0;
   transition: color 0.3s ease;
 }
 
 .step-desc {
   color: var(--text-main, #d1d5db) !important;
-  font-size: 0.825rem;
-  line-height: 1.5;
-  margin-bottom: 0.85rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0 0 0.75rem 0;
   transition: color 0.3s ease;
 }
 
-/* Discord CTA Bar Inside Step 1 */
+.sub-notice-pill {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.25));
+  border-left: 3px solid var(--accent-cyan, #00f3ff);
+  padding: 0.65rem 0.9rem;
+  border-radius: 0 8px 8px 0;
+  color: var(--text-muted, #9ca3af) !important;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.sub-notice-pill i {
+  color: var(--accent-cyan, #00f3ff);
+  margin-top: 0.15rem;
+}
+
+/* Discord CTA Bar */
 .discord-action-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
   background: var(--bg-primary, rgba(88, 101, 242, 0.12));
   border: 1px solid var(--border-color, rgba(88, 101, 242, 0.3));
-  padding: 0.75rem 0.85rem;
-  border-radius: 8px;
-  margin-top: 0.5rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  margin-top: 0.85rem;
   transition: background 0.3s ease;
 }
 
+.action-label-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.discord-icon {
+  color: #5865f2;
+  font-size: 1.15rem;
+}
+
 .discord-action-text {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-heading, #ffffff) !important;
   font-weight: 600;
+  font-family: "Share Tech Mono", monospace;
 }
 
 .discord-btn {
   background: #5865f2;
   color: #ffffff !important;
-  padding: 0.45rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
   font-family: "Share Tech Mono", monospace;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   font-weight: bold;
   transition:
     opacity 0.2s ease,
@@ -190,64 +329,72 @@
 }
 
 .discord-btn:hover {
-  opacity: 0.9;
+  opacity: 0.92;
   transform: translateY(-1px);
 }
 
-/* Checklist Chip Items */
+/* Checklist Chip Grid */
 .checklist-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
 }
 
 .check-chip {
-  background: var(--bg-primary, rgba(0, 0, 0, 0.4));
+  background: var(--bg-primary, rgba(0, 0, 0, 0.35));
   border: 1px solid var(--border-color, rgba(0, 243, 255, 0.15));
-  border-radius: 6px;
-  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.8rem;
+  gap: 0.65rem;
+  font-size: 0.825rem;
   color: var(--text-main, #e5e7eb) !important;
   transition:
     background 0.3s ease,
-    color 0.3s ease;
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.check-chip:hover {
+  border-color: var(--accent-cyan, #00f3ff);
 }
 
 .check-chip i {
   color: var(--accent-cyan, #00f3ff);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
-/* Warning Rules Grid */
+/* Warning Policies Card */
 .rules-notice-card {
-  background: var(--bg-card, rgba(20, 10, 12, 0.9));
-  border: 1px solid var(--accent-danger, #ff4655);
-  border-radius: 12px;
-  padding: 1rem;
-  margin-top: 1.25rem;
+  background: var(--bg-card, rgba(20, 10, 12, 0.9)) !important;
+  border: 1px solid var(--accent-danger, #ff4655) !important;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 2rem;
+  box-shadow: 0 10px 25px rgba(255, 70, 85, 0.08);
   transition: background 0.3s ease;
 }
 
 .notice-title {
   font-family: "Share Tech Mono", monospace;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 700;
   color: var(--accent-danger, #ff4655) !important;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
 }
 
 .notice-list {
   margin: 0;
-  padding-left: 1.1rem;
+  padding-left: 1.2rem;
   color: var(--text-muted, #9ca3af) !important;
-  font-size: 0.78rem;
-  line-height: 1.5;
+  font-size: 0.825rem;
+  line-height: 1.6;
   transition: color 0.3s ease;
 }
 
@@ -255,17 +402,41 @@
   margin-bottom: 0.4rem;
 }
 
-/* Tablet & Desktop Progressive Layout */
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================= */
 @media (min-width: 768px) {
-  .terminal-header {
-    padding: 1.75rem 1.5rem;
+  .directive-hero-card {
+    min-height: 320px;
   }
 
-  .terminal-title {
-    font-size: 1.8rem;
+  .directive-hero-content {
+    padding: 3rem;
+  }
+
+  .directive-hero-content h1 {
+    font-size: 2.35rem;
   }
 
   .checklist-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .directive-hero-card {
+    min-height: auto;
+  }
+
+  .directive-hero-content {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .directive-hero-content h1 {
+    font-size: 1.65rem;
+  }
+
+  .directive-step-card {
+    padding: 1.2rem;
   }
 }

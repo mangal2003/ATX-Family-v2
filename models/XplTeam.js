@@ -7,7 +7,7 @@ const xplTeamSchema = new mongoose.Schema(
     teamTag: { type: String, required: true, uppercase: true, trim: true }, // e.g., "ATX", "KGS"
     logoUrl: { type: String, default: "/images/default-team.png" },
 
-    // Team Management
+    // XPL Team Management
     ownerPlatoId: { type: String, required: true },
     ownerName: { type: String, required: true },
 

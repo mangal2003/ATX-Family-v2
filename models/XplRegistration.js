@@ -37,7 +37,7 @@ const xplRegistrationSchema = new mongoose.Schema(
       type: Number,
       default: 100,
     },
-    // Direct team name string (from migration & legacy auctions)
+    // Direct team name string
     boughtBy: {
       type: String,
       default: null,

@@ -5,7 +5,7 @@ const featureSchema = new mongoose.Schema(
     icon: {
       type: String,
       required: true,
-      default: "fa-solid fa-cube", // Font Awesome icon class (e.g., 'fa-solid fa-shield-halved')
+      default: "💎" || "fa-solid fa-cube",
     },
     heading: {
       type: String,
@@ -17,7 +17,7 @@ const featureSchema = new mongoose.Schema(
     },
     bgImage: {
       type: String,
-      default: "/images/default-feature-bg.jpg", // URL or Cloudinary path
+      default: "/images/default-feature-bg.jpg",
     },
     order: {
       type: Number,

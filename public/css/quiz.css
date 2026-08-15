@@ -1,212 +1,583 @@
 /* =========================================================
-   QUIZ MODULE - MOBILE FIRST & THEME ADAPTIVE
+   QUIZ ARENA & LEADERBOARD - HOTSTAR THEME SYNC
    ========================================================= */
 
 .quiz-wrapper {
   width: 100%;
-  max-width: 1000px;
-  margin: 1.25rem auto 3rem;
-  padding: 0 0.85rem;
+  max-width: 1100px;
+  margin: 1.25rem auto 4rem;
+  padding: 0 1rem;
   box-sizing: border-box;
 }
 
-.quiz-header {
-  text-align: center;
-  margin-bottom: 1.75rem;
+/* =========================================================
+   HOTSTAR-STYLE AMBIENT HERO BANNER
+   ========================================================= */
+.quiz-hero-card {
+  position: relative;
+  width: 100%;
+  min-height: 270px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  background: var(--bg-card, #12141d);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  box-shadow: var(--card-shadow, 0 15px 35px rgba(0, 0, 0, 0.6));
+  display: flex;
+  align-items: center;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
-.status-active {
-  background: rgba(0, 243, 255, 0.12) !important;
-  color: var(--accent-cyan, #00f3ff) !important;
-  border: 1px solid var(--accent-cyan, #00f3ff) !important;
+.quiz-hero-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(0, 243, 255, 0.18),
+    rgba(255, 215, 0, 0.1) 45%,
+    transparent 75%
+  );
+  filter: blur(25px);
+  pointer-events: none;
 }
 
-.status-locked {
-  background: rgba(255, 70, 85, 0.12) !important;
+.quiz-overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--bg-card, #12141d) 0%,
+    var(--bg-card, #12141d) 42%,
+    rgba(18, 20, 29, 0.88) 65%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.quiz-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: linear-gradient(
+    to top,
+    var(--bg-card, #12141d) 0%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.quiz-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  padding: 2.2rem 2.8rem;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.hotstar-pill {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.75rem;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.live-pill {
+  background: var(--accent-gold, #ffd700);
+  color: #0b0b0e !important;
+}
+
+.locked-pill {
+  background: rgba(255, 70, 85, 0.12);
+  border: 1px solid var(--accent-danger, #ff4655);
   color: var(--accent-danger, #ff4655) !important;
-  border: 1px solid var(--accent-danger, #ff4655) !important;
 }
 
+.time-pill {
+  background: rgba(0, 243, 255, 0.12);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.pulsing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #0b0b0e;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+.static-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-danger, #ff4655);
+  border-radius: 50%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+}
+
+.quiz-hero-content h1 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 2.2rem;
+  letter-spacing: 1.5px;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.55rem 0;
+  text-shadow: 0 0 15px var(--border-glow, rgba(0, 243, 255, 0.35));
+  transition: color 0.3s ease;
+}
+
+.gold-text {
+  color: var(--accent-gold, #ffd700) !important;
+}
+
+.cyan-text {
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.hero-subtitle {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0 0 1rem 0;
+  transition: color 0.3s ease;
+}
+
+.hero-meta-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8) !important;
+  flex-wrap: wrap;
+}
+
+.meta-dot {
+  color: var(--border-color, #475569);
+}
+
+/* =========================================================
+   QUIZ RUNNER CARD & STATES
+   ========================================================= */
 .quiz-card {
   background: var(--bg-card, #12141d) !important;
   border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+  border-radius: 18px;
+  padding: 2.25rem 1.85rem;
+  margin-bottom: 2.25rem;
   text-align: center;
+  box-shadow: var(--card-shadow, 0 10px 30px rgba(0, 0, 0, 0.5));
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
-.closed-notice i {
-  font-size: 2.5rem;
-  margin-bottom: 0.75rem;
+.status-icon-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.85rem;
+  margin-bottom: 1.25rem;
 }
 
-/* Quiz Meta & Timer Track */
+.status-icon-badge.locked {
+  background: rgba(0, 243, 255, 0.1);
+  border: 1px solid var(--accent-cyan, #00f3ff);
+  color: var(--accent-cyan, #00f3ff);
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.25);
+}
+
+.status-icon-badge.completed {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--accent-gold, #ffd700);
+  color: var(--accent-gold, #ffd700);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.25);
+}
+
+.closed-notice h2 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.5rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.6rem 0;
+}
+
+.closed-notice p {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.9rem;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Quiz Start Screen */
+.brain-glow-pod {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+}
+
+.start-banner-content h3 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.4rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.4rem 0;
+}
+
+.start-banner-content p {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.88rem;
+  margin-bottom: 1.5rem;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.hotstar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, var(--accent-cyan, #00f3ff), #0099ff);
+  color: #050608 !important;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  text-decoration: none;
+}
+
+.hotstar-btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 28px rgba(0, 243, 255, 0.75);
+}
+
+/* Quiz Runner Bar & Stopwatch Track */
 .quiz-meta-bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-family: "Share Tech Mono", monospace;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.question-badge {
+  color: var(--accent-gold, #ffd700) !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.timer-badge {
+  font-size: 0.95rem;
+  color: var(--accent-cyan, #00f3ff);
+  background: var(--bg-primary, rgba(0, 0, 0, 0.3));
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+}
+
+.timer-badge.urgent {
+  color: var(--accent-danger, #ff4655) !important;
+  border-color: var(--accent-danger, #ff4655) !important;
+  animation: pulse 0.8s infinite;
 }
 
 .progress-track {
   width: 100%;
   height: 6px;
-  background: var(--bg-primary, rgba(0, 0, 0, 0.4));
-  border-radius: 4px;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.35));
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
 }
 
 .progress-fill {
   height: 100%;
-  background: var(--accent-gold, #ffd700);
+  background: linear-gradient(
+    90deg,
+    var(--accent-cyan, #00f3ff),
+    var(--accent-gold, #ffd700)
+  );
   transition: width 1s linear;
 }
 
 .question-text {
-  font-size: 1.1rem;
-  color: var(--text-heading, #ffffff);
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-heading, #ffffff) !important;
+  margin-bottom: 1.75rem;
+  line-height: 1.5;
+  text-align: left;
+  min-height: 55px;
 }
 
 .options-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .option-btn {
   width: 100%;
-  padding: 0.85rem;
+  padding: 1rem 1.25rem;
   text-align: left;
-  font-size: 0.9rem;
-  background: var(--bg-primary, rgba(0, 0, 0, 0.3)) !important;
+  font-size: 0.925rem;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.35)) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  border-radius: 10px;
+  color: var(--text-main, #e2e8f0) !important;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.result-icon {
+.option-btn:hover {
+  background: rgba(0, 243, 255, 0.12) !important;
+  border-color: var(--accent-cyan, #00f3ff) !important;
+  transform: translateX(4px);
+  color: var(--text-heading, #ffffff) !important;
+}
+
+/* Result Screen */
+.result-glow-pod {
   font-size: 3.5rem;
   margin-bottom: 0.75rem;
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+}
+
+.quiz-state-box h2 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.8rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.5rem 0;
 }
 
 .final-score-text {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-family: "Share Tech Mono", monospace;
-  margin-bottom: 1.5rem;
-}
-
-/* Leaderboard */
-.leaderboard-card {
-  background: var(--bg-card, #12141d) !important;
-  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
-  border-radius: 16px;
-  padding: 1.25rem;
-}
-
-.rank-badge {
-  font-family: "Share Tech Mono", monospace;
-  color: var(--text-muted, #94a3b8);
-}
-
-.gold-rank {
-  color: var(--accent-gold, #ffd700);
-  font-weight: bold;
-}
-
-@media (min-width: 640px) {
-  .options-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  color: var(--text-main, #cbd5e1);
+  margin-bottom: 1.75rem;
 }
 
 /* =========================================================
-   LEADERBOARD TABLE FIXES
+   WEEKLY LEADERBOARD CARD
    ========================================================= */
-
 .leaderboard-card {
   background: var(--bg-card, #12141d) !important;
   border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 1.5rem;
-  margin-top: 2rem;
+  box-shadow: var(--card-shadow, 0 10px 30px rgba(0, 0, 0, 0.5));
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
-.card-header h2 {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 1.2rem;
-  color: var(--text-heading, #ffffff);
+.section-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
   margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color, rgba(0, 243, 255, 0.15));
+}
+
+.title-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.title-left h3 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.15rem;
   letter-spacing: 1px;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0;
+}
+
+.cycle-pill {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.725rem;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--accent-gold, #ffd700);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
 }
 
 .table-responsive {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .royal-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
   text-align: left;
+  font-size: 0.875rem;
 }
-
-/* .royal-table th {
-  font-family: "Share Tech Mono", monospace;
-  font-size: 0.8rem;
-  color: var(--accent-gold, #ffd700);
-  background: rgba(0, 0, 0, 0.4);
-  padding: 0.85rem 1.2rem;
-  letter-spacing: 1px;
-  border-bottom: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
-  text-transform: uppercase;
-} */
 
 .royal-table th {
   font-family: "Share Tech Mono", monospace;
-  font-size: 0.8rem;
-  color: var(--accent-gold, #ffd700);
-  /* Uses theme surface background instead of static black */
-  background: var(--bg-primary, var(--bg-card, #12141d));
-  padding: 0.85rem 1.2rem;
-  letter-spacing: 1px;
-  border-bottom: 2px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  color: var(--accent-gold, #ffd700) !important;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.35));
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  font-size: 0.775rem;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  transition:
-    background 0.3s ease,
-    color 0.3s ease;
 }
+
 .royal-table td {
-  padding: 1rem 1.2rem;
-  font-size: 0.9rem;
-  color: var(--text-main, #e2e8f0);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  vertical-align: middle;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.05));
+  color: var(--text-main, #e2e8f0) !important;
+  transition: color 0.3s ease;
 }
 
-/* Explicit Header Alignments */
-.royal-table th.col-date-header,
-.royal-table td.col-date {
-  text-align: right;
+.royal-table tbody tr:hover {
+  background: var(--bg-primary, rgba(0, 243, 255, 0.04));
 }
 
-/* Column Widths & Spacing */
 .rank-badge {
   font-family: "Share Tech Mono", monospace;
-  font-weight: bold;
+  font-weight: 700;
   color: var(--text-muted, #94a3b8);
   display: inline-block;
   min-width: 32px;
 }
 
 .gold-rank {
-  color: var(--accent-gold, #ffd700);
-  font-size: 1rem;
+  color: #ffd700 !important;
+  font-size: 1.05rem;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.silver-rank {
+  color: #c0c0c0 !important;
+}
+
+.bronze-rank {
+  color: #cd7f32 !important;
+}
+
+.operator-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .winner-name {
   font-weight: 600;
-  color: var(--text-heading, #ffffff);
+  color: var(--text-heading, #ffffff) !important;
   font-family: "Share Tech Mono", monospace;
+}
+
+.score-text {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.05rem;
+}
+
+.attempts-pill {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.3));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.royal-table th.col-date-header,
+.col-date {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.no-records {
+  text-align: center;
+  padding: 2.5rem !important;
+  color: var(--text-muted, #94a3b8) !important;
+  font-family: "Share Tech Mono", monospace;
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================= */
+@media (min-width: 640px) {
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .quiz-hero-card {
+    min-height: 300px;
+  }
+  .quiz-hero-content {
+    padding: 3rem;
+  }
+  .quiz-hero-content h1 {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .quiz-hero-card {
+    min-height: auto;
+  }
+  .quiz-hero-content {
+    padding: 1.5rem 1.25rem;
+  }
+  .quiz-hero-content h1 {
+    font-size: 1.75rem;
+  }
+  .quiz-card {
+    padding: 1.5rem 1.2rem;
+  }
+  .question-text {
+    font-size: 1.05rem;
+  }
 }

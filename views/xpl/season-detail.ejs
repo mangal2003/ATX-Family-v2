@@ -234,7 +234,7 @@
                                                     <th>FINAL STATUS</th>
                                                     <th>BOUGHT BY</th>
                                                     <th style="text-align: right;">PRICE</th>
-                                                    <% if (isAdmin) { %>
+                                                    <% if (isAdmin && !canViewTable) { %>
                                                         <th style="text-align: right;">ACTION</th>
                                                         <% } %>
                                                 </tr>
@@ -270,7 +270,7 @@
                                                                 0).toLocaleString() %>
                                                                 <i class="fa-solid fa-coins"></i>
                                                         </td>
-                                                        <% if (isAdmin) { %>
+                                                        <% if (isAdmin && !canViewTable) { %>
                                                             <td style="text-align: right;">
                                                                 <form action="/xpl/admin/delete-registration"
                                                                     method="POST" style="display: inline;"

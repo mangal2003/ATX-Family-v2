@@ -1,4 +1,3 @@
-// models/SiteSetting.js
 const mongoose = require("mongoose");
 
 const siteSettingSchema = new mongoose.Schema(

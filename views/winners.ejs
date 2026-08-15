@@ -11,8 +11,8 @@
         <%- include('partials/flash') %>
 
             <main class="winners-container">
+                <!-- TOP CONTROLS & HEADER -->
                 <header class="winners-header">
-
                     <h1 class="glitch-title" data-text="HALL OF FAME">HALL OF FAME</h1>
                     <p>Archived tournament champions, event titleholders, and ATX record holders.</p>
 
@@ -23,60 +23,143 @@
                         <% } %>
                 </header>
 
-                <!-- Winners Table Section -->
-                <section class="cyber-card winners-card">
-                    <div class="table-responsive">
-                        <table class="royal-table">
-                            <thead>
-                                <tr>
-                                    <th>GAME</th>
-                                    <th>WINNER</th>
-                                    <th class="col-date-header">DATE</th>
-                                </tr>
-                            </thead>
-                            <tbody id="winnersTableBody">
-                                <% if (winners && winners.length> 0) { %>
-                                    <% winners.forEach((winner)=> { %>
-                                        <tr class="winner-row">
-                                            <td class="col-game">
-                                                <span class="game-tag">
-                                                    <%= winner.gameName %>
-                                                </span>
-                                            </td>
-                                            <td class="col-winner">
-                                                <div class="winner-identity">
-                                                    <span class="winner-name">
-                                                        <%= winner.winnerName %>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class="col-date">
-                                                <% if (winner.date && !isNaN(new Date(winner.date))) { %>
-                                                    <%= new Date(winner.date).toLocaleDateString('en-GB', {
-                                                        day: '2-digit' , month: 'short' , year: 'numeric'
-                                                        }).replace(/\s+/g, '-' ) %>
-                                                        <% } else { %>
-                                                            Date N/A
-                                                            <% } %>
-                                            </td>
-                                        </tr>
-                                        <% }) %>
-                                            <% } else { %>
-                                                <tr>
-                                                    <td colspan="3" class="no-records">No tournament records found in
-                                                        the archive.</td>
-                                                </tr>
-                                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
+                <% if (winners && winners.length> 0) { %>
+                    <!-- HOTSTAR-STYLE FEATURED BANNER HERO -->
+                    <section class="hotstar-hero-slider">
+                        <% const bannerFeatured=winners.slice(0, 5); %>
+                            <% bannerFeatured.forEach((item, idx)=> { %>
+                                <div class="hotstar-banner-card <%= idx === 0 ? 'active' : '' %>"
+                                    data-slide="<%= idx %>">
+                                    <!-- Dynamic Backdrop Image -->
+                                    <div class="banner-backdrop"
+                                        style="background-image: url('<%= item.coverImage || item.avatar || '/images/gc-banner.webp' %>');">
+                                    </div>
+                                    <div class="banner-overlay-left"></div>
+                                    <div class="banner-overlay-bottom"></div>
 
-                    <!-- Client-Side Pagination UI Container -->
-                    <div id="paginationContainer"></div>
-                </section>
+                                    <!-- Card Content -->
+                                    <div class="banner-content">
+                                        <div class="banner-tags">
+                                            <span class="hotstar-pill live-pill">
+                                                <i class="fa-solid fa-crown"></i> CHAMPION
+                                            </span>
+                                            <span class="hotstar-pill game-pill">
+                                                <%= item.gameName %>
+                                            </span>
+                                        </div>
+
+                                        <h2 class="banner-winner-name">
+                                            <%= item.winnerName %>
+                                        </h2>
+
+                                        <div class="banner-meta">
+                                            <span class="meta-item date-meta">
+                                                <i class="fa-regular fa-calendar-days"></i>
+                                                <% if (item.date && !isNaN(new Date(item.date))) { %>
+                                                    <%= new Date(item.date).toLocaleDateString('en-GB', { day: '2-digit'
+                                                        , month: 'short' , year: 'numeric' }) %>
+                                                        <% } else { %>
+                                                            Date Archived
+                                                            <% } %>
+                                            </span>
+                                            <span class="meta-dot">🏁</span>
+                                            <span class="meta-item highlight-text">
+                                                TOURNAMENT WINNER
+                                            </span>
+                                        </div>
+
+                                        <p class="banner-description">
+                                            Crowned champion in the <%= item.gameName %> showdown. Mastered the arena
+                                                through tactical precision and sheer skill.
+                                        </p>
+
+                                        <div class="banner-actions">
+                                            <button class="hotstar-btn primary-btn" onclick="scrollToTable()">
+                                                <i class="fa-solid fa-list-ul"></i> View All
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+
+                                    <!-- Navigation Controls (Hidden on small screens via CSS) -->
+                                    <% if (bannerFeatured.length> 1) { %>
+                                        <button class="slider-arrow prev" onclick="changeSlide(-1)"
+                                            aria-label="Previous Slide">
+                                            <i class="fa-solid fa-chevron-left"></i>
+                                        </button>
+                                        <button class="slider-arrow next" onclick="changeSlide(1)"
+                                            aria-label="Next Slide">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </button>
+
+                                        <div class="slider-indicators">
+                                            <% bannerFeatured.forEach((_, i)=> { %>
+                                                <span class="indicator-dot <%= i === 0 ? 'active' : '' %>"
+                                                    onclick="goToSlide(<%= i %>)"></span>
+                                                <% }) %>
+                                        </div>
+                                        <% } %>
+                    </section>
+                    <% } %>
+
+                        <!-- ARCHIVED WINNERS ROSTER (3-COLUMN DIRECT TABLE) -->
+                        <section class="cyber-card winners-card" id="recordsSection">
+                            <div class="section-title-bar">
+                                <h3><i class="fa-solid fa-medal gold-text"></i> ALL RECORDS</h3>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="royal-table">
+                                    <thead>
+                                        <tr>
+                                            <th>GAME</th>
+                                            <th>WINNER</th>
+                                            <th class="col-date-header">DATE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="winnersTableBody">
+                                        <% if (winners && winners.length> 0) { %>
+                                            <% winners.forEach((winner)=> { %>
+                                                <tr class="winner-row">
+                                                    <td class="col-game">
+                                                        <span class="game-tag">
+                                                            <%= winner.gameName %>
+                                                        </span>
+                                                    </td>
+                                                    <td class="col-winner">
+                                                        <div class="winner-identity">
+                                                            <span class="winner-name">
+                                                                <%= winner.winnerName %>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="col-date">
+                                                        <% if (winner.date && !isNaN(new Date(winner.date))) { %>
+                                                            <%= new Date(winner.date).toLocaleDateString('en-GB', {
+                                                                day: '2-digit' , month: 'short' , year: 'numeric'
+                                                                }).replace(/\s+/g, '-' ) %>
+                                                                <% } else { %>
+                                                                    N/A
+                                                                    <% } %>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="3" class="no-records">No tournament records
+                                                                found in the archive.</td>
+                                                        </tr>
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="paginationContainer"></div>
+                        </section>
             </main>
 
-            <!-- Modal for Logging Winner (Admin Only) -->
+            <!-- ADMIN MODAL -->
             <% if (locals.isAdmin) { %>
                 <div id="addWinnerModal" class="cyber-modal">
                     <div class="modal-content cyber-card">
@@ -90,18 +173,15 @@
                                 <input type="text" name="winnerName" required placeholder="Plato ID"
                                     class="cyber-input">
                             </div>
-
                             <div class="form-group">
                                 <label class="form-label">Game Name</label>
-                                <input type="text" name="gameName" required placeholder="e.g. Ocho (or Multi Games)"
+                                <input type="text" name="gameName" required placeholder="e.g. Ocho / Chess"
                                     class="cyber-input">
                             </div>
-
                             <div class="form-group">
                                 <label class="form-label">Tournament Date</label>
                                 <input type="date" name="datePicker" required class="cyber-input cyber-date-picker">
                             </div>
-
                             <button type="submit" class="cyber-btn touch-submit-btn"
                                 style="width: 100%; margin-top: 1rem;">
                                 <i class="fa-solid fa-save"></i> Save Winner
@@ -124,30 +204,95 @@
                 </script>
                 <% } %>
 
-                    <!-- Client-Side Table Pagination Script -->
+                    <!-- CLIENT SLIDER, TOUCH SWIPE & PAGINATION SCRIPT -->
                     <script>
+                        let currentSlide = 0;
+                        const slides = document.querySelectorAll('.hotstar-banner-card');
+                        const dots = document.querySelectorAll('.indicator-dot');
+                        let sliderInterval = null;
+
+                        function showSlide(index) {
+                            if (!slides.length) return;
+                            if (index >= slides.length) currentSlide = 0;
+                            else if (index < 0) currentSlide = slides.length - 1;
+                            else currentSlide = index;
+
+                            slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
+                            dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+                        }
+
+                        function changeSlide(step) {
+                            showSlide(currentSlide + step);
+                            resetAutoSlide();
+                        }
+
+                        function goToSlide(index) {
+                            showSlide(index);
+                            resetAutoSlide();
+                        }
+
+                        function startAutoSlide() {
+                            if (slides.length > 1) {
+                                sliderInterval = setInterval(() => showSlide(currentSlide + 1), 6000);
+                            }
+                        }
+
+                        function resetAutoSlide() {
+                            clearInterval(sliderInterval);
+                            startAutoSlide();
+                        }
+
+                        function scrollToTable() {
+                            const tableEl = document.getElementById('recordsSection');
+                            if (tableEl) tableEl.scrollIntoView({ behavior: 'smooth' });
+                        }
+
                         document.addEventListener('DOMContentLoaded', () => {
+                            startAutoSlide();
+
+                            // Mobile Touch/Swipe Gestures for Banner Slider
+                            let touchStartX = 0;
+                            let touchEndX = 0;
+                            const sliderEl = document.querySelector('.hotstar-hero-slider');
+
+                            if (sliderEl) {
+                                sliderEl.addEventListener('touchstart', (e) => {
+                                    touchStartX = e.changedTouches[0].screenX;
+                                }, { passive: true });
+
+                                sliderEl.addEventListener('touchend', (e) => {
+                                    touchEndX = e.changedTouches[0].screenX;
+                                    const swipeThreshold = 45;
+                                    if (touchEndX < touchStartX - swipeThreshold) {
+                                        changeSlide(1); // Swipe Left -> Next
+                                    } else if (touchEndX > touchStartX + swipeThreshold) {
+                                        changeSlide(-1); // Swipe Right -> Prev
+                                    }
+                                }, { passive: true });
+                            }
+
+                            // Client Pagination Logic
                             const rowsPerPage = 10;
                             const rows = Array.from(document.querySelectorAll('#winnersTableBody .winner-row'));
                             const paginationContainer = document.getElementById('paginationContainer');
 
-                            if (rows.length <= rowsPerPage) return; // No pagination needed if 10 or fewer items
+                            if (rows.length <= rowsPerPage) return;
 
                             let currentPage = 1;
                             const totalPages = Math.ceil(rows.length / rowsPerPage);
 
                             function renderPagination() {
                                 paginationContainer.innerHTML = `
-                            <nav class="pagination-container">
-                                <button id="prevBtn" class="pagination-btn ${currentPage === 1 ? 'disabled' : ''}">
-                                    <i class="fa-solid fa-chevron-left"></i> Prev
-                                </button>
-                                <span class="pagination-info">Page ${currentPage} of ${totalPages}</span>
-                                <button id="nextBtn" class="pagination-btn ${currentPage === totalPages ? 'disabled' : ''}">
-                                    Next <i class="fa-solid fa-chevron-right"></i>
-                                </button>
-                            </nav>
-                        `;
+                    <nav class="pagination-container">
+                        <button id="prevBtn" class="pagination-btn ${currentPage === 1 ? 'disabled' : ''}">
+                            <i class="fa-solid fa-chevron-left"></i> Prev
+                        </button>
+                        <span class="pagination-info">Page ${currentPage} of ${totalPages}</span>
+                        <button id="nextBtn" class="pagination-btn ${currentPage === totalPages ? 'disabled' : ''}">
+                            Next <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </nav>
+                `;
 
                                 document.getElementById('prevBtn').addEventListener('click', () => {
                                     if (currentPage > 1) {
@@ -169,17 +314,12 @@
                                 const end = start + rowsPerPage;
 
                                 rows.forEach((row, index) => {
-                                    if (index >= start && index < end) {
-                                        row.style.display = '';
-                                    } else {
-                                        row.style.display = 'none';
-                                    }
+                                    row.style.display = (index >= start && index < end) ? '' : 'none';
                                 });
 
                                 renderPagination();
                             }
 
-                            // Initial view load
                             displayPage(1);
                         });
                     </script>

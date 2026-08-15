@@ -21,7 +21,6 @@ module.exports = function (passport) {
           let user = await User.findOne({ googleId: profile.id });
 
           if (user) {
-            // ONLY update avatar if the user hasn't set a custom Cloudinary image
             if (
               !user.isCustomAvatar &&
               googlePhoto &&
@@ -33,7 +32,6 @@ module.exports = function (passport) {
             return done(null, user);
           }
 
-          // Handle new account creation
           user = await User.create({
             googleId: profile.id,
             username: profile.displayName,

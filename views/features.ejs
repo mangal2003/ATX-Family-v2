@@ -10,163 +10,214 @@
     <%- include('partials/header') %>
         <%- include('partials/flash') %>
 
-            <main class="features-container">
-                <header class="features-header">
-                    <h1 class="glitch-title" data-text="WHY WE ARE DIFFERENT">WHY WE ARE DIFFERENT</h1>
-                    <p class="features-subtitle">Features you won't find in any other GC.</p>
-                </header>
+            <main class="arsenal-wrapper">
+                <!-- COMMAND CENTER HERO -->
+                <section class="arsenal-hud-hero">
+                    <div class="hud-scanline"></div>
+                    <div class="hud-meta-header">
+                        <span class="hud-pill-tag"><i class="fa-solid fa-bolt-lightning"></i> WHY WE ARE
+                            DIFFERENT</span>
 
-                <% if (currentUser && currentUser.role==='admin' ) { %>
-                    <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                        <button class="cyber-btn" onclick="openAddModal()">
-                            <i class="fa-solid fa-plus"></i> Add New Feature
-                        </button>
                     </div>
-                    <% } %>
 
-                        <div class="features-grid">
-                            <% if (features.length===0) { %>
-                                <p style="color: #888; text-align: center; grid-column: 1/-1;">No feature directives
-                                    published yet.</p>
-                                <% } %>
+                    <h1 class="arsenal-glitch-title" data-text="CYBER ARSENAL">UNIQUE <span
+                            class="gold-gradient-text">FEATURES</span></h1>
+                    <p class="arsenal-subtitle">
+                        Advanced architectural capabilities, real-time engines, and custom features you won't find in
+                        any other GC
+                    </p>
 
-                                    <% features.forEach(feature=> { %>
-                                        <article class="feature-card">
-                                            <!-- Royal Micro Corner Decals -->
-                                            <div class="royal-corner-tl"></div>
-                                            <div class="royal-corner-br"></div>
+                    <% if (currentUser && currentUser.role==='admin' ) { %>
+                        <div class="arsenal-admin-action">
+                            <button class="cyber-btn init-feature-btn" onclick="openAddModal()">
+                                <i class="fa-solid fa-plus-circle"></i> ADD NEW FEATURE
+                            </button>
+                        </div>
+                        <% } %>
+                </section>
 
-                                            <!-- Background Image backplate -->
-                                            <div class="feature-bg-backplate">
-                                                <img src="<%= feature.bgImage %>" alt="<%= feature.heading %>"
-                                                    class="feature-bg-img">
-                                                <div class="feature-overlay"></div>
-                                            </div>
+                <!-- ASYMMETRIC BENTO DIRECTIVE MATRIX -->
+                <section class="bento-matrix-container">
+                    <% if (!features || features.length===0) { %>
+                        <div class="empty-matrix-card">
+                            <i class="fa-solid fa-satellite-dish gold-text"></i>
+                            <h3>NO FEATURES DEPLOYED YET</h3>
+                            <p>System awaiting administrative deployment directives.</p>
+                        </div>
+                        <% } else { %>
+                            <div class="bento-grid">
+                                <% features.forEach((feature, index)=> { %>
+                                    <article class="bento-card <%= index === 0 ? 'spotlight-card' : '' %>"
+                                        data-index="<%= index %>">
+                                        <!-- Background Image & Gradients -->
+                                        <div class="bento-backdrop"
+                                            style="background-image: url('<%= feature.bgImage || '/images/atx.webp' %>');">
+                                        </div>
+                                        <div class="bento-grid-overlay"></div>
+                                        <div class="bento-scan-bar"></div>
 
-                                            <!-- Admin Quick Controls -->
-                                            <% if (currentUser && currentUser.role==='admin' ) { %>
-                                                <div class="feature-admin-controls">
-                                                    <button class="card-ctrl-btn edit-btn" title="Edit Feature"
-                                                        data-feature="<%= JSON.stringify(feature) %>"
-                                                        onclick="openEditModal(this)">
-                                                        <i class="fa-solid fa-pen"></i>
+                                        <!-- Cyber HUD Corner Brackets -->
+                                        <div class="hud-corner tl"></div>
+                                        <div class="hud-corner tr"></div>
+                                        <div class="hud-corner bl"></div>
+                                        <div class="hud-corner br"></div>
+
+                                        <!-- Admin Quick Controls -->
+                                        <% if (currentUser && currentUser.role==='admin' ) { %>
+                                            <div class="bento-admin-dock">
+                                                <button class="dock-btn edit" title="Edit Module"
+                                                    data-feature="<%= JSON.stringify(feature) %>"
+                                                    onclick="openEditModal(this)">
+                                                    <i class="fa-solid fa-sliders"></i>
+                                                </button>
+
+                                                <form action="/features/delete" method="POST"
+                                                    onsubmit="return confirm('Decommission this module?');">
+                                                    <input type="hidden" name="featureId" value="<%= feature._id %>">
+                                                    <button type="submit" class="dock-btn delete"
+                                                        title="Decommission Module">
+                                                        <i class="fa-solid fa-power-off"></i>
                                                     </button>
+                                                </form>
+                                            </div>
+                                            <% } %>
 
-                                                    <form action="/features/delete" method="POST"
-                                                        onsubmit="return confirm('Delete this directive?');">
-                                                        <input type="hidden" name="featureId"
-                                                            value="<%= feature._id %>">
-                                                        <button type="submit" class="card-ctrl-btn delete-btn"
-                                                            title="Delete Feature">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                                <% } %>
-
-                                                    <!-- Card Content -->
-                                                    <div class="feature-card-content">
-                                                        <div class="feature-icon-badge">
-                                                            <span class="emoji-icon">
-                                                                <%= feature.icon %>
+                                                <!-- Card Body -->
+                                                <div class="bento-content">
+                                                    <div class="bento-header-meta">
+                                                        <div class="neon-icon-pod">
+                                                            <span class="module-emoji">
+                                                                <%= feature.icon || '⚡' %>
                                                             </span>
                                                         </div>
-                                                        <h3 class="feature-title">
+                                                        <div class="telemetry-info">
+                                                            <!-- <span class="telemetry-rank"><%= index + 1 %>
+                                                            </span> -->
+                                                            <span class="telemetry-priority">
+                                                                <%= feature.order || 0 %>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="bento-text-group">
+                                                        <h3 class="bento-title">
                                                             <%= feature.heading %>
                                                         </h3>
-                                                        <p class="feature-about">
+                                                        <p class="bento-desc">
                                                             <%= feature.about %>
                                                         </p>
                                                     </div>
-                                        </article>
-                                        <% }) %>
-                        </div>
+
+                                                    <!-- <div class="bento-footer-hud">
+                                                        <span class="hud-indicator"><i
+                                                                class="fa-solid fa-shield-halved"></i> ATX
+                                                            VERIFIED</span>
+                                                        <span class="hud-link-bracket"><i
+                                                                class="fa-solid fa-angle-right"></i></span>
+                                                    </div> -->
+                                                </div>
+                                    </article>
+                                    <% }) %>
+                            </div>
+                            <% } %>
+                </section>
             </main>
 
-            <!-- Modals -->
+            <!-- ADMIN MODALS -->
             <% if (currentUser && currentUser.role==='admin' ) { %>
-                <!-- Add Modal -->
+                <!-- Add Directive Modal -->
                 <div id="addModal" class="cyber-modal">
                     <div class="modal-content">
-                        <button class="modal-close" onclick="closeModal('addModal')">&times;</button>
+                        <button type="button" class="modal-close" onclick="closeModal('addModal')">&times;</button>
+                        <div class="modal-header-bar">
+                            <h3><i class="fa-solid fa-microchip gold-text"></i> ADD NEW</h3>
+                        </div>
 
                         <form action="/features/add" method="POST" enctype="multipart/form-data">
                             <div class="modal-field">
-                                <label>Feature Emoji/Icon</label>
-                                <input type="text" name="icon" placeholder="⚡ or 🏆 or 👑" required>
+                                <label>Feature Emoji</label>
+                                <input type="text" name="icon" placeholder="⚡, 🏆, 👑, 🎧" required>
                             </div>
 
                             <div class="modal-field">
-                                <label>Heading</label>
-                                <input type="text" name="heading" placeholder="e.g. Competitive Arenas" required>
+                                <label>Feature Title</label>
+                                <input type="text" name="heading" placeholder="e.g. THE AUCTION HOUSE" required>
                             </div>
 
                             <div class="modal-field">
-                                <label>Feature Image</label>
+                                <label>Background Image</label>
                                 <input type="file" name="bgImageFile" accept="image/*" class="custom-file-input"
                                     required>
                             </div>
 
                             <div class="modal-field">
-                                <label>Priority Rank</label>
+                                <label>Priority</label>
+                                <span style="color: var(--text-mute); font-size: 10px;">1 more than total
+                                    features</span>
                                 <input type="number" name="order" value="0">
                             </div>
 
                             <div class="modal-field">
-                                <label>About feature</label>
-                                <textarea name="about" rows="3" placeholder="Enter feature specifications..."
+                                <label>Description</label>
+                                <textarea name="about" rows="3" placeholder="Write something about it..."
                                     required></textarea>
                             </div>
 
-                            <button type="submit" class="cyber-btn" style="width: 100%; margin-top: 0.5rem;">
-                                Save</button>
+                            <button type="submit" class="cyber-btn modal-submit-btn">
+                                <i class="fa-solid fa-bolt"></i> SAVE
+                            </button>
                         </form>
                     </div>
                 </div>
 
-                <!-- Edit Modal -->
+                <!-- Edit Directive Modal -->
                 <div id="editModal" class="cyber-modal">
                     <div class="modal-content">
-                        <button class="modal-close" onclick="closeModal('editModal')">&times;</button>
-                        <h3 style="color: #00f3ff; font-family: 'Share Tech Mono', monospace; margin-top: 0;">UPDATE
-                            DIRECTIVE</h3>
+                        <button type="button" class="modal-close" onclick="closeModal('editModal')">&times;</button>
+                        <div class="modal-header-bar">
+                            <h3><i class="fa-solid fa-sliders cyan-text"></i> EDIT DETAILS</h3>
+                        </div>
 
                         <form action="/features/update" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="featureId" id="editFeatureId">
                             <input type="hidden" name="existingBgImage" id="editExistingBgImage">
 
                             <div class="modal-field">
-                                <label>Directive Emoji</label>
+                                <label>Change Emoji</label>
                                 <input type="text" name="icon" id="editIcon" required>
                             </div>
 
                             <div class="modal-field">
-                                <label>Heading</label>
+                                <label>Change Title</label>
                                 <input type="text" name="heading" id="editHeading" required>
                             </div>
 
                             <div class="modal-field">
-                                <label>Replace Backplate Image (Optional)</label>
+                                <label>Replace Background Image</label>
                                 <input type="file" name="bgImageFile" accept="image/*" class="custom-file-input">
                             </div>
 
                             <div class="modal-field">
-                                <label>Priority Rank</label>
+                                <label>Change Priority</label>
+                                <span style="color: var(--text-mute); font-size: 10px;">First change the priority of
+                                    existing features at the place you want to switch (if any)</span>
                                 <input type="number" name="order" id="editOrder">
                             </div>
 
                             <div class="modal-field">
-                                <label>Directive Overview</label>
+                                <label>Change Description</label>
                                 <textarea name="about" id="editAbout" rows="3" required></textarea>
                             </div>
 
-                            <button type="submit" class="cyber-btn" style="width: 100%; margin-top: 0.5rem;">Save
-                                Updates</button>
+                            <button type="submit" class="cyber-btn modal-submit-btn">
+                                <i class="fa-solid fa-floppy-disk"></i> SAVE CHANGES
+                            </button>
                         </form>
                     </div>
                 </div>
                 <% } %>
 
+                    <!-- SCRIPT LOGIC -->
                     <script>
                         function openAddModal() {
                             document.getElementById('addModal').classList.add('active');
@@ -186,6 +237,12 @@
                         function closeModal(modalId) {
                             document.getElementById(modalId).classList.remove('active');
                         }
+
+                        window.onclick = function (event) {
+                            if (event.target.classList.contains('cyber-modal')) {
+                                event.target.classList.remove('active');
+                            }
+                        };
                     </script>
 
                     <%- include('partials/footer') %>

@@ -92,7 +92,7 @@ router.get("/", async (req, res) => {
     const topUsers = await User.find({})
       .select("username weeklyScore avatar")
       .sort({ weeklyScore: -1 })
-      .limit(3);
+      .limit(5);
 
     // 6. Fetch Recent Hall of Fame Winners
     const recentWinners = await Winner.find().sort({ date: -1 }).limit(5);
@@ -133,6 +133,12 @@ router.get("/", async (req, res) => {
     // Return HTTP 500 status directly to prevent secondary view lookup errors
     res.status(500).send("Internal Server Error");
   }
+});
+
+router.get("/guidelines", (req, res) => {
+  res.render("guidelines", {
+    title: "ATX Guidelines | ATX",
+  });
 });
 
 module.exports = router;
