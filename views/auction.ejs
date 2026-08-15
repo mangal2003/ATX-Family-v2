@@ -10,64 +10,63 @@
     <%- include('partials/header') %>
         <%- include('partials/flash') %>
 
-            <div style="margin: 1rem auto; max-width: 650px; text-align: center;">
-                <h1><span class="glitch-title" data-text="AUCTION TABLE 🔨">AUCTION TABLE 🔨</span></h1>
-            </div>
+            <main class="auction-wrapper">
+                <!-- TOP BANNER HEADER -->
+                <header class="auction-header">
 
-            <main class="container auction-container">
-                <!-- Last Winner Announcement Banner -->
+                    <h1 class="glitch-title" data-text="AUCTION TABLE">AUCTION <span class="gold-text">TABLE</span>
+                    </h1>
+                    <p class="auction-subtitle">Bid monthly EP on auction items(banners, chat bubbles, sticker packs or
+                        game items).</p>
+                </header>
+
+                <!-- LAST WINNER HOTSTAR-STYLE BANNER -->
                 <% if (lastWinner && (lastWinner.winner || lastWinner.winnerUsername)) { %>
                     <% const winnerObj=lastWinner.winner || {}; const winnerDisplay=winnerObj.platoId ?
                         `${winnerObj.platoId}` : (winnerObj.username || lastWinner.winnerUsername || 'Anonymous Winner'
                         ); const winnerAvatar=winnerObj.avatar || '/images/default-avatar.png' ; %>
-                        <section class="hotstar-hero-banner" style="margin-bottom: 1.5rem;">
-                            <div class="cyber-hero-card winner-hero-theme">
-                                <!-- Animated Background Effects -->
-                                <div class="cyber-hero-bg">
-                                    <div class="cyber-grid winner-grid"></div>
-                                    <div class="cyber-laser-scan winner-laser"></div>
-                                    <div class="cyber-orb gold-orb"></div>
+                        <section class="auction-hero-card">
+                            <div class="auction-hero-backdrop"></div>
+                            <div class="auction-overlay-left"></div>
+                            <div class="auction-overlay-bottom"></div>
+
+                            <div class="hud-corner tl"></div>
+                            <div class="hud-corner tr"></div>
+                            <div class="hud-corner bl"></div>
+                            <div class="hud-corner br"></div>
+
+                            <div class="auction-hero-content">
+                                <div class="hero-tags">
+                                    <span class="hotstar-pill victor-pill">
+                                        <i class="fa-solid fa-crown"></i> LAST AUCTION WINNER
+                                    </span>
+                                    <span class="hotstar-pill status-pill">
+                                        <span class="pulsing-dot"></span> ITEM CLAIMED
+                                    </span>
                                 </div>
 
-                                <!-- Futuristic Frame Corner Brackets -->
-                                <div class="corner-bracket top-left winner-bracket"></div>
-                                <div class="corner-bracket top-right winner-bracket"></div>
-                                <div class="corner-bracket bottom-left winner-bracket"></div>
-                                <div class="corner-bracket bottom-right winner-bracket"></div>
+                                <div class="winner-identity-row">
+                                    <div class="winner-avatar-pod">
+                                        <img src="<%= winnerAvatar %>" alt="<%= winnerDisplay %> Avatar"
+                                            class="winner-avatar-img"
+                                            onerror="this.src='/images/default-avatar.png';" />
+                                        <span class="winner-crown-badge">👑</span>
+                                    </div>
 
-                                <!-- Content Overlay -->
-                                <div class="cyber-hero-content winner-hero-layout">
-                                    <div class="winner-details-group">
-                                        <div class="hero-live-badge winner-badge">
-                                            <span
-                                                style="margin-bottom: 1rem; font-size:1.5rem; font-weight: bold; color: var(--text-main);">
-                                                LAST AUCTION WINNER
-                                            </span>
-                                        </div>
-
-                                        <div class="winner-avatar-wrapper">
-                                            <img src="<%= winnerAvatar %>" alt="<%= winnerDisplay %> Avatar"
-                                                class="winner-avatar-img" />
-                                            <span class="winner-crown-badge">👑</span>
-                                        </div>
-
-                                        <h1>
-                                            <span class="gold-glow-text">
-                                                <%= winnerDisplay %>
-                                            </span>
-                                        </h1>
-
-                                        <!-- Metric Pills -->
-                                        <div class="hero-metric-pills">
-                                            <span class="metric-pill">
-                                                Item Won: <strong class="cyan-text">
+                                    <div class="winner-text-group">
+                                        <h2 class="winner-name-title">
+                                            <%= winnerDisplay %>
+                                        </h2>
+                                        <div class="winner-meta-chips">
+                                            <span class="meta-chip">
+                                                <i class="fa-solid fa-gift cyan-text"></i> Item Won: <strong
+                                                    class="cyan-text">
                                                     <%= lastWinner.itemName %>
                                                 </strong>
-                                                <i class="fa-solid fa-gift cyan-text"></i>
                                             </span>
-                                            <br>
-                                            <span class="metric-pill">
-                                                Winning Bid: <strong class="gold-text">
+                                            <span class="meta-chip">
+                                                <i class="fa-solid fa-coins gold-text"></i> Winning Bid: <strong
+                                                    class="gold-text">
                                                     <%= (lastWinner.winningBidAmount || 0).toLocaleString() %> EP
                                                 </strong>
                                             </span>
@@ -84,36 +83,52 @@
                                     auction.startingBid; const topBidderDisplay=auction.highestBidder ?
                                     (auction.highestBidder.platoId ? `${auction.highestBidder.platoId}` :
                                     auction.highestBidder.username) : 'None Yet' ; %>
+
+                                    <!-- ACTIVE AUCTION INTERACTION GRID -->
                                     <div class="auction-grid">
-                                        <!-- Left: Item Showcase Card -->
+                                        <!-- Left: Item Showcase & Embedded Bids -->
                                         <div class="cyber-card item-card">
+                                            <div class="hud-corner tl"></div>
+                                            <div class="hud-corner br"></div>
+
                                             <div class="compact-item-header">
                                                 <img src="<%= auction.itemImage %>" alt="<%= auction.itemName %>"
-                                                    class="item-thumb-icon">
+                                                    class="item-thumb-icon" onerror="this.src='/images/atx.webp';">
                                                 <div class="item-title-group">
+                                                    <div class="live-indicator-pill">
+                                                        <span class="pulsing-dot-green"></span> LIVE BIDDING
+                                                    </div>
                                                     <h3 class="gold-text">
                                                         <%= auction.itemName %>
                                                     </h3>
                                                     <button type="button" id="openImageModalBtn"
                                                         class="cyber-btn view-image-btn">
-                                                        <i class="fa-solid fa-expand"></i> View Details
+                                                        <i class="fa-solid fa-expand"></i> View item
                                                     </button>
                                                 </div>
                                             </div>
 
                                             <p class="item-desc">
-                                                <%= auction.description %>
+                                                <%= auction.description || 'No item description provided.' %>
                                             </p>
 
                                             <!-- Embedded Recent Bids Log -->
                                             <div class="embedded-bids-section">
-                                                <h4><i class="fa-solid fa-gavel cyan-text"></i> RECENT BIDS</h4>
+                                                <div class="bids-header-row">
+                                                    <h4><i class="fa-solid fa-gavel cyan-text"></i> LIVE BID
+                                                        LOG</h4>
+                                                    <span class="bid-count-tag">
+                                                        <%= (auction.bids && auction.bids.length) ? auction.bids.length
+                                                            : 0 %> BIDS
+                                                    </span>
+                                                </div>
+
                                                 <ul class="bids-list">
                                                     <% if (auction.bids && auction.bids.length> 0) { %>
                                                         <% auction.bids.forEach(bid=> { %>
                                                             <li class="bid-item">
                                                                 <div class="bid-user-info">
-                                                                    <span>
+                                                                    <span class="bidder-name">
                                                                         <i
                                                                             class="fa-solid fa-gavel gold-text bid-icon"></i>
                                                                         <strong>
@@ -121,41 +136,42 @@
                                                                                 bid.username %>
                                                                         </strong>
                                                                     </span>
-                                                                    <span class="gold-text">
+                                                                    <span class="gold-text bid-amount">
                                                                         <%= (bid.amount || 0).toLocaleString() %> EP
                                                                     </span>
                                                                 </div>
                                                                 <small class="outbid-tag">
                                                                     <% if (bid.outbiddedUser) { %>
-                                                                        Outbidded <span class="cyan-text">
+                                                                        Outbid <span class="cyan-text">
                                                                             <%= bid.outbiddedUser %>
                                                                         </span>
                                                                         <% } else { %>
-                                                                            Opened First Bid
+                                                                            <span class="gold-text">Opened Initial
+                                                                                Bid</span>
                                                                             <% } %>
                                                                 </small>
                                                             </li>
                                                             <% }) %>
                                                                 <% } else { %>
-                                                                    <p class="text-muted"
-                                                                        style="font-size: 0.82rem; margin-top: 0.5rem;">
-                                                                        Be the first to bid!</p>
+                                                                    <p class="no-bids-text">No bids dispatched yet. Be
+                                                                        the first to claim the lead!</p>
                                                                     <% } %>
                                                 </ul>
                                             </div>
 
+                                            <!-- Metrics Footer -->
                                             <div class="auction-metrics">
-                                                <div>
+                                                <div class="metric-box">
                                                     <span class="label">CURRENT HIGHEST BID</span>
-                                                    <h6 class="cyan-text">
+                                                    <h4 class="cyan-text">
                                                         <%= currentBid.toLocaleString() %> EP
-                                                    </h6>
+                                                    </h4>
                                                 </div>
-                                                <div>
-                                                    <span class="label">TOP BIDDER</span>
-                                                    <h6>
+                                                <div class="metric-box right">
+                                                    <span class="label">LEAD OPERATOR</span>
+                                                    <h4 class="gold-text">
                                                         <%= topBidderDisplay %>
-                                                    </h6>
+                                                    </h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -163,44 +179,55 @@
                                         <!-- Right: Bidding Controls Sidebar -->
                                         <div class="auction-sidebar">
                                             <div class="cyber-card action-card">
-                                                <h3><i class="fa-solid fa-gavel gold-text"></i> PLACE YOUR BID</h3>
-                                                <p class="user-balance-info">
-                                                    Your EP Balance: <strong class="gold-text">
-                                                        <%= user ? (user.xpBalance || 0).toLocaleString() : 0 %> EP
-                                                    </strong>
-                                                </p>
+                                                <div class="hud-corner tl"></div>
+                                                <div class="hud-corner br"></div>
 
+                                                <div class="action-card-header">
+                                                    <h3><i class="fa-solid fa-hand-holding-dollar gold-text"></i> PLACE
+                                                        BID</h3>
+                                                </div>
+
+                                                <div class="user-balance-banner">
+                                                    <span class="balance-label">AVAILABLE EP BALANCE</span>
+                                                    <h3 class="gold-text">
+                                                        <%= user ? (user.xpBalance || 0).toLocaleString() : 0 %> EP
+                                                    </h3>
+                                                </div>
 
                                                 <% if (user) { %>
                                                     <!-- Option 1: Quick Regular Bid (+100 EP) -->
-                                                    <form action="/auction/bid" method="POST"
-                                                        style="margin-bottom: 1rem;">
+                                                    <form action="/auction/bid" method="POST" class="quick-bid-form">
                                                         <input type="hidden" name="bidType" value="regular">
                                                         <button
                                                             onclick="if(window.AudioEngine) AudioEngine.playBidSound()"
-                                                            type="submit" class="cyber-btn touch-submit-btn"
-                                                            style="width: 100%;">
+                                                            type="submit" class="hotstar-btn primary-btn quick-bid-btn">
                                                             <i class="fa-solid fa-gavel"></i> Quick Bid +100 (=<%=
                                                                 (currentBid + 100).toLocaleString() %> EP)
                                                         </button>
                                                     </form>
+
                                                     <!-- Option 2: Custom Bid Amount -->
                                                     <form action="/auction/bid" method="POST" class="custom-bid-form">
                                                         <input type="hidden" name="bidType" value="custom">
+                                                        <label class="sub-label">CUSTOM EP ALLOCATION</label>
                                                         <div class="input-group">
-                                                            <input type="number" name="customAmount" class="cyber-input"
+                                                            <input type="number" name="customAmount"
+                                                                class="cyber-input custom-input"
                                                                 placeholder="Min <%= minNextBid %> EP"
                                                                 min="<%= minNextBid %>"
                                                                 max="<%= user ? user.xpBalance : 0 %>" required>
                                                             <button
                                                                 onclick="if(window.AudioEngine) AudioEngine.playBidSound()"
-                                                                type="submit" class="cyber-btn custom-bid-btn">Custom
-                                                                Bid</button>
+                                                                type="submit" class="hotstar-btn custom-bid-btn">
+                                                                Bid
+                                                            </button>
                                                         </div>
                                                     </form>
                                                     <% } else { %>
-                                                        <a href="/login" class="cyber-btn"
-                                                            style="width: 100%; text-align: center;">Login to Bid</a>
+                                                        <a href="/login" class="hotstar-btn primary-btn login-bid-btn">
+                                                            <i class="fa-solid fa-right-to-bracket"></i> Login to
+                                                            Authorize Bids
+                                                        </a>
                                                         <% } %>
                                             </div>
                                         </div>
@@ -208,20 +235,17 @@
 
                                     <!-- Admin Emergency Controls -->
                                     <% if (user && user.role==='admin' ) { %>
-                                        <div class="admin-control-box"
-                                            style="margin: 1rem 0; padding: 1rem; border: 1px dashed var(--accent-danger); border-radius: 8px;">
-                                            <h4 style="color: var(--accent-danger);">
-                                                <i class="fa-solid fa-triangle-exclamation"></i> Admin Controls
-                                            </h4>
-                                            <p
-                                                style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
-                                                Click below to conclude the active auction right now, declare the
-                                                winner, and deduct EP.
-                                            </p>
+                                        <div class="admin-emergency-card">
+                                            <div class="admin-header-row">
+                                                <h4 class="danger-text"><i class="fa-solid fa-triangle-exclamation"></i>
+                                                    DIRECTIVE EMERGENCY CONTROL</h4>
+                                            </div>
+                                            <p class="admin-desc">Manually close this auction session, declare the
+                                                highest bidder as the victor, and process EP settlement.</p>
                                             <form action="/auction/admin/end-now" method="POST"
-                                                onsubmit="return confirm('Are you sure you want to end this auction right now?');">
-                                                <button type="submit" class="cyber-btn">
-                                                    <i class="fa-solid fa-power-off"></i> END AUCTION NOW
+                                                onsubmit="return confirm('Confirm manual conclusion of the active auction?');">
+                                                <button type="submit" class="cyber-btn admin-halt-btn">
+                                                    <i class="fa-solid fa-power-off"></i> CONCLUDE AUCTION SESSION NOW
                                                 </button>
                                             </form>
                                         </div>
@@ -229,69 +253,63 @@
 
                                             <% } else { %>
                                                 <!-- Fallback when no active auction exists -->
-                                                <div class="cyber-card text-center"
-                                                    style="padding: 1.8rem; max-width: 650px; margin: 0 auto;">
-                                                    <h3 class="gold-text"><i class="fa-solid fa-gavel"></i> No Active
-                                                        Auction</h3>
-                                                    <p
-                                                        style="color: var(--text-muted); margin-top: 0.5rem; font-size: 12px;">
-                                                        Check back soon for the weekly auction!
-                                                    </p>
-                                                </div>
+                                                <section class="cyber-card empty-auction-card">
+                                                    <div class="empty-icon-pod">
+                                                        <i class="fa-solid fa-gavel gold-text"></i>
+                                                    </div>
+                                                    <h3>NO ACTIVE AUCTION SESSION</h3>
+                                                    <p>The auction console is currently idle. Stand by for the upcoming
+                                                        weekly deployment!</p>
+                                                </section>
 
                                                 <!-- Admin Quick Launch Panel -->
                                                 <% if (user && user.role==='admin' ) { %>
-                                                    <div class="cyber-card"
-                                                        style="max-width: 650px; margin: 2rem auto; border: 1px solid var(--accent-cyan);">
-                                                        <h3 class="cyan-text"
-                                                            style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
-                                                            <i class="fa-solid fa-rocket"></i> Start New Auction
-                                                        </h3>
+                                                    <div class="cyber-card admin-create-card">
+                                                        <div class="card-title-bar">
+                                                            <div class="title-left">
+                                                                <i class="fa-solid fa-rocket cyan-text"></i>
+                                                                <h3>INITIALIZE NEW AUCTION DIRECTIVE</h3>
+                                                            </div>
+                                                            <span class="badge-label">ADMIN DESK</span>
+                                                        </div>
 
                                                         <form action="/auction/admin/create" method="POST"
-                                                            enctype="multipart/form-data"
-                                                            style="display: flex; flex-direction: column; gap: 1rem;">
-                                                            <div>
-                                                                <label class="form-label"
-                                                                    style="display: block; margin-bottom: 0.4rem;">Item
-                                                                    Name</label>
+                                                            enctype="multipart/form-data" class="admin-auction-form">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Item / Prize
+                                                                    Designation</label>
                                                                 <input type="text" name="itemName" class="cyber-input"
-                                                                    placeholder="e.g. Cat Memes Sticker Pack" required
-                                                                    style="width: 100%;">
+                                                                    placeholder="e.g. Rare Discord Animated Role / Stickers"
+                                                                    required>
                                                             </div>
 
-                                                            <div>
-                                                                <label class="form-label"
-                                                                    style="display: block; margin-bottom: 0.4rem;">Item
-                                                                    Description</label>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Item Specifications</label>
                                                                 <textarea name="description" class="cyber-input"
                                                                     rows="3"
-                                                                    placeholder="Brief description of the item or prize..."
-                                                                    style="width: 100%; resize: none;"></textarea>
+                                                                    placeholder="Detail the privileges, duration, or prize parameters..."
+                                                                    style="resize: vertical;"></textarea>
                                                             </div>
 
-                                                            <div style="display: flex; gap: 1rem; align-items: center;">
-                                                                <div style="flex: 1;">
-                                                                    <label class="form-label"
-                                                                        style="display: block; margin-bottom: 0.4rem;">Starting
-                                                                        Bid (EP)</label>
+                                                            <div class="form-row-split">
+                                                                <div class="form-group">
+                                                                    <label class="form-label">Starting Bid (EP)</label>
                                                                     <input type="number" name="startingBid"
                                                                         class="cyber-input" value="100" min="10"
-                                                                        required style="width: 100%;">
+                                                                        required>
                                                                 </div>
-                                                                <div style="flex: 1;">
-                                                                    <label class="form-label"
-                                                                        style="display: block; margin-bottom: 0.4rem;">Upload
-                                                                        Image</label>
+
+                                                                <div class="form-group">
+                                                                    <label class="form-label">Upload Showcase
+                                                                        Artwork</label>
                                                                     <input type="file" name="itemImage" accept="image/*"
-                                                                        required class="cyber-input"
-                                                                        style="width: 100%;">
+                                                                        required class="custom-file-input">
                                                                 </div>
                                                             </div>
 
-                                                            <button type="submit" class="cyber-btn"
-                                                                style="justify-content: center; margin-top: 0.5rem;">
-                                                                <i class="fa-solid fa-rocket"></i> Start Auction
+                                                            <button type="submit"
+                                                                class="hotstar-btn primary-btn launch-submit-btn">
+                                                                <i class="fa-solid fa-rocket"></i> LAUNCH LIVE AUCTION
                                                             </button>
                                                         </form>
                                                     </div>
@@ -299,7 +317,7 @@
                                                         <% } %>
             </main>
 
-            <!-- Structured Metadata Modal -->
+            <!-- STRUCTURED METADATA INSPECT MODAL -->
             <% if (auction) { %>
                 <div id="imageModal" class="auction-image-modal">
                     <div class="modal-content-wrapper">
@@ -335,8 +353,8 @@
                             </div>
 
                             <div class="modal-image-wrapper">
-                                <img src="<%= auction.itemImage %>" alt="<%= auction.itemName %>"
-                                    class="modal-full-img">
+                                <img src="<%= auction.itemImage %>" alt="<%= auction.itemName %>" class="modal-full-img"
+                                    onerror="this.src='/images/atx.webp';">
                             </div>
                         </div>
                     </div>

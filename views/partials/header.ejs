@@ -3,9 +3,8 @@
 
         <!-- Left: Brand Logo & Title -->
         <a href="/" class="nav-brand">
-            <img src="/images/atx-logo.png" alt="ATX Logo" class="nav-logo">
-            <span class="shimmer-text"
-                style="font-family: 'Times New Roman', Times, serif; font-size: 1.75rem;">ATX</span>
+            <img src="/images/atx-logo.png" alt="ATX Logo" class="nav-logo" onerror="this.src='/images/atx.webp';">
+            <span class="shimmer-text">ATX</span>
         </a>
 
         <!-- Center: Primary Navigation Links (Desktop) -->
@@ -16,17 +15,17 @@
             <a href="/xpl" class="nav-item">XPL</a>
             <a href="/admin-team" class="nav-item">Our Team</a>
             <% if (typeof isAdmin !=='undefined' && isAdmin) { %>
-                <a href="/admin/dashboard" class="nav-item admin-link">
-                    <i class="fa-solid fa-user-shield"></i> Admin
+                <a href="/admin/dashboard" class="nav-item admin-nav-link">
+                    <i class="fa-solid fa-user-shield gold-text"></i> Admin
                 </a>
                 <% } %>
         </nav>
 
         <!-- Right: Actions -->
         <div class="header-actions">
-            <!-- Theme Selector (Desktop Only) -->
+            <!-- Theme Selector (Desktop) -->
             <div class="theme-select-wrapper desktop-theme-select">
-                <i class="fa-solid fa-palette theme-icon"></i>
+                <i class="fa-solid fa-palette cyan-text theme-icon"></i>
                 <select id="themeSelector" class="header-select theme-switcher" aria-label="Select Theme">
                     <option value="cyber-dark">Dark</option>
                     <option value="gold-neon">Gold</option>
@@ -36,7 +35,7 @@
 
             <!-- Dynamic Auth Controls -->
             <% if (user) { %>
-                <a href="/profile" class="user-pill" title="Edit Profile">
+                <a href="/profile" class="user-pill" title="Operator Profile">
                     <i class="fa-solid fa-user-astronaut"></i>
                     <span class="user-name">
                         <%= user.username %>
@@ -54,7 +53,7 @@
                     <% } %>
 
                         <!-- Mobile Menu Toggle Button -->
-                        <button id="navToggle" class="nav-toggle" aria-label="Toggle Navigation">
+                        <button id="navToggle" class="nav-toggle" aria-label="Toggle Navigation" type="button">
                             <i class="fa-solid fa-bars"></i>
                         </button>
         </div>
@@ -62,9 +61,8 @@
 
     <!-- Mobile Drawer Container -->
     <div id="mobileDrawer" class="mobile-drawer">
-        <!-- Theme Selector Inside Mobile Menu -->
         <div class="mobile-theme-row">
-            <span class="mobile-theme-label"><i class="fa-solid fa-palette cyan-text"></i> Theme:</span>
+            <span class="mobile-theme-label"><i class="fa-solid fa-palette cyan-text"></i>Theme:</span>
             <div class="theme-select-wrapper">
                 <select id="themeSelectorMobile" class="header-select theme-switcher" aria-label="Select Mobile Theme">
                     <option value="cyber-dark">Dark</option>
@@ -75,14 +73,14 @@
         </div>
 
         <div class="drawer-links">
-            <a href="/" class="drawer-item">Home</a>
-            <a href="/about" class="drawer-item">About</a>
-            <a href="/winners" class="drawer-item">Winners</a>
-            <a href="/xpl" class="drawer-item">XPL</a>
-            <a href="/admin-team" class="drawer-item">Our Team</a>
+            <a href="/" class="drawer-item"><i class="fa-solid fa-house cyan-text"></i> Home</a>
+            <a href="/about" class="drawer-item"><i class="fa-solid fa-book-open gold-text"></i> About</a>
+            <a href="/winners" class="drawer-item"><i class="fa-solid fa-trophy gold-text"></i> Winners</a>
+            <a href="/xpl" class="drawer-item"><i class="fa-solid fa-bolt cyan-text"></i> XPL League</a>
+            <a href="/admin-team" class="drawer-item"><i class="fa-solid fa-users gold-text"></i> Our Team</a>
             <% if (typeof isAdmin !=='undefined' && isAdmin) { %>
-                <a href="/admin/dashboard" class="drawer-item admin-link">
-                    <i class="fa-solid fa-user-shield"></i> Admin Panel
+                <a href="/admin/dashboard" class="drawer-item admin-drawer-link">
+                    <i class="fa-solid fa-user-shield gold-text"></i> Admin Console
                 </a>
                 <% } %>
         </div>

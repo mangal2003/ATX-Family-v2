@@ -3,54 +3,87 @@
 
 <head>
     <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/legal-contact.css">
 </head>
 
 <body>
     <%- include('partials/header') %>
         <%- include('partials/flash') %>
 
-            <main class="container">
-                <section class="legal-section">
-                    <div class="cyber-card legal-card">
-                        <div class="legal-header">
-                            <!-- <span class="legal-badge"><i class="fa-solid fa-file-contract"></i> TERMS OF
-                                    SERVICE</span> -->
-                            <h1 class="glitch-title" data-text="Terms & Conditions">Terms & Conditions</h1>
-                            <!-- <p class="legal-updated">Last Updated: August 2026</p> -->
+            <main class="page-wrapper">
+                <!-- HOTSTAR-STYLE HERO BANNER -->
+                <section class="legal-hero-card">
+                    <div class="legal-hero-backdrop"></div>
+                    <div class="legal-overlay-left"></div>
+                    <div class="legal-overlay-bottom"></div>
+
+                    <div class="legal-hero-content">
+                        <div class="hero-tags">
+                            <span class="hotstar-pill secure-pill">
+                                <i class="fa-solid fa-file-contract"></i> CODE OF CONDUCT
+                            </span>
+                            <span class="hotstar-pill status-pill">
+                                <span class="pulsing-dot"></span> ENFORCED ACROSS ALL PLATFORMS
+                            </span>
                         </div>
 
-                        <div class="legal-content">
-                            <p>
-                                By accessing or using the <strong>ATX Family</strong> ecosystem, you agree to comply
-                                with and be bound by the following Terms of Service.
-                            </p>
+                        <h1 class="glitch-title" data-text="TERMS & CONDITIONS">
+                            TERMS & <span class="gold-text">CONDITIONS</span>
+                        </h1>
 
-                            <h2>1. Community Conduct & Respect</h2>
-                            <p>
-                                ATX was built on trust, respect, and camaraderie. Harassment, hate speech,
-                                unsportsmanlike behavior, or malicious actions targeting other members or
-                                administrators will result in an immediate platform ban.
-                            </p>
+                        <p class="hero-subtitle">
+                            Standard community charter, tournament fair play regulations, and member responsibilities
+                            within the ATX ecosystem.
+                        </p>
+                    </div>
+                </section>
 
-                            <h2>2. Fair Play & Tournament Rules</h2>
-                            <p>
-                                Participation in ATX leagues, quizzes, and Werewolf matches requires strict
-                                adherence to fair play principles. Cheating, abusing platform bugs can strictly
-                                invalidates tournament participation.
-                            </p>
+                <!-- TERMS DOCUMENT CONTAINER -->
+                <section class="cyber-card content-card">
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner br"></div>
 
-                            <h2>3. Account Responsibility</h2>
-                            <p>
-                                You are responsible for maintaining the security of your linked Google account and
-                                any activity performed under your ATX user profile. You must not upload illegal,
-                                explicit, or copyright-infringing images as custom profile avatars.
-                            </p>
+                    <div class="legal-body">
+                        <p class="lead-text">
+                            By accessing, logging into, or participating in the <strong>ATX Family</strong> web portal,
+                            Discord server, or official tournament events, you agree to adhere to the following Terms of
+                            Service.
+                        </p>
 
-                            <h2>4. Disclaimer & Modifications</h2>
+                        <div class="policy-block">
+                            <h2><i class="fa-solid fa-scale-balanced gold-text"></i> 1. Community Conduct & Respect</h2>
                             <p>
-                                The ATX Family platform is provided "as is". Administrators reserve the right to
-                                modify site features, update league rankings, or terminate access for users
-                                violating community standards at any time.
+                                ATX is built on loyalty, camaraderie, and mutual respect. Harassment, hate speech,
+                                disruptive trolling, or targeted toxicity directed toward members or administrative
+                                staff will result in an immediate and non-negotiable community ban.
+                            </p>
+                        </div>
+
+                        <div class="policy-block">
+                            <h2><i class="fa-solid fa-trophy gold-text"></i> 2. Fair Play & Competitive Integrity</h2>
+                            <p>
+                                Participation in ATX tournaments, trivia gauntlets, and Werewolf matches demands strict
+                                integrity. Screen cheating, alt account abuse, exploit automation, or timer manipulation
+                                will result in disqualification and tournament blacklisting.
+                            </p>
+                        </div>
+
+                        <div class="policy-block">
+                            <h2><i class="fa-solid fa-id-badge gold-text"></i> 3. Account Responsibility & Media Uploads
+                            </h2>
+                            <p>
+                                You are responsible for all actions taken under your authenticated account. Custom
+                                profile avatars must not contain illegal, sexually explicit, graphic, or
+                                copyright-infringing imagery.
+                            </p>
+                        </div>
+
+                        <div class="policy-block">
+                            <h2><i class="fa-solid fa-shield-halved gold-text"></i> 4. Administration Authority</h2>
+                            <p>
+                                The ATX Family platform is provided on an "as is" basis. Staff reserves final authority
+                                to adjust leaderboard points, arbitrate disputed matches, update platform features, and
+                                revoke access for violations of server policy.
                             </p>
                         </div>
                     </div>

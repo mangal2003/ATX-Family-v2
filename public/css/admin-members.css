@@ -1,0 +1,624 @@
+/* =========================================================
+   MEMBER DIRECTORY - HOTSTAR THEME SYNC & MODERN UI
+   ========================================================= */
+
+.members-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 1.25rem auto 4.5rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.gold-text {
+  color: var(--accent-gold, #ffd700) !important;
+}
+.cyan-text {
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+/* =========================================================
+   HOTSTAR-STYLE AMBIENT HERO BANNER
+   ========================================================= */
+.members-hero-card {
+  position: relative;
+  width: 100%;
+  min-height: 250px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  background: var(--bg-card, #12141d);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  box-shadow: var(--card-shadow, 0 15px 35px rgba(0, 0, 0, 0.6));
+  display: flex;
+  align-items: center;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.members-hero-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(0, 243, 255, 0.18),
+    rgba(255, 215, 0, 0.1) 45%,
+    transparent 75%
+  );
+  filter: blur(25px);
+  pointer-events: none;
+}
+
+.members-overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--bg-card, #12141d) 0%,
+    var(--bg-card, #12141d) 42%,
+    rgba(18, 20, 29, 0.88) 65%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.members-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: linear-gradient(
+    to top,
+    var(--bg-card, #12141d) 0%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.members-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 2.25rem 2.8rem;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--accent-cyan, #00f3ff);
+  text-decoration: none;
+  margin-bottom: 0.9rem;
+  letter-spacing: 1px;
+  transition: transform 0.2s ease;
+}
+
+.back-link:hover {
+  transform: translateX(-3px);
+  color: var(--accent-gold, #ffd700);
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.hotstar-pill {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.725rem;
+  font-weight: 700;
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.directory-pill {
+  background: var(--accent-gold, #ffd700);
+  color: #0b0b0e !important;
+}
+
+.status-pill {
+  background: rgba(0, 243, 255, 0.12);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.pulsing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-cyan, #00f3ff);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-cyan, #00f3ff);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+}
+
+.members-hero-content h1 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 2.2rem;
+  letter-spacing: 1.5px;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 0 15px var(--border-glow, rgba(0, 243, 255, 0.35));
+  transition: color 0.3s ease;
+}
+
+.hero-subtitle {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* =========================================================
+   HUD CORNER BRACKETS
+   ========================================================= */
+.hud-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.hud-corner.tl {
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid var(--accent-gold, #ffd700);
+  border-left: 2px solid var(--accent-gold, #ffd700);
+}
+.hud-corner.tr {
+  top: 10px;
+  right: 10px;
+  border-top: 2px solid var(--accent-cyan, #00f3ff);
+  border-right: 2px solid var(--accent-cyan, #00f3ff);
+}
+.hud-corner.bl {
+  bottom: 10px;
+  left: 10px;
+  border-bottom: 2px solid var(--accent-cyan, #00f3ff);
+  border-left: 2px solid var(--accent-cyan, #00f3ff);
+}
+.hud-corner.br {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 2px solid var(--accent-gold, #ffd700);
+  border-right: 2px solid var(--accent-gold, #ffd700);
+}
+
+/* =========================================================
+   SEARCH BAR WRAPPER
+   ========================================================= */
+.search-wrapper-card {
+  background: var(--bg-card, #12141d) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  border-radius: 16px;
+  padding: 1.15rem 1.25rem;
+  margin-bottom: 1.75rem;
+  box-shadow: var(--card-shadow, 0 8px 25px rgba(0, 0, 0, 0.4));
+}
+
+.search-form {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.search-input-group {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--accent-cyan, #00f3ff);
+  font-size: 0.95rem;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--bg-primary, #0a0b10) !important;
+  border: 1px solid var(--border-color, #27272a) !important;
+  color: var(--text-heading, #ffffff) !important;
+  padding: 0.75rem 2.5rem 0.75rem 2.6rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--accent-cyan, #00f3ff) !important;
+  box-shadow: 0 0 10px var(--border-color, rgba(0, 243, 255, 0.3));
+}
+
+.clear-search-btn {
+  position: absolute;
+  right: 12px;
+  color: var(--text-muted, #94a3b8);
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.clear-search-btn:hover {
+  color: var(--accent-danger, #ff4655);
+}
+
+.search-submit-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.88rem;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   MEMBER ITEM CARDS LIST
+   ========================================================= */
+.member-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.member-item-card {
+  position: relative;
+  background: var(--bg-card, #12141d) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--card-shadow, 0 6px 20px rgba(0, 0, 0, 0.35));
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.member-item-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.member-profile {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  min-width: 0;
+}
+
+.member-avatar-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  padding: 2px;
+  background: var(--bg-primary, #0a0b10);
+  border: 2px solid var(--border-color, rgba(255, 255, 255, 0.15));
+  flex-shrink: 0;
+}
+
+.member-avatar-wrapper.admin-ring {
+  border-color: var(--accent-gold, #ffd700);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+}
+
+.mobile-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.member-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.member-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.member-name {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-heading, #ffffff) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role-badge {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.18rem 0.55rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.badge-admin {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid var(--accent-gold, #ffd700);
+  color: var(--accent-gold, #ffd700);
+}
+
+.badge-member {
+  background: rgba(0, 243, 255, 0.1);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  color: var(--accent-cyan, #00f3ff);
+}
+
+.member-email {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Actions Section */
+.member-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
+
+.action-form {
+  display: inline-flex;
+}
+
+.role-action-btn,
+.btn-delete {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.55rem 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.btn-promote {
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid var(--accent-gold, #ffd700);
+  color: var(--accent-gold, #ffd700);
+}
+
+.btn-promote:hover {
+  background: var(--accent-gold, #ffd700);
+  color: #000000;
+}
+
+.btn-demote {
+  background: rgba(0, 243, 255, 0.1);
+  border: 1px solid var(--accent-cyan, #00f3ff);
+  color: var(--accent-cyan, #00f3ff);
+}
+
+.btn-demote:hover {
+  background: var(--accent-cyan, #00f3ff);
+  color: #000000;
+}
+
+.btn-delete {
+  background: rgba(255, 70, 85, 0.12);
+  border: 1px solid var(--accent-danger, #ff4655);
+  color: var(--accent-danger, #ff4655);
+}
+
+.btn-delete:hover {
+  background: var(--accent-danger, #ff4655);
+  color: #ffffff;
+}
+
+.self-tag {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px dashed var(--accent-gold, #ffd700);
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* Empty State Card */
+.empty-state {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+}
+
+.empty-icon {
+  font-size: 2.8rem;
+  color: var(--accent-cyan, #00f3ff);
+  margin-bottom: 0.75rem;
+}
+
+.empty-state h3 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.35rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.45rem;
+}
+
+.empty-state p {
+  color: var(--text-muted, #94a3b8);
+  font-size: 0.9rem;
+  margin: 0 0 1.25rem;
+}
+
+.reset-btn {
+  padding: 0.65rem 1.35rem;
+  font-size: 0.85rem;
+}
+
+/* =========================================================
+   PAGINATION CONTROLS
+   ========================================================= */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color, rgba(0, 243, 255, 0.15));
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  color: var(--text-heading, #ffffff) !important;
+  text-decoration: none;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.85rem;
+  transition: all 0.25s ease;
+}
+
+.pagination-btn:hover:not(.disabled) {
+  border-color: var(--accent-cyan, #00f3ff);
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.pagination-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.85rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+/* =========================================================
+   BUTTON DESIGN TOKENS
+   ========================================================= */
+.hotstar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--accent-cyan, #00f3ff), #0099ff);
+  color: #050608 !important;
+  border: none;
+  border-radius: 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(0, 243, 255, 0.35);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.hotstar-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 24px rgba(0, 243, 255, 0.65);
+}
+
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================= */
+@media (max-width: 768px) {
+  .members-hero-card {
+    min-height: auto;
+  }
+  .members-hero-content {
+    padding: 1.6rem 1.25rem;
+  }
+  .members-hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .search-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-submit-btn {
+    width: 100%;
+  }
+
+  .member-item-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .member-action-bar {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.06));
+    padding-top: 0.85rem;
+  }
+
+  .role-action-btn,
+  .btn-delete {
+    flex: 1;
+    justify-content: center;
+  }
+}

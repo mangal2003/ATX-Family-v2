@@ -3,51 +3,98 @@
 
 <head>
     <%- include('partials/head') %>
-        <link rel="stylesheet" href="/css/contact.css">
+        <link rel="stylesheet" href="/css/legal-contact.css">
 </head>
 
 <body>
     <%- include('partials/header') %>
         <%- include('partials/flash') %>
 
-            <main class="container">
-                <section class="contact-section">
-                    <div class="contact-header">
-                        <h1 class="glitch-title" data-text="Anonymous Reports & Suggestions">Anonymous Reports &
-                            Suggestions</h1>
-                        <p>Submit feedback, platform suggestions, or report user violations 100% anonymously to ATX
-                            Admins.</p>
+            <main class="page-wrapper">
+                <!-- HOTSTAR-STYLE HERO BANNER -->
+                <section class="legal-hero-card">
+                    <div class="legal-hero-backdrop"></div>
+                    <div class="legal-overlay-left"></div>
+                    <div class="legal-overlay-bottom"></div>
+
+                    <div class="legal-hero-content">
+                        <div class="hero-tags">
+                            <span class="hotstar-pill secure-pill">
+                                <i class="fa-solid fa-user-secret"></i> 100% ANONYMOUS
+                            </span>
+                            <span class="hotstar-pill status-pill">
+                                <span class="pulsing-dot"></span> DIRECT STAFF CONNECT
+                            </span>
+                        </div>
+
+                        <h1 class="glitch-title" data-text="REPORTS & SUGGESTIONS">
+                            REPORTS & <span class="gold-text">SUGGESTIONS</span>
+                        </h1>
+
+                        <p class="hero-subtitle">
+                            Submit platform proposals, feedback, or report violations in strict confidence directly to
+                            the ATX Executive Staff.
+                        </p>
+
+                        <div class="hero-meta-strip">
+                            <span class="meta-item">
+                                <i class="fa-solid fa-shield-halved cyan-text"></i> NO LOGS KEPT
+                            </span>
+                            <span class="meta-dot">•</span>
+                            <span class="meta-item">
+                                <i class="fa-solid fa-lock gold-text"></i> ENCRYPTED
+                            </span>
+                        </div>
                     </div>
-                    <div class="cyber-card contact-card">
-                        <form action="/contact" method="POST" class="contact-form">
-                            <div class="form-group">
-                                <label for="category" class="form-label">Submission Category</label>
-                                <select id="category" name="category" class="cyber-input" required>
-                                    <option value="General Feedback">💡 General Feedback & Suggestion</option>
-                                    <option value="Anonymous Report">🚨 Anonymous User / Violation Report</option>
-                                    <option value="Feature Request">⚡ Feature Request</option>
-                                    <option value="Bug / Technical Issue">🛠️ Bug Report</option>
-                                </select>
-                            </div>
+                </section>
 
-                            <div class="form-group">
-                                <label for="subject" class="form-label">Title / Subject</label>
-                                <input type="text" id="subject" name="subject" required
-                                    placeholder="Brief summary of your report or suggestion" class="cyber-input">
-                            </div>
+                <!-- SUBMISSION FORM CONTAINER -->
+                <section class="cyber-card content-card form-container-card">
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner br"></div>
 
-                            <div class="form-group">
-                                <label for="message" class="form-label">Report Details / Message</label>
-                                <textarea id="message" name="message" rows="5" required
-                                    placeholder="Provide detailed information here..."
-                                    class="cyber-input cyber-textarea"></textarea>
-                            </div>
-
-                            <button type="submit" class="cyber-btn contact-submit-btn">
-                                <i class="fa-solid fa-paper-plane"></i> Submit Anonymously
-                            </button>
-                        </form>
+                    <div class="card-title-bar">
+                        <div class="title-left">
+                            <i class="fa-solid fa-terminal gold-text"></i>
+                            <h3>CONNECT US</h3>
+                        </div>
+                        <span class="badge-label">CONFIDENTIAL</span>
                     </div>
+
+                    <form action="/contact" method="POST" class="contact-form">
+                        <div class="form-group">
+                            <label for="category" class="form-label">
+                                <i class="fa-solid fa-list-check gold-text"></i> SUBMISSION CATEGORY
+                            </label>
+                            <select id="category" name="category" class="cyber-input" required>
+                                <option value="General Feedback">💡 General Feedback & Community Suggestion</option>
+                                <option value="Anonymous Report">🚨 Anonymous User / Violation Report</option>
+                                <option value="Feature Request">⚡ Platform Feature Request</option>
+                                <option value="Bug / Technical Issue">🛠️ Bug Report & Glitch Telemetry</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">
+                                <i class="fa-solid fa-heading cyan-text"></i> TITLE / SUBJECT
+                            </label>
+                            <input type="text" id="subject" name="subject" required
+                                placeholder="Brief summary of your report or suggestion" class="cyber-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">
+                                <i class="fa-solid fa-message cyan-text"></i> REPORT DETAILS / MESSAGE
+                            </label>
+                            <textarea id="message" name="message" rows="5" required
+                                placeholder="Provide detailed information, context, or evidence..."
+                                class="cyber-input cyber-textarea"></textarea>
+                        </div>
+
+                        <button type="submit" class="hotstar-btn primary-btn contact-submit-btn">
+                            <i class="fa-solid fa-paper-plane"></i> SUBMIT ANONYMOUSLY
+                        </button>
+                    </form>
                 </section>
             </main>
 

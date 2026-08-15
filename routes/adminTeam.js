@@ -41,17 +41,38 @@ router.post("/admin-team/update-profile", ensureAdmin, async (req, res) => {
   try {
     const { targetUserId, adminshipRole, discordId, platoId, bio } = req.body;
 
+    if (!targetUserId) {
+      req.flash("error_msg", "Target user ID is missing.");
+      return res.redirect("/admin-team");
+    }
+
+    // 1. Validate Plato ID (Max 12 chars, only letters, numbers, and underscores)
+    let cleanPlatoId = platoId ? platoId.trim() : "";
+    if (cleanPlatoId) {
+      const platoRegex = /^[a-zA-Z0-9_]{1,12}$/;
+      if (!platoRegex.test(cleanPlatoId)) {
+        req.flash(
+          "error_msg",
+          "Plato ID must be 1 to 12 characters and contain only letters, numbers, and underscores (no spaces or special characters).",
+        );
+        return res.redirect("/admin-team");
+      }
+    }
+
+    // 2. Execute Update
     await User.findByIdAndUpdate(targetUserId, {
-      adminshipRole,
-      discordId: discordId.trim(),
-      platoId: platoId.trim(),
-      bio: bio.trim(),
+      $set: {
+        adminshipRole: adminshipRole || "Admin",
+        discordId: discordId ? discordId.trim() : "",
+        platoId: cleanPlatoId,
+        bio: bio ? bio.trim() : "",
+      },
     });
 
     req.flash("success_msg", "Admin profile updated successfully.");
     res.redirect("/admin-team");
   } catch (err) {
-    console.error("Failed to update admin profile:", err);
+    console.error("[ADMIN TEAM UPDATE ERROR]:", err);
     req.flash("error_msg", "Failed to update admin profile.");
     res.redirect("/admin-team");
   }

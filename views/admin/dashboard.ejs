@@ -11,191 +11,245 @@
         <%- include('../partials/flash') %>
 
             <main class="admin-container">
-                <!-- Header Area -->
-                <div class="admin-header">
-                    <h1>
-                        <i class="fa-solid fa-user-shield"></i> ADMIN PANEL
-                    </h1>
-                    <p>Manage members, update tour winners, and broadcast site alerts.</p>
-                </div>
+                <!-- HOTSTAR-STYLE ADMIN HERO STAGE -->
+                <section class="admin-hero-card">
+                    <div class="admin-hero-backdrop"></div>
+                    <div class="admin-overlay-left"></div>
+                    <div class="admin-overlay-bottom"></div>
 
-                <!-- Quick Stats Overview Carousel/Grid -->
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner tr"></div>
+                    <div class="hud-corner bl"></div>
+                    <div class="hud-corner br"></div>
+
+                    <div class="admin-hero-content">
+                        <div class="hero-tags">
+                            <span class="hotstar-pill role-pill">
+                                <i class="fa-solid fa-user-shield"></i> CONFIDENTIAL
+                            </span>
+                        </div>
+
+                        <h1 class="glitch-title" data-text="ADMIN PANEL">
+                            ADMIN <span class="gold-text">PANEL</span>
+                        </h1>
+
+                        <p class="hero-subtitle">
+                            Oversee platform infrastructure, add tournament archives, regulate member permissions,
+                            and manage site settings.
+                        </p>
+
+                        <div class="hero-meta-strip">
+                            <span class="meta-item">
+                                <i class="fa-solid fa-users cyan-text"></i> Total Members: <strong class="cyan-text">
+                                    <%= stats?.totalUsers ?? 0 %>
+                                </strong>
+                            </span>
+                            <span class="meta-dot">•</span>
+                            <span class="meta-item">
+                                <i class="fa-solid fa-crown gold-text"></i> Active Admins: <strong class="gold-text">
+                                    <%= stats?.adminUsers ?? 0 %>
+                                </strong>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STATS OVERVIEW CARDS GRID -->
                 <div class="admin-stats-grid">
-                    <div class="stat-card">
-                        <i class="fa-solid fa-users stat-icon"></i>
+                    <div class="cyber-card stat-card">
+                        <div class="stat-icon-pod cyan-pod">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
                         <div class="stat-info">
                             <h3>
                                 <%= stats?.totalUsers ?? 0 %>
                             </h3>
-                            <p>Total Members</p>
+                            <p>Total Registered Members</p>
                         </div>
                     </div>
-                    <div class="stat-card">
-                        <i class="fa-solid fa-crown stat-icon gold-text"></i>
+
+                    <div class="cyber-card stat-card">
+                        <div class="stat-icon-pod gold-pod">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
                         <div class="stat-info">
                             <h3>
                                 <%= stats?.adminUsers ?? 0 %>
                             </h3>
-                            <p>Admins</p>
+                            <p>Registered Admins</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Main Section Stack -->
+                <!-- MAIN ACTION STACK -->
                 <div class="admin-sections-stack">
-
-                    <!-- User & Role Management Stack -->
+                    <!-- User & Role Management Card -->
                     <section class="cyber-card admin-card">
-                        <div class="card-header">
-                            <h2><i class="fa-solid fa-users-gear gold-text"></i> User & Access Management</h2>
+                        <div class="hud-corner tl"></div>
+                        <div class="hud-corner br"></div>
+
+                        <div class="card-header-bar">
+                            <div class="title-left">
+                                <i class="fa-solid fa-users-gear gold-text"></i>
+                                <h2>User & Access Control</h2>
+                            </div>
+                            <span class="card-badge">DIRECTORY</span>
                         </div>
+
                         <p class="admin-card-desc">
-                            View all registered users, perform instant searches, and manage administrator rights.
+                            Audit registered accounts, perform instant multi-parameter user searches, inspect activity
+                            logs, and configure security permissions.
                         </p>
-                        <a href="/admin/members" class="cyber-btn touch-submit-btn">
+
+                        <a href="/admin/members" class="hotstar-btn primary-btn touch-submit-btn">
                             <i class="fa-solid fa-address-book"></i> Open Member Directory
                         </a>
                     </section>
 
+                    <!-- Site Metrics Configuration Card -->
+                    <section class="cyber-card admin-card">
+                        <div class="hud-corner tl"></div>
+                        <div class="hud-corner br"></div>
 
-                    <div class="cyber-card admin-card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h2><i class="fa-solid fa-coins gold-text"></i> Site Metrics</h2>
-                            <button type="button" class="cyber-btn" onclick="openSettingsModal()">
+                        <div class="card-header-bar">
+                            <div class="title-left">
+                                <i class="fa-solid fa-coins gold-text"></i>
+                                <h4>Site Settings</h4>
+                            </div>
+                            <button type="button" class="hotstar-btn edit-config-btn" onclick="openSettingsModal()">
                                 <i class="fa-solid fa-pen-to-square"></i> Edit
                             </button>
                         </div>
-                        <div class="metrics-display" style="margin-top: 1rem;">
-                            <p>
-                                <strong>Total Prize Sponsored:</strong>
-                                <span class="gold-text">
-                                    <%= (siteSettings.totalPrizeSponsored ?? 0).toLocaleString() %> Coins
-                                </span>
-                            </p>
-                            <p>
-                                <strong>Discord Server:</strong>
-                                <span data-text="<%= siteSettings.discordServerLink || 'Not Set' %>"
-                                    style="color: var(--text-muted);">
-                                    <%= siteSettings.discordServerLink || 'Not Set' %>
-                                </span>
-                            </p>
 
-                            <!-- Loop through dynamic custom metrics -->
+                        <div class="metrics-display-grid">
+                            <div class="metric-item-card">
+                                <span class="metric-label">TOTAL PRIZE SPONSORED</span>
+                                <h4 class="gold-text truncate-text"
+                                    title="<%= (siteSettings.totalPrizeSponsored ?? 0).toLocaleString() %> Coins/EP">
+                                    <%= (siteSettings.totalPrizeSponsored ?? 0).toLocaleString() %> Coins
+                                </h4>
+                            </div>
+
+                            <div class="metric-item-card">
+                                <span class="metric-label">DISCORD SERVER LINK</span>
+                                <h4 class="cyan-text truncate-text"
+                                    title="<%= siteSettings.discordServerLink || 'Not Configured' %>">
+                                    <%= siteSettings.discordServerLink || 'Not Configured' %>
+                                </h4>
+                            </div>
+
                             <% if (siteSettings.customMetrics && siteSettings.customMetrics.length> 0) { %>
                                 <% siteSettings.customMetrics.forEach(metric=> { %>
-                                    <p>
-                                        <strong>
-                                            <%= metric.label %>:
-                                        </strong>
-                                        <span data-text="<%= metric.value %>" style="color: var(--text-muted);">
-                                            <%= metric.value %>
+                                    <div class="metric-item-card">
+                                        <span class="metric-label">
+                                            <%= metric.label.toUpperCase() %>
                                         </span>
-                                    </p>
+                                        <h4 class="truncate-text" title="<%= metric.value %>">
+                                            <%= metric.value %>
+                                        </h4>
+                                    </div>
                                     <% }) %>
                                         <% } %>
                         </div>
-                    </div>
+                    </section>
+                </div>
 
-                    <!-- Dynamic Settings Modal -->
-                    <div id="editSettingsModal" class="cyber-modal">
-                        <div class="modal-content cyber-card" style="max-width: 600px;">
-                            <button type="button" class="modal-close" onclick="closeSettingsModal()">&times;</button>
-                            <div class="card-header" style="margin-bottom: 1.25rem;">
-                                <h2><i class="fa-solid fa-sliders gold-text"></i> Edit</h2>
+                <!-- DYNAMIC SETTINGS MODAL -->
+                <div id="editSettingsModal" class="cyber-modal">
+                    <div class="modal-content">
+                        <button type="button" class="modal-close" onclick="closeSettingsModal()">&times;</button>
+                        <div class="modal-header-bar">
+                            <h3><i class="fa-solid fa-sliders gold-text"></i> EDIT SITE SETTINGS</h3>
+                        </div>
+
+                        <form action="/admin/settings/update" method="POST" class="admin-form">
+                            <div class="form-group">
+                                <label class="form-label">Total Prize Sponsored (Coins + Pips)</label>
+                                <input type="number" name="totalPrizeSponsored"
+                                    value="<%= siteSettings.totalPrizeSponsored %>" required class="cyber-input">
                             </div>
 
-                            <form action="/admin/settings/update" method="POST" class="admin-form">
-                                <div class="form-group">
-                                    <label class="form-label">Total Prize Sponsored (Coins+pips)</label>
-                                    <input type="number" name="totalPrizeSponsored"
-                                        value="<%= siteSettings.totalPrizeSponsored%>" required class="cyber-input">
+                            <div class="form-group">
+                                <label class="form-label">Discord Server Link</label>
+                                <input type="url" name="discordServerLink"
+                                    value="<%= siteSettings.discordServerLink || '' %>"
+                                    placeholder="https://discord.gg/..." class="cyber-input">
+                            </div>
+
+                            <hr class="modal-divider">
+
+                            <!-- Dynamic Custom Metrics Container -->
+                            <div class="form-group">
+                                <div class="custom-fields-header">
+                                    <label class="form-label m-0">Dynamic Custom Fields</label>
+                                    <button type="button" class="cyber-btn add-field-btn" onclick="addMetricRow()">
+                                        <i class="fa-solid fa-plus"></i> Add Item
+                                    </button>
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="form-label">Discord Server Link</label>
-                                    <input type="url" name="discordServerLink"
-                                        value="<%= siteSettings.discordServerLink || '' %>"
-                                        placeholder="https://discord.gg/..." class="cyber-input">
+                                <div id="dynamicMetricsContainer">
+                                    <% if (siteSettings.customMetrics && siteSettings.customMetrics.length> 0) { %>
+                                        <% siteSettings.customMetrics.forEach((metric)=> { %>
+                                            <div class="metric-row">
+                                                <input type="text" name="metricLabels" value="<%= metric.label %>"
+                                                    placeholder="Label (e.g. Sponsor)" class="cyber-input" required>
+                                                <input type="text" name="metricValues" value="<%= metric.value %>"
+                                                    placeholder="Value or URL" class="cyber-input" required>
+                                                <button type="button" class="trash-row-btn"
+                                                    onclick="removeMetricRow(this)">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </div>
+                                            <% }) %>
+                                                <% } %>
                                 </div>
+                            </div>
 
-
-                                <hr style="border-color: rgba(0, 243, 255, 0.2); margin: 1.25rem 0;">
-
-                                <!-- Dynamic Custom Metrics Container -->
-                                <div class="form-group">
-                                    <div class="d-flex justify-content-between align-items-center"
-                                        style="margin-bottom: 0.5rem;">
-                                        <label class="form-label" style="margin: 0;">Add Custom field</label>
-                                        <button type="button" class="cyber-btn" onclick="addMetricRow()"
-                                            style="padding: 0.25rem 0.6rem; font-size: 0.75rem; margin-top: 10px;">
-                                            <i class="fa-solid fa-plus"></i> Add Item
-                                        </button>
-                                    </div>
-
-                                    <div id="dynamicMetricsContainer">
-                                        <% if (siteSettings.customMetrics && siteSettings.customMetrics.length> 0) {
-                                            %>
-                                            <% siteSettings.customMetrics.forEach((metric, index)=> { %>
-                                                <div class="metric-row d-flex gap-2 align-items-center"
-                                                    style="margin-bottom: 0.6rem;">
-                                                    <input type="text" name="metricLabels" value="<%= metric.label %>"
-                                                        placeholder="Label (e.g. Sponsor)" class="cyber-input" required>
-                                                    <input type="text" name="metricValues" value="<%= metric.value %>"
-                                                        placeholder="Value/Link" class="cyber-input" required>
-                                                    <button type="button" class="cyber-btn"
-                                                        onclick="removeMetricRow(this)"
-                                                        style="background: rgba(255, 70, 85, 0.2); border-color: #ff4655; color: #ff4655;">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </button>
-                                                </div>
-                                                <% }) %>
-                                                    <% } %>
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="cyber-btn touch-submit-btn"
-                                    style="width: 100%; margin-top: 1rem;">
-                                    <i class="fa-solid fa-floppy-disk"></i> Save Changes
-                                </button>
-                            </form>
-                        </div>
+                            <button type="submit" class="hotstar-btn primary-btn modal-submit-btn">
+                                <i class="fa-solid fa-floppy-disk"></i> SAVE UPDATES
+                            </button>
+                        </form>
                     </div>
+                </div>
+            </main>
 
-                    <!-- Dynamic Row Controller JS -->
-                    <script>
-                        function openSettingsModal() {
-                            const modal = document.getElementById('editSettingsModal');
-                            if (modal) modal.classList.add('active');
-                        }
-                        function closeSettingsModal() {
-                            const modal = document.getElementById('editSettingsModal');
-                            if (modal) modal.classList.remove('active');
-                        }
-                        window.addEventListener('click', function (event) {
-                            const modal = document.getElementById('editSettingsModal');
-                            if (event.target === modal) closeSettingsModal();
-                        });
-                        function addMetricRow() {
-                            const container = document.getElementById('dynamicMetricsContainer');
-                            const row = document.createElement('div');
-                            row.className = 'metric-row d-flex gap-2 align-items-center';
-                            row.style.marginBottom = '0.6rem';
-                            row.innerHTML = `
+            <%- include('../partials/footer') %>
+
+                <!-- SCRIPT CONTROLS -->
+                <script>
+                    function openSettingsModal() {
+                        const modal = document.getElementById('editSettingsModal');
+                        if (modal) modal.classList.add('active');
+                    }
+
+                    function closeSettingsModal() {
+                        const modal = document.getElementById('editSettingsModal');
+                        if (modal) modal.classList.remove('active');
+                    }
+
+                    window.addEventListener('click', function (event) {
+                        const modal = document.getElementById('editSettingsModal');
+                        if (event.target === modal) closeSettingsModal();
+                    });
+
+                    function addMetricRow() {
+                        const container = document.getElementById('dynamicMetricsContainer');
+                        const row = document.createElement('div');
+                        row.className = 'metric-row';
+                        row.innerHTML = `
                 <input type="text" name="metricLabels" placeholder="Label (e.g. Sponsor)" class="cyber-input" required>
-                <input type="text" name="metricValues" placeholder="Value/Link" class="cyber-input" required>
-                <button type="button" class="cyber-btn" onclick="removeMetricRow(this)" style="background: rgba(255, 70, 85, 0.2); border-color: #ff4655; color: #ff4655;">
+                <input type="text" name="metricValues" placeholder="Value or URL" class="cyber-input" required>
+                <button type="button" class="trash-row-btn" onclick="removeMetricRow(this)">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             `;
-                            container.appendChild(row);
-                        }
+                        container.appendChild(row);
+                    }
 
-                        function removeMetricRow(btn) {
-                            btn.closest('.metric-row').remove();
-                        }
-                    </script>
-
-                    <%- include('../partials/footer') %>
+                    function removeMetricRow(btn) {
+                        btn.closest('.metric-row').remove();
+                    }
+                </script>
 </body>
 
 </html>

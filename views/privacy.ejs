@@ -3,61 +3,97 @@
 
 <head>
     <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/legal-contact.css">
 </head>
 
 <body>
     <%- include('partials/header') %>
         <%- include('partials/flash') %>
 
-            <main class="container">
-                <section class="legal-section">
-                    <div class="cyber-card legal-card">
-                        <div class="legal-header">
-                            <!-- <span class="legal-badge"><i class="fa-solid fa-user-shield"></i> LEGAL DOC</span> -->
-                            <h1 class="glitch-title" data-text="Privacy Policy">Privacy Policy</h1>
-                            <!-- <p class="legal-updated">Last Updated: August 2026</p> -->
+            <main class="page-wrapper">
+                <!-- HOTSTAR-STYLE HERO BANNER -->
+                <section class="legal-hero-card">
+                    <div class="legal-hero-backdrop"></div>
+                    <div class="legal-overlay-left"></div>
+                    <div class="legal-overlay-bottom"></div>
+
+                    <div class="legal-hero-content">
+                        <div class="hero-tags">
+                            <span class="hotstar-pill secure-pill">
+                                <i class="fa-solid fa-shield-halved"></i> DATA GOVERNANCE
+                            </span>
+                            <span class="hotstar-pill status-pill">
+                                <span class="pulsing-dot"></span> EFFECTIVE: AUGUST 2026
+                            </span>
                         </div>
 
-                        <div class="legal-content">
-                            <p>
-                                Welcome to <strong>ATX Family</strong>. Your privacy is important to us. This
-                                Privacy Policy outlines how we collect, use, and protect your information when you
-                                interact with our web platform and gaming services.
-                            </p>
+                        <h1 class="glitch-title" data-text="PRIVACY POLICY">
+                            PRIVACY <span class="gold-text">POLICY</span>
+                        </h1>
 
-                            <h2>1. Information We Collect</h2>
-                            <p>We collect minimal data to provide a seamless user and gaming experience:</p>
-                            <ul>
-                                <li><strong>Account Information:</strong> Google OAuth details (Name, Email address,
-                                    Profile Picture) when you authenticate.</li>
-                                <li><strong>Custom Profile Data:</strong> Custom avatars uploaded to Cloudinary
-                                    and custom usernames.</li>
-                                <li><strong>Usage & Analytics:</strong> Standard web telemetry and cookies used for
-                                    session management and site functionality.</li>
+                        <p class="hero-subtitle">
+                            Transparency regarding how ATX Family safeguards your account details, usage metrics, and
+                            personal credentials.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- POLICY DOCUMENT CONTAINER -->
+                <section class="cyber-card content-card">
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner br"></div>
+
+                    <div class="legal-body">
+                        <p class="lead-text">
+                            Welcome to <strong>ATX Family</strong>. Your privacy and data sovereignty are paramount to
+                            us. This Privacy Policy outlines how we collect, store, and protect your information when
+                            you access our web application, tournament trackers, and community utilities.
+                        </p>
+
+                        <div class="policy-block">
+                            <h2><i class="fa-solid fa-database gold-text"></i> 1. Information We Collect</h2>
+                            <p>We adhere to strict data minimization principles, collecting only what is essential for
+                                gaming functions:</p>
+                            <ul class="legal-list">
+                                <li><strong>Account Details:</strong> Google OAuth credentials (Display Name, Email
+                                    Address, Profile Avatar) during secure login.</li>
+                                <li><strong>Custom Identity Data:</strong> Custom community avatars uploaded to
+                                    Cloudinary, user bios, Plato handles, and Discord tags.</li>
+                                <li><strong>Activity & Telemetry:</strong> Quiz scores, tournament history, and seasonal
+                                    XP metrics stored in secure MongoDB clusters.</li>
                             </ul>
+                        </div>
 
-                            <h2>2. How We Use Your Data</h2>
-                            <p>Your information is used strictly to:</p>
-                            <ul>
-                                <li>Maintain user profiles, game records, and platform authentication.</li>
-                                <li>Display leaderboards, event participants, and tournament standings (e.g., XPL).
-                                </li>
-                                <li>Ensure platform security and prevent abusive behavior within the community.</li>
+                        <div class="policy-block">
+                            <h2><i class="fa-solid fa-sliders gold-text"></i> 2. How We Use Your Data</h2>
+                            <p>Your records are utilized strictly to:</p>
+                            <ul class="legal-list">
+                                <li>Maintain user authentication, personal profiles, and account state.</li>
+                                <li>Render real-time weekly leaderboards, tournament standing brackets, and match
+                                    archives.</li>
+                                <li>Maintain community safety, verify participant identity, and prevent malicious
+                                    evasion of server bans.</li>
                             </ul>
+                        </div>
 
-                            <h2>3. Third-Party Services & Storage</h2>
+                        <div class="policy-block">
+                            <h2><i class="fa-solid fa-cloud-arrow-up gold-text"></i> 3. Infrastructure & Third Parties
+                            </h2>
                             <p>
-                                We integrate with trusted third-party services including <strong>MongoDB
-                                    Atlas</strong> for secure data storage, <strong>Cloudinary</strong> for avatar
-                                media hosting, and <strong>Google OAuth</strong> for secure login authentication. We
-                                do not sell or rent your personal data to advertisers.
+                                We operate through vetted enterprise infrastructure including <strong>MongoDB
+                                    Atlas</strong> for database clustering, <strong>Cloudinary</strong> for CDN media
+                                delivery, and <strong>Google OAuth</strong> for federated sign-in. <strong>We do not
+                                    sell, rent, or trade your data to third-party ad networks.</strong>
                             </p>
+                        </div>
 
-                            <h2>4. Data Retention & Deletion</h2>
+                        <div class="policy-block">
+                            <h2><i class="fa-solid fa-user-xmark gold-text"></i> 4. Data Ownership & Deletion Rights
+                            </h2>
                             <p>
-                                You retain ownership over your data. If you wish to delete your account or request
-                                the removal of custom profile pictures, you can reach out via our Contact page or
-                                submit a removal request to our administration team.
+                                You retain full ownership of your data. To request the complete purging of your account,
+                                scores, or custom images from our systems, submit an account removal request through our
+                                Anonymous Reports portal or contact any Senior Administrator.
                             </p>
                         </div>
                     </div>

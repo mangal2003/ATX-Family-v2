@@ -673,3 +673,306 @@
     gap: 0.75rem;
   }
 }
+
+/* =========================================================
+   FORMER ADMINS & VETERAN TRIBUTE SECTION
+   ========================================================= */
+
+.veterans-tribute-section {
+  width: 100%;
+  margin-top: 3.5rem;
+}
+
+.veterans-card {
+  position: relative;
+  background: var(--bg-card, #10131d);
+  border: 1px solid var(--border-color, rgba(255, 215, 0, 0.25));
+  border-radius: 20px;
+  padding: 2.75rem 2rem 2rem;
+  text-align: center;
+  box-shadow: var(--card-shadow, 0 15px 40px rgba(0, 0, 0, 0.55));
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Ambient Radiant Lighting */
+.veterans-ambient-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 120px;
+  background: radial-gradient(
+    ellipse at top,
+    rgba(255, 215, 0, 0.15),
+    rgba(0, 243, 255, 0.08) 50%,
+    transparent 80%
+  );
+  filter: blur(25px);
+  pointer-events: none;
+}
+
+.veterans-header {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+}
+
+.tribute-seal-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.75rem;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.4));
+}
+
+.tribute-badge {
+  display: inline-block;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.725rem;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--accent-gold, #ffd700);
+  padding: 0.25rem 0.8rem;
+  border-radius: 20px;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.75rem;
+}
+
+.tribute-title {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.9rem;
+  letter-spacing: 2px;
+  color: var(--text-heading, #ffffff) !important;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+  margin: 0 0 0.6rem;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.tribute-subtitle {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* Veterans Badges Matrix */
+.veterans-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 850px;
+  margin: 0 auto 2rem;
+}
+
+.veteran-pill-card {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.35));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 12px;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.3s ease;
+}
+
+.veteran-pill-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.04);
+}
+
+.veteran-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--bg-card, #12141d);
+  border: 1px solid var(--border-color, rgba(255, 215, 0, 0.3));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--text-heading, #ffffff);
+  flex-shrink: 0;
+}
+
+.veteran-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.veteran-name {
+  font-family: "Share Tech Mono", monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-heading, #ffffff) !important;
+}
+
+.veteran-role {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted, #94a3b8) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+/* Footer Quote Ribbon */
+.veterans-footer {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.06));
+  padding-top: 1.25rem;
+}
+
+.quote-text {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.85rem;
+  color: var(--accent-gold, #ffd700) !important;
+  letter-spacing: 1px;
+}
+
+/* Responsive Scaling */
+@media (min-width: 640px) {
+  .veterans-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .veterans-card {
+    padding: 2rem 1.25rem 1.5rem;
+  }
+  .tribute-title {
+    font-size: 1.5rem;
+  }
+}
+/* =========================================================
+   HORIZONTAL INFINITE SCROLLING MARQUEE RAIL
+   ========================================================= */
+
+.marquee-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  margin: 1.25rem 0 2rem;
+  padding: 0.5rem 0;
+  /* Cinematic edge fading on left and right */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1rem;
+  width: max-content;
+  animation: scrollRail 30s linear infinite;
+  will-change: transform;
+}
+
+/* Pause the auto-scroll when user hovers or taps on a chip */
+.marquee-wrapper:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes scrollRail {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Individual Veteran Card in Rail */
+.veteran-name-chip {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.45));
+  border: 1px solid var(--border-color, rgba(255, 215, 0, 0.2));
+  border-radius: 12px;
+  padding: 0.65rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  flex-shrink: 0;
+  cursor: default;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.veteran-name-chip:hover {
+  transform: translateY(-2px) scale(1.03);
+  border-color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.chip-shield-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--bg-card, #12141d);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--accent-cyan, #00f3ff);
+  flex-shrink: 0;
+}
+
+.chip-admin-name {
+  font-family: "Share Tech Mono", monospace;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--text-heading, #ffffff) !important;
+  white-space: nowrap;
+}
+
+.chip-honor-tag {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.5px;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.12);
+  border: 1px solid var(--accent-gold, #ffd700);
+  padding: 0.12rem 0.38rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.no-veterans-text {
+  color: var(--text-muted, #94a3b8);
+  font-size: 0.85rem;
+  font-family: "Share Tech Mono", monospace;
+  margin-bottom: 1.5rem;
+}

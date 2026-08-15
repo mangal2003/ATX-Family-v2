@@ -1,0 +1,403 @@
+/* =========================================================
+   LEGAL & CONTACT PAGES - HOTSTAR STYLE & THEME SYNC
+   ========================================================= */
+
+.page-wrapper {
+  width: 100%;
+  max-width: 1050px;
+  margin: 1.25rem auto 4.5rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HOTSTAR-STYLE AMBIENT HERO BANNER
+   ========================================================= */
+.legal-hero-card {
+  position: relative;
+  width: 100%;
+  min-height: 270px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 2.25rem;
+  background: var(--bg-card, #12141d);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  box-shadow: var(--card-shadow, 0 15px 35px rgba(0, 0, 0, 0.6));
+  display: flex;
+  align-items: center;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.legal-hero-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(0, 243, 255, 0.18),
+    rgba(255, 215, 0, 0.1) 45%,
+    transparent 75%
+  );
+  filter: blur(25px);
+  pointer-events: none;
+}
+
+.legal-overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--bg-card, #12141d) 0%,
+    var(--bg-card, #12141d) 42%,
+    rgba(18, 20, 29, 0.88) 65%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.legal-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: linear-gradient(
+    to top,
+    var(--bg-card, #12141d) 0%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.legal-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 2.5rem 3rem;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.hotstar-pill {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.75rem;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.secure-pill {
+  background: var(--accent-gold, #ffd700);
+  color: #0b0b0e !important;
+}
+
+.status-pill {
+  background: rgba(0, 243, 255, 0.12);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.pulsing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-cyan, #00f3ff);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-cyan, #00f3ff);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+}
+
+.legal-hero-content h1 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 2.3rem;
+  letter-spacing: 1.5px;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.55rem 0;
+  text-shadow: 0 0 15px var(--border-glow, rgba(0, 243, 255, 0.35));
+  transition: color 0.3s ease;
+}
+
+.gold-text {
+  color: var(--accent-gold, #ffd700) !important;
+}
+.cyan-text {
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.hero-subtitle {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 1.15rem 0;
+  transition: color 0.3s ease;
+}
+
+.hero-meta-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8) !important;
+}
+
+.meta-dot {
+  color: var(--border-color, #475569);
+}
+
+/* =========================================================
+   CONTENT CARD STYLING & HUD CORNERS
+   ========================================================= */
+.content-card {
+  position: relative;
+  background: var(--bg-card, #12141d) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  border-radius: 18px;
+  padding: 2.5rem 2.25rem;
+  box-shadow: var(--card-shadow, 0 10px 30px rgba(0, 0, 0, 0.5));
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.hud-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.hud-corner.tl {
+  top: 12px;
+  left: 12px;
+  border-top: 2px solid var(--accent-gold, #ffd700);
+  border-left: 2px solid var(--accent-gold, #ffd700);
+}
+
+.hud-corner.br {
+  bottom: 12px;
+  right: 12px;
+  border-bottom: 2px solid var(--accent-cyan, #00f3ff);
+  border-right: 2px solid var(--accent-cyan, #00f3ff);
+}
+
+.card-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color, rgba(0, 243, 255, 0.15));
+  padding-bottom: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.title-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.title-left h3 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0;
+}
+
+.badge-label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--accent-gold, #ffd700);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+}
+
+/* =========================================================
+   FORM CONTROLS
+   ========================================================= */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  text-align: left;
+}
+
+.form-label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--accent-gold, #ffd700);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.cyber-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--bg-primary, #0a0b10) !important;
+  border: 1px solid var(--border-color, #27272a) !important;
+  color: var(--text-heading, #ffffff) !important;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  font-size: 0.925rem;
+  outline: none;
+  font-family: inherit;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cyber-input:focus {
+  border-color: var(--accent-cyan, #00f3ff) !important;
+  box-shadow: 0 0 10px var(--border-color, rgba(0, 243, 255, 0.3));
+}
+
+.cyber-textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.hotstar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, var(--accent-cyan, #00f3ff), #0099ff);
+  color: #050608 !important;
+  border: none;
+  padding: 0.85rem 1.8rem;
+  border-radius: 10px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  margin-top: 0.5rem;
+}
+
+.hotstar-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 28px rgba(0, 243, 255, 0.75);
+}
+
+/* =========================================================
+   LEGAL PROSE STYLING
+   ========================================================= */
+.lead-text {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-heading, #ffffff) !important;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+}
+
+.policy-block {
+  margin-bottom: 2rem;
+}
+
+.policy-block:last-child {
+  margin-bottom: 0;
+}
+
+.policy-block h2 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.25rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.policy-block p {
+  color: var(--text-main, #d1d5db) !important;
+  font-size: 0.925rem;
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+
+.legal-list {
+  margin: 0.5rem 0 1rem 1.5rem;
+  color: var(--text-main, #d1d5db) !important;
+  font-size: 0.925rem;
+  line-height: 1.7;
+}
+
+.legal-list li {
+  margin-bottom: 0.5rem;
+}
+
+.legal-list strong {
+  color: var(--accent-cyan, #00f3ff);
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT ADJUSTMENTS
+   ========================================================= */
+@media (max-width: 768px) {
+  .legal-hero-card {
+    min-height: auto;
+  }
+
+  .legal-hero-content {
+    padding: 1.6rem 1.25rem;
+  }
+
+  .legal-hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .content-card {
+    padding: 1.6rem 1.25rem;
+  }
+
+  .policy-block h2 {
+    font-size: 1.1rem;
+  }
+}

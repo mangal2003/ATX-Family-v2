@@ -15,7 +15,7 @@
                 <header class="team-header">
                     <h1 class="glitch-title" data-text="ATX ADMIN TEAM">ATX ADMIN <span class="gold-text">TEAM</span>
                     </h1>
-                    <p class="team-subtitle">Server leadership, tournament adjudicators, architecture engineers, and
+                    <p class="team-subtitle">Leadership, tournament coordinators and
                         platform moderators.</p>
                 </header>
 
@@ -68,6 +68,83 @@
                             </article>
                             <% }) %>
                 </section>
+
+
+                <!-- FORMER ADMINS & VETERAN TRIBUTE HORIZONTAL SCROLLING RAIL -->
+                <section class="veterans-tribute-section">
+                    <div class="veterans-card">
+                        <div class="veterans-ambient-glow"></div>
+                        <div class="hud-corner tl"></div>
+                        <div class="hud-corner tr"></div>
+                        <div class="hud-corner bl"></div>
+                        <div class="hud-corner br"></div>
+
+                        <div class="veterans-header">
+                            <div class="tribute-seal-icon">
+                                <i class="fa-solid fa-award gold-text"></i>
+                            </div>
+                            <h2 class="tribute-title">WITH ETERNAL GRATITUDE</h2>
+                            <p class="tribute-subtitle">
+                                Honoring the former admins, tournament hosts and sponsors, and community architects who
+                                built the
+                                foundation of ATX
+                            </p>
+                        </div>
+
+                        <% let formerAdminsList=[]; if (locals.siteSettings && siteSettings.customMetrics) { const
+                            metric=siteSettings.customMetrics.find(m=> m.label === 'formerAdmins');
+                            if (metric && metric.value) {
+                            formerAdminsList = metric.value.split(',').map(name => name.trim()).filter(Boolean);
+                            }
+                            }
+                            %>
+
+                            <% if (formerAdminsList.length> 0) { %>
+                                <!-- Infinite Scrolling Marquee Track Container -->
+                                <div class="marquee-wrapper">
+                                    <div class="marquee-track">
+                                        <!-- Original Array Loop -->
+                                        <% formerAdminsList.forEach(name=> { %>
+                                            <div class="veteran-name-chip">
+                                                <div class="chip-shield-icon">
+                                                    <i class="fa-solid fa-user-shield"></i>
+                                                </div>
+                                                <span class="chip-admin-name">
+                                                    <%= name %>
+                                                </span>
+                                                <span class="chip-honor-tag"><i
+                                                        class="fa-solid fa-award gold-text"></i></span>
+                                            </div>
+                                            <% }) %>
+
+                                                <!-- Duplicate Loop to Ensure Seamless Infinite Loop -->
+                                                <% formerAdminsList.forEach(name=> { %>
+                                                    <div class="veteran-name-chip" aria-hidden="true">
+                                                        <div class="chip-shield-icon">
+                                                            <i class="fa-solid fa-user-shield"></i>
+                                                        </div>
+                                                        <span class="chip-admin-name">
+                                                            <%= name %>
+                                                        </span>
+                                                        <span class="chip-honor-tag"><i
+                                                                class="fa-solid fa-award gold-text"></i></span>
+                                                    </div>
+                                                    <% }) %>
+                                    </div>
+                                </div>
+                                <% } else { %>
+                                    <p class="no-veterans-text">No former staff records archived.</p>
+                                    <% } %>
+
+                                        <div class="veterans-footer">
+                                            <span class="quote-text">
+                                                <i class="fa-solid fa-quote-left gold-text"></i> Once ATX Staff, Forever
+                                                Royalty. <i class="fa-solid fa-quote-right gold-text"></i>
+                                            </span>
+                                        </div>
+                    </div>
+                </section>
+
             </main>
 
             <!-- ROYALTY SHOWCASE PROFILE MODAL -->
@@ -97,8 +174,7 @@
                         </div>
 
                         <div class="royalty-bio-box">
-                            <span class="bio-label"><i class="fa-solid fa-quote-left gold-text"></i> DOSSIER
-                                OVERVIEW</span>
+                            <span class="bio-label"><i class="fa-solid fa-quote-left gold-text"></i> BIO</span>
                             <p id="viewBio" class="bio-text"></p>
                         </div>
 
@@ -125,7 +201,7 @@
                         </div>
 
                         <div class="royalty-footer-seal">
-                            <i class="fa-solid fa-shield-halved gold-text"></i> ATX VERIFIED OFFICER
+                            <i class="fa-solid fa-shield-halved gold-text"></i> ATX ADMIN
                         </div>
                     </div>
                 </div>
@@ -137,14 +213,14 @@
                     <div class="modal-content">
                         <button class="modal-close" onclick="closeModal('editModal')">&times;</button>
                         <div class="modal-header-bar">
-                            <h3><i class="fa-solid fa-sliders gold-text"></i> EDIT OFFICER PROFILE</h3>
+                            <h3><i class="fa-solid fa-sliders gold-text"></i> EDIT ADMIN PROFILE</h3>
                         </div>
 
                         <form action="/admin-team/update-profile" method="POST">
                             <input type="hidden" name="targetUserId" id="editUserId">
 
                             <div class="modal-field-group">
-                                <label>Adminship Rank / Role</label>
+                                <label>Adminship Role</label>
                                 <select name="adminshipRole" id="editRole" class="form-input">
                                     <option value="Owner">Owner</option>
                                     <option value="Admin">Admin</option>
@@ -165,7 +241,7 @@
                             </div>
 
                             <div class="modal-field-group">
-                                <label>About / Bio</label>
+                                <label>Bio</label>
                                 <textarea name="bio" id="editBio" class="form-input" rows="3"
                                     placeholder="Brief admin bio..."></textarea>
                             </div>

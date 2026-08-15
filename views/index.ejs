@@ -11,18 +11,18 @@
         <%- include('partials/flash') %>
 
             <main class="hotstar-app-wrapper">
-                <!-- CYBERPUNK HIGH-TECH HERO CARD -->
+                <!-- 1. CYBERPUNK HIGH-TECH HERO BANNER -->
                 <section class="hotstar-hero-banner">
                     <div class="cyber-hero-card">
-                        <!-- Animated Background Effects -->
+                        <!-- Ambient Animated Background Lighting & Grid -->
                         <div class="cyber-hero-bg">
                             <div class="cyber-grid"></div>
                             <div class="cyber-laser-scan"></div>
                             <div class="cyber-orb cyan-orb"></div>
-                            <div class="cyber-orb magenta-orb"></div>
+                            <div class="cyber-orb gold-orb"></div>
                         </div>
 
-                        <!-- Futuristic Frame Accents -->
+                        <!-- Futuristic HUD Corner Brackets -->
                         <div class="corner-bracket top-left"></div>
                         <div class="corner-bracket top-right"></div>
                         <div class="corner-bracket bottom-left"></div>
@@ -30,44 +30,53 @@
 
                         <!-- Content Overlay -->
                         <div class="cyber-hero-content">
+                            <div class="hero-live-badge">
+                                <span class="pulsing-dot"></span>
+                                <span>»»» GAMING</span>
+                            </div>
 
                             <h1 class="glitch-title" data-text="ATX FAMILY">ATX FAMILY</h1>
-                            <p class="hero-meta">Quiz • EP Auction • Music Room</p>
+                            <p class="hero-meta">Tournaments • EP Auction • 24/7 Audio Lounge • Quiz
+                            </p>
 
                             <div class="hero-metric-pills">
                                 <span class="metric-pill">
                                     Total Sponsored:
                                     <strong id="prizePoolCounter"
-                                        data-target="<%= siteSettings.totalPrizeSponsored || 0 %>">0</strong>+ <i
-                                        class="fa-solid fa-coins gold-text"></i>
+                                        data-target="<%= siteSettings.totalPrizeSponsored || 0 %>">0</strong>+
+                                    <i class="fa-solid fa-coins gold-text"></i>
                                 </span>
                                 <span class="metric-pill">
                                     <strong>
                                         <%= user ? (user.streak || 1) + ' DAYS' : '0 DAYS' %>
-                                    </strong> STREAK <i class="fa-solid fa-fire gold-text"></i>
+                                    </strong> STREAK
+                                    <i class="fa-solid fa-fire gold-text"></i>
                                 </span>
                             </div>
 
                             <div class="hero-action-row">
                                 <a href="/about" class="cyber-action-btn">
-                                    <i class="fa-solid fa-book"></i> READ MORE
+                                    <i class="fa-solid fa-book-open"></i> EXPLORE THE STORY
                                     <div class="btn-shimmer"></div>
+                                </a>
+                                <a href="/features" class="cyber-action-btn secondary-action-btn">
+                                    <i class="fa-solid fa-bolt"></i> FEATURES
                                 </a>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- 3. FEATURED HIGHLIGHTS (VERTICAL POSTER CARDS) -->
+                <!-- 2. FEATURED HIGHLIGHTS (HORIZONTAL POSTER RAIL) -->
                 <section class="app-rail-section">
                     <div class="rail-header">
-                        <h3><i class="fa-solid fa-fire gold-text"></i> FEATURED</h3>
+                        <h3><i class="fa-solid fa-fire gold-text"></i> FEATURED HUBS</h3>
                     </div>
                     <div class="horizontal-scroll-rail">
 
                         <% if (locals.hasActiveAuction) { %>
                             <!-- XPL LIVE AUCTION CARD -->
-                            <a href="/xpl/auction" class="poster-card poster-fallback-discord">
+                            <a href="/xpl/auction" class="poster-card poster-fallback-auction">
                                 <span class="poster-badge badge-live">LIVE</span>
                                 <div class="poster-center-art">
                                     <span class="center-emoji">🔨</span>
@@ -75,11 +84,10 @@
                                 <div class="poster-overlay">
                                     <h4 class="poster-title"><i class="fa-solid fa-gavel gold-text"></i> XPL AUCTION
                                     </h4>
-                                    <p class="poster-sub">Bidders in Action</p>
+                                    <p class="poster-sub">Active bidding war</p>
                                 </div>
                             </a>
                             <% } %>
-
 
                                 <!-- MUSIC LOUNGE CARD -->
                                 <a href="/music-room"
@@ -99,7 +107,6 @@
 
                                     <div class="poster-center-art">
                                         <% if (currentTrack) { %>
-                                            <!-- Sound Wave Visualizer Center Effect -->
                                             <div class="sound-wave-bars">
                                                 <span class="wave-bar"></span>
                                                 <span class="wave-bar"></span>
@@ -114,24 +121,24 @@
 
                                     <div class="poster-overlay">
                                         <h4 class="poster-title">
-                                            <i class="fa-solid fa-compact-disc cyan-text fa-spin-slow"></i>
-                                            MUSIC LOUNGE
+                                            <i class="fa-solid fa-compact-disc cyan-text fa-spin-slow"></i> MUSIC LOUNGE
                                         </h4>
-                                        <p class="poster-sub">
-                                            <%= currentTrack ? currentTrack.title : 'Music rooms' %>
+                                        <p class="poster-sub truncate-single">
+                                            <%= currentTrack ? currentTrack.title : 'Live Audio Rooms' %>
                                         </p>
                                     </div>
                                 </a>
-                                <!-- PROFILE CARD -->
-                                <a href="/profile" class="poster-card poster-fallback-discord">
-                                    <span class="poster-badge badge-cyan">PROFILE</span>
+
+                                <!-- PROFILE ACCESS CARD -->
+                                <a href="/profile" class="poster-card poster-fallback-profile">
+                                    <span class="poster-badge badge-cyan">IT'S YOU</span>
                                     <div class="poster-center-art">
-                                        <span class="center-emoji">😎</span>
+                                        <span class="center-emoji">⚡</span>
                                     </div>
                                     <div class="poster-overlay">
-                                        <h4 class="poster-title">🥰 PROFILE
-                                        </h4>
-                                        <p class="poster-sub">Admire Yourself</p>
+                                        <h4 class="poster-title"><i class="fa-solid fa-user-astronaut gold-text"></i>
+                                            PROFILE</h4>
+                                        <p class="poster-sub">Inspect Credentials</p>
                                     </div>
                                 </a>
 
@@ -142,9 +149,9 @@
                                         <span class="center-emoji">🪙</span>
                                     </div>
                                     <div class="poster-overlay">
-                                        <h4 class="poster-title">🔨 EP AUCTION
+                                        <h4 class="poster-title"><i class="fa-solid fa-gavel gold-text"></i> EP AUCTION
                                         </h4>
-                                        <p class="poster-sub">Outbid rivals</p>
+                                        <p class="poster-sub">Outbid Rivals</p>
                                     </div>
                                 </a>
 
@@ -155,69 +162,66 @@
                                         <span class="center-emoji">🧠</span>
                                     </div>
                                     <div class="poster-overlay">
-                                        <h4 class="poster-title"><i class="fa-solid fa-brain neon-text"></i> QUIZ ARENA
+                                        <h4 class="poster-title"><i class="fa-solid fa-brain cyan-text"></i> QUIZ ARENA
                                         </h4>
-                                        <p class="poster-sub">Climb Ranks</p>
+                                        <p class="poster-sub">Weekly XP Ladder</p>
                                     </div>
                                 </a>
-                                <!-- QUIZ ARENA CARD -->
-                                <a href="/features" class="poster-card poster-fallback-quiz">
+
+                                <!-- DIRECTIVES PERKS CARD -->
+                                <a href="/features" class="poster-card poster-fallback-perks">
                                     <span class="poster-badge badge-cyan">PERKS</span>
                                     <div class="poster-center-art">
                                         <span class="center-emoji">💎</span>
                                     </div>
                                     <div class="poster-overlay">
-                                        <h4 class="poster-title"><i class="fa-solid fa-bolt cyan-text"></i> FEATURES
+                                        <h4 class="poster-title"><i class="fa-solid fa-bolt gold-text"></i> FEATURES
                                         </h4>
-                                        <p class="poster-sub">Unique & Awesome</p>
+                                        <p class="poster-sub">Custom Directives</p>
                                     </div>
                                 </a>
-
                     </div>
                 </section>
 
-                <!-- QUICK LINKS / ARENA HUBS (HOTSTAR "STUDIOS" STYLE) -->
+                <!-- 3. QUICK LINKS / ARENA HUBS (HOTSTAR STUDIO CARD MATRIX) -->
                 <section class="app-rail-section" style="margin-top: 1.5rem;">
                     <div class="rail-header">
                         <h3><i class="fa-solid fa-shapes cyan-text"></i> QUICK LINKS</h3>
                     </div>
                     <div class="horizontal-scroll-rail hub-rail">
-                        <!-- ANONYMOUS CONTACT CARD -->
                         <a href="/contact" class="studio-card hub-contact">
                             <div class="studio-card-inner">
-                                <i class="fa-solid fa-user-secret studio-icon neon-text"></i>
-                                <span class="studio-title">ANONYMOUS CONTACT</span>
+                                <i class="fa-solid fa-user-secret studio-icon gold-text"></i>
+                                <span class="studio-title">ANONYMOUS DESK</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
-                        <!-- DISCORD CARD -->
+
                         <a href="<%= siteSettings.discordServerLink || '#' %>" target="_blank"
                             class="studio-card hub-discord">
                             <div class="studio-card-inner">
                                 <i class="fa-brands fa-discord studio-icon discord-color-text"></i>
-                                <span class="studio-title">DISCORD</span>
+                                <span class="studio-title">DISCORD SERVER</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
-                        <!-- LOUNGE CARD -->
+
                         <a href="/music-room" class="studio-card hub-lounge">
                             <div class="studio-card-inner">
                                 <i class="fa-solid fa-compact-disc studio-icon cyan-text"></i>
-                                <span class="studio-title">MUSIC ROOM</span>
+                                <span class="studio-title">AUDIO LOUNGE</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
 
-
-                        <!-- guidelines CARD -->
-                        <a href="/guidelines" class="studio-card hub-discord">
+                        <a href="/guidelines" class="studio-card hub-guidelines">
                             <div class="studio-card-inner">
-                                <i class="fa-solid fa-headset studio-icon discord-color-text"></i>
+                                <i class="fa-solid fa-headset studio-icon cyan-text"></i>
                                 <span class="studio-title">GUIDELINES</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
-                        <!-- AUCTION CARD -->
+
                         <a href="/auction" class="studio-card hub-auction">
                             <div class="studio-card-inner">
                                 <i class="fa-solid fa-gavel studio-icon gold-text"></i>
@@ -226,25 +230,22 @@
                             <div class="studio-card-glow"></div>
                         </a>
 
-                        <!-- QUIZ CARD -->
                         <a href="/quiz" class="studio-card hub-quiz">
                             <div class="studio-card-inner">
-                                <i class="fa-solid fa-brain studio-icon neon-text"></i>
-                                <span class="studio-title">QUIZ</span>
+                                <i class="fa-solid fa-brain studio-icon cyan-text"></i>
+                                <span class="studio-title">QUIZ ARENA</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
 
-                        <!-- XPL CARD -->
                         <a href="/xpl" class="studio-card hub-xpl">
                             <div class="studio-card-inner">
-                                <i class="fa-solid fa-trophy studio-icon cyan-text"></i>
-                                <span class="studio-title">XPL</span>
+                                <i class="fa-solid fa-trophy studio-icon gold-text"></i>
+                                <span class="studio-title">XPL LEAGUE</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
 
-                        <!-- HOF CARD -->
                         <a href="/winners" class="studio-card hub-hof">
                             <div class="studio-card-inner">
                                 <i class="fa-solid fa-crown studio-icon gold-text"></i>
@@ -254,7 +255,6 @@
                         </a>
                     </div>
                 </section>
-
 
                 <!-- 4. HOURLY EP CLAIM BANNER -->
                 <section class="app-standalone-card-section">
@@ -267,12 +267,13 @@
                                 <div class="xp-badge-pill"><i class="fa-solid fa-rotate"></i> HOURLY EP DROP</div>
                                 <h2 class="glitch-title" data-text="CLAIM REWARD">CLAIM REWARD</h2>
                                 <p class="xp-balance-display">
-                                    Balance: <span id="userXpBalance" class="gold-glow-text">
+                                    Balance: <span id="userXpBalance" class="gold-text font-bold">
                                         <%= user ? (user.xpBalance || 0).toLocaleString() : 0 %>
                                     </span> EP
                                 </p>
                             </div>
                         </div>
+
                         <div class="xp-banner-right">
                             <% if (user) { %>
                                 <% const DROP_INTERVAL_MS=1 * 60 * 60 * 1000; const lastClaim=user.lastXpClaim ? new
@@ -290,7 +291,7 @@
                                         <%= !canClaim ? '00:00:00' : 'READY!' %>
                                     </div>
                                     <% } else { %>
-                                        <a href="/login" class="electric-login-btn">
+                                        <a href="/login" class="electric-claim-btn">
                                             <i class="fa-solid fa-right-to-bracket"></i> Login to Collect
                                         </a>
                                         <% } %>
@@ -298,10 +299,10 @@
                     </div>
                 </section>
 
-                <!-- 5. TOP 3 RANKED LEADERBOARD (HOTSTAR TOP 10 STYLE) -->
+                <!-- 5. TOP 5 RANKED IN QUIZ -->
                 <section class="app-rail-section">
                     <div class="rail-header">
-                        <h3><i class="fa-solid fa-trophy gold-text"></i>TOP 5 IN QUIZ</h3>
+                        <h3><i class="fa-solid fa-trophy gold-text"></i> TOP 5 IN QUIZ</h3>
                     </div>
                     <div class="horizontal-scroll-rail">
                         <% if (topUsers && topUsers.length> 0) { %>
@@ -311,9 +312,9 @@
                                         <%= i + 1 %>
                                     </span>
                                     <div class="ranked-poster-content"
-                                        style="background-image: url('<%= u.avatar %>');">
+                                        style="background-image: url('<%= u.avatar || '/images/default-avatar.png' %>');">
                                         <div class="poster-overlay">
-                                            <h4 class="poster-title" style="text-transform: uppercase;">
+                                            <h4 class="poster-title uppercase truncate-single">
                                                 <%= u.username %>
                                             </h4>
                                             <p class="poster-sub gold-text">
@@ -324,15 +325,14 @@
                                 </div>
                                 <% }); %>
                                     <% } else { %>
-                                        <p class="text-muted" style="font-size: 0.8rem;">No rankings recorded yet.</p>
+                                        <p class="text-muted p-2">No quiz rankings recorded yet.</p>
                                         <% } %>
                     </div>
                 </section>
 
-                <!-- 6. MUSIC LOUNGE BANNER CARD -->
+                <!-- 6. LIVE MUSIC LOUNGE BANNER -->
                 <section class="app-standalone-card-section">
                     <div class="music-electrifying-banner <%= currentTrack ? 'is-playing' : '' %>">
-                        <!-- Top Section: Vinyl Art & Song Details -->
                         <div class="music-banner-left">
                             <div class="music-vinyl-wrapper">
                                 <i
@@ -347,22 +347,21 @@
                                             <span class="bar"></span>
                                             <span class="bar"></span>
                                         </div>
-                                        <span>NOW PLAYING</span>
+                                        <span>NOW STREAMING</span>
                                         <% } else { %>
                                             <i class="fa-solid fa-headphones"></i>
                                             <span>24/7 AUDIO LOUNGE</span>
                                             <% } %>
                                 </div>
 
-                                <h2 class="music-track-title"
+                                <h2 class="music-track-title truncate-single"
                                     title="<%= currentTrack ? currentTrack.title : 'MUSIC LOUNGE' %>">
                                     <%= currentTrack ? currentTrack.title : 'MUSIC LOUNGE' %>
                                 </h2>
 
                                 <p class="music-meta-display">
                                     <% if (currentTrack) { %>
-                                        Requested by: <span class="cyan-glow-text">@<%= currentTrack.requestedBy %>
-                                        </span>
+                                        Requested by: <span class="cyan-text">@<%= currentTrack.requestedBy %></span>
                                         <% } else { %>
                                             Listen synchronously in real-time.
                                             <% } %>
@@ -370,24 +369,20 @@
                             </div>
                         </div>
 
-                        <!-- Bottom Action Row -->
                         <div class="music-banner-right">
-                            <a href="/music-room" class="electric-music-btn">
+                            <a href="/music-room" class="electric-claim-btn music-join-btn">
                                 <i class="fa-solid fa-circle-play"></i>
                                 <span>ENTER ROOM</span>
                             </a>
 
-                            <div
-                                class="electric-status-badge equalizer-status-badge <%= currentTrack ? 'is-playing' : 'is-idle' %>">
+                            <div class="equalizer-status-badge <%= currentTrack ? 'is-playing' : 'is-idle' %>">
                                 <% if (currentTrack) { %>
-                                    <!-- Animated 5-Bar Wave Equalizer -->
                                     <span class="eq-status-bar"></span>
                                     <span class="eq-status-bar"></span>
                                     <span class="eq-status-bar"></span>
                                     <span class="eq-status-bar"></span>
                                     <span class="eq-status-bar"></span>
                                     <% } else { %>
-                                        <!-- Static / Idle Muted Line Indicator -->
                                         <span class="eq-idle-bar"></span>
                                         <span class="eq-idle-bar"></span>
                                         <span class="eq-idle-bar"></span>
@@ -399,7 +394,7 @@
                     </div>
                 </section>
 
-                <!-- LAST 5 WINNERS (HOTSTAR TOP RANKED STYLE) -->
+                <!-- 7. LAST 5 TOUR WINNERS -->
                 <section class="app-rail-section" style="margin-top:1.5rem;">
                     <div class="rail-header">
                         <h3><i class="fa-solid fa-crown gold-text"></i> LAST 5 TOUR WINNERS</h3>
@@ -409,31 +404,23 @@
                             <% const rankEmojis=['💎', '🥳' , '✨' , '🎖️' , '⚡' ]; %>
                                 <% recentWinners.forEach((w, i)=> { %>
                                     <div class="ranked-poster-card">
-                                        <!-- Big JioHotstar Rank Number Overlay (1 to 5) -->
                                         <span class="rank-number">
                                             <%= i + 1 %>
                                         </span>
 
                                         <div class="ranked-poster-content winner-poster-bg">
-                                            <!-- Dynamic Badge -->
-                                            <span class="poster-badge badge-gold">
-                                                WINNER
-                                            </span>
-
-                                            <!-- Distinct Central Emoji Accent -->
+                                            <span class="poster-badge badge-gold">WINNER</span>
                                             <div class="poster-center-art">
                                                 <span class="center-emoji">
                                                     <%= rankEmojis[i] || '✨' %>
                                                 </span>
                                             </div>
 
-                                            <!-- Card Bottom Details -->
                                             <div class="poster-overlay">
-                                                <h4 class="poster-title" style="text-transform: uppercase;">
+                                                <h4 class="poster-title uppercase truncate-single">
                                                     <%= w.winnerName %>
                                                 </h4>
-                                                <p class="poster-sub gold-text">
-                                                    <i class="fa-solid fa-gamepad"></i>
+                                                <p class="poster-sub gold-text"><i class="fa-solid fa-gamepad"></i>
                                                     <%= w.gameName %>
                                                 </p>
                                                 <p class="poster-date">
@@ -445,44 +432,37 @@
                                     </div>
                                     <% }); %>
                                         <% } else { %>
-                                            <p class="text-muted" style="font-size: 0.8rem; padding: 0.5rem;">No winners
-                                                archived yet.
-                                            </p>
+                                            <p class="text-muted p-2">No winners archived yet.</p>
                                             <% } %>
                     </div>
                 </section>
 
-
-                <!-- 7. ACTIVE AUCTION & QUIZ WIDGETS -->
+                <!-- 8. ACTIVE AUCTION & QUIZ WIDGETS -->
                 <section class="widget-split-section">
-                    <!-- ACTIVE AUCTION WIDGET CARD -->
+                    <!-- Active Auction Card -->
                     <div class="widget-card widget-bg-auction">
                         <div class="widget-badge"><i class="fa-solid fa-gavel"></i> ACTIVE AUCTION</div>
                         <div class="widget-details">
                             <% if (activeAuction) { %>
-                                <h4>
+                                <h4 class="truncate-single">
                                     <%= activeAuction.itemName %>
                                 </h4>
-                                <p style="margin: 0.5rem auto;">Current Bid: <strong class="gold-text">
+                                <p class="my-1">Current Bid: <strong class="gold-text">
                                         <%= (activeAuction.currentHighestBid || 0).toLocaleString() %> EP
                                     </strong></p>
-                                <p style="margin: 0.5rem auto;">
-                                    Top Bidder:
-                                    <span class="cyan-text">
-                                        <%= (activeAuction && activeAuction.highestBidder &&
-                                            activeAuction.highestBidder.username) ? activeAuction.highestBidder.username
-                                            : 'None' %>
-                                    </span>
-                                </p>
+                                <p class="my-1">Top Bidder: <span class="cyan-text">
+                                        <%= (activeAuction.highestBidder && activeAuction.highestBidder.username) ?
+                                            activeAuction.highestBidder.username : 'None' %>
+                                    </span></p>
                                 <% } else { %>
                                     <h4>No Active Auction</h4>
-                                    <p class="text-muted">Check back soon for drops.</p>
+                                    <p class="text-muted">Check back soon for weekly drops.</p>
                                     <% } %>
                         </div>
-                        <a href="/auction" class="cyber-btn widget-action-btn">Enter Auction House</a>
+                        <a href="/auction" class="hotstar-btn primary-btn widget-action-btn">Enter Auction House</a>
                     </div>
 
-                    <!-- QUIZ ARENA WIDGET CARD -->
+                    <!-- Quiz Arena Card -->
                     <div class="widget-card widget-bg-quiz">
                         <div class="widget-badge">
                             <span class="badge-title"><i class="fa-solid fa-brain"></i> QUIZ ARENA</span>
@@ -495,22 +475,19 @@
                             <h4 id="quizSessionLabel">
                                 <%= isQuizActive ? 'Session Live Now!' : 'Next Session' %>
                             </h4>
-                            <p style="margin: 0.5rem auto;"><span id="quizTimerText">Time Remaining:</span> <strong
-                                    class="cyan-text" id="quizCountdown">--:--:--</strong></p>
-                            <p style="margin: 0.5rem auto;">
-                                <span>Your Score:</span> <strong style="color: var(--text-main);">
+                            <p class="my-1"><span id="quizTimerText">Time Remaining:</span> <strong class="cyan-text"
+                                    id="quizCountdown">--:--:--</strong></p>
+                            <p class="my-1"><span>Your Score:</span> <strong class="gold-text">
                                     <%= user ? (user.weeklyScore || 0).toLocaleString() : 0 %> PTS
-                                </strong>
-                            </p>
+                                </strong></p>
                         </div>
-                        <a href="/quiz" class="cyber-btn widget-action-btn" id="quizActionBtn">
+                        <a href="/quiz" class="hotstar-btn primary-btn widget-action-btn" id="quizActionBtn">
                             <%= isQuizActive ? 'Join Session' : 'Enter Arena' %>
                         </a>
                     </div>
                 </section>
 
-
-                <!-- TOP 5 EP COLLECTORS (HOTSTAR TOP RANKED STYLE) -->
+                <!-- 9. TOP 5 EP COLLECTORS -->
                 <section class="app-rail-section" style="margin-top: 1.5rem;">
                     <div class="rail-header">
                         <h3><i class="fa-solid fa-coins gold-text"></i> TOP EP COLLECTORS</h3>
@@ -520,55 +497,35 @@
                             <% const epRankEmojis=['👑', '🪙' , '💰' , '✨' , '⚡' ]; %>
                                 <% topEpUsers.forEach((u, i)=> { %>
                                     <div class="ranked-poster-card">
-                                        <!-- Big JioHotstar Rank Number Overlay (1 to 5) -->
                                         <span class="rank-number">
                                             <%= i + 1 %>
                                         </span>
-
-                                        <div class="ranked-poster-content ep-poster-bg" <% if (u.avatar) { %>
-                                            style="background-image: url('<%= u.avatar %>');" <% } %>>
-                                                    <!-- Dynamic Badge -->
-                                                    <span
-                                                        class="poster-badge <%= i === 0 ? 'badge-gold' : (i === 1 ? 'badge-cyan' : 'badge-muted') %>">
-                                                        <%= i===0 ? 'TOP COLLECTOR' : '#' + (i + 1) + ' RANK' %>
-                                                    </span>
-
-                                                    <!-- Distinct Central Emoji Accent (if no avatar available) -->
-                                                    <% if (!u.avatar) { %>
-                                                        <div class="poster-center-art">
-                                                            <span class="center-emoji">
-                                                                <%= epRankEmojis[i] || '🪙' %>
-                                                            </span>
-                                                        </div>
-                                                        <% } %>
-
-                                                            <!-- Card Bottom Details -->
-                                                            <div class="poster-overlay">
-                                                                <h4 class="poster-title"
-                                                                    style="text-transform: uppercase;">
-                                                                    <%= u.username %>
-                                                                </h4>
-                                                                <p class="poster-sub gold-text">
-                                                                    <i class="fa-solid fa-coins"></i>
-                                                                    <%= (u.xpBalance || 0).toLocaleString() %> EP
-                                                                </p>
-                                                            </div>
+                                        <div class="ranked-poster-content ep-poster-bg"
+                                            style="background-image: url('<%= u.avatar || '/images/default-avatar.png' %>');">
+                                            <span
+                                                class="poster-badge <%= i === 0 ? 'badge-gold' : (i === 1 ? 'badge-cyan' : 'badge-muted') %>">
+                                                <%= i===0 ? 'TOP COLLECTOR' : '#' + (i + 1) + ' RANK' %>
+                                            </span>
+                                            <div class="poster-overlay">
+                                                <h4 class="poster-title uppercase truncate-single">
+                                                    <%= u.username %>
+                                                </h4>
+                                                <p class="poster-sub gold-text"><i class="fa-solid fa-coins"></i>
+                                                    <%= (u.xpBalance || 0).toLocaleString() %> EP
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                     <% }); %>
                                         <% } else { %>
-                                            <p class="text-muted" style="font-size: 0.8rem; padding: 0.5rem;">No
-                                                collectors recorded
-                                                yet.</p>
+                                            <p class="text-muted p-2">No collectors recorded yet.</p>
                                             <% } %>
                     </div>
                 </section>
 
-                <!-- XPL (XTREME PREMIER LEAGUE) HERO CARD -->
-                <!-- XPL (XTREME PREMIER LEAGUE) HERO CARD -->
-                <section class="hotstar-hero-banner">
+                <!-- 10. XPL TOURNAMENT HERO BANNER -->
+                <section class="hotstar-hero-banner" style="margin-top: 1.5rem;">
                     <div class="cyber-hero-card xpl-hero-theme">
-                        <!-- Animated Background Effects -->
                         <div class="cyber-hero-bg">
                             <div class="cyber-grid xpl-grid"></div>
                             <div class="cyber-laser-scan xpl-laser"></div>
@@ -576,13 +533,11 @@
                             <div class="cyber-orb cyan-orb"></div>
                         </div>
 
-                        <!-- Futuristic Frame Accents -->
                         <div class="corner-bracket top-left xpl-bracket"></div>
                         <div class="corner-bracket top-right xpl-bracket"></div>
                         <div class="corner-bracket bottom-left xpl-bracket"></div>
                         <div class="corner-bracket bottom-right xpl-bracket"></div>
 
-                        <!-- Content Overlay -->
                         <div class="cyber-hero-content">
                             <div class="hero-live-badge xpl-badge">
                                 <span class="live-dot <%= xplStatus.isLive ? 'neon-dot' : 'gold-dot' %>"></span>
@@ -590,17 +545,15 @@
                             </div>
 
                             <h1 class="glitch-title" data-text="XTREME PREMIER LEAGUE">XTREME PREMIER LEAGUE</h1>
-                            <p class="hero-meta">Teams • Rivals • Trophy</p>
+                            <p class="hero-meta">Clans • Rivalries • Championship Trophy</p>
 
                             <div class="hero-metric-pills">
                                 <span class="metric-pill">
                                     <% if (xplStatus.isLive) { %>
-                                        <strong class="neon-text">SEASON <%= xplStatus.seasonRoman %> IS
-                                                LIVE</strong>
-                                        <i class="fa-solid fa-bolt neon-text"></i>
+                                        <strong class="cyan-text">SEASON <%= xplStatus.seasonRoman %> IS LIVE</strong>
+                                        <i class="fa-solid fa-bolt cyan-text"></i>
                                         <% } else { %>
-                                            <strong class="gold-text">SEASON <%= xplStatus.seasonRoman %> :
-                                                    COMING
+                                            <strong class="gold-text">SEASON <%= xplStatus.seasonRoman %> : COMING
                                                     SOON</strong>
                                             <i class="fa-solid fa-trophy gold-text"></i>
                                             <% } %>
@@ -622,7 +575,7 @@
                     </div>
                 </section>
 
-                <!-- 8. DISCORD ANNOUNCEMENTS FEED -->
+                <!-- 11. DISCORD ANNOUNCEMENTS FEED -->
                 <section class="announcements-section">
                     <div class="announcements-header">
                         <div class="announcements-title-group">
@@ -638,17 +591,16 @@
 
                     <div id="announcementToggleWrapper" style="display: none; text-align: center; margin-top: 1rem;">
                         <button id="toggleAnnouncementsBtn" class="cyber-btn"
-                            style="padding: 0.4rem 1rem; font-size: 0.8rem;">
+                            style="padding: 0.45rem 1.25rem; font-size: 0.85rem;">
                             <i class="fa-solid fa-chevron-down"></i> Show Previous
                         </button>
                     </div>
                 </section>
-
             </main>
 
             <%- include('partials/footer') %>
 
-                <!-- CLIENT SCRIPT -->
+                <!-- CLIENT RUNTIME LOGIC -->
                 <script>
                     document.addEventListener("DOMContentLoaded", () => {
                         // 1. PRIZE COUNTER ANIMATION
@@ -682,7 +634,7 @@
                             setTimeout(startLoopingAnimation, 100);
                         }
 
-                        // 2. XP CLAIM & TIMER LOGIC
+                        // 2. XP CLAIM & COOLDOWN TIMER
                         const claimBtn = document.getElementById('claimXpBtn');
                         const countdownEl = document.getElementById('xpCountdown');
                         const btnText = document.getElementById('claimBtnText');
@@ -760,13 +712,13 @@
 
                         // 3. DYNAMIC IST QUIZ COUNTDOWN
                         function updateQuizTimer() {
-                            const countdownEl = document.getElementById("quizCountdown");
+                            const quizCountEl = document.getElementById("quizCountdown");
                             const labelEl = document.getElementById("quizSessionLabel");
                             const badgeEl = document.getElementById("quizStatusBadge");
                             const actionBtn = document.getElementById("quizActionBtn");
                             const timerTextEl = document.getElementById("quizTimerText");
 
-                            if (!countdownEl) return;
+                            if (!quizCountEl) return;
 
                             const now = new Date();
                             const utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -815,7 +767,7 @@
                             const m = Math.floor((totalSecs % 3600) / 60);
                             const s = totalSecs % 60;
 
-                            countdownEl.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                            quizCountEl.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
                         }
 
                         setInterval(updateQuizTimer, 1000);
@@ -834,18 +786,18 @@
                                         const announcements = data.announcements;
                                         const latestItem = announcements[0];
                                         let feedHtml = `
-                                            <div class="announcement-card cyber-card latest-announcement" style="padding: 0.5rem; text-align: center;">
-                                                <img src="${latestItem.image}" alt="Latest Discord Announcement" style="max-width: 100%; height: auto; border-radius: 8px;" />
-                                            </div>
-                                        `;
+                                <div class="announcement-card cyber-card latest-announcement" style="padding: 0.5rem; text-align: center;">
+                                    <img src="${latestItem.image}" alt="Latest Discord Announcement" style="max-width: 100%; height: auto; border-radius: 8px;" />
+                                </div>
+                            `;
 
                                         if (announcements.length > 1) {
                                             const previousItems = announcements.slice(1);
                                             const previousHtml = previousItems.map(item => `
-                                                <div class="announcement-card cyber-card previous-item" style="padding: 0.5rem; text-align: center; margin-top: 1rem;">
-                                                    <img src="${item.image}" alt="Discord Announcement" style="max-width: 100%; height: auto; border-radius: 8px;" />
-                                                </div>
-                                            `).join("");
+                                    <div class="announcement-card cyber-card previous-item" style="padding: 0.5rem; text-align: center; margin-top: 1rem;">
+                                        <img src="${item.image}" alt="Discord Announcement" style="max-width: 100%; height: auto; border-radius: 8px;" />
+                                    </div>
+                                `).join("");
 
                                             feedHtml += `<div id="previousAnnouncements" style="display: none; width: 100%;">${previousHtml}</div>`;
                                             if (toggleWrapper) toggleWrapper.style.display = "block";
@@ -874,7 +826,6 @@
                                 });
                         }
                     });
-
                 </script>
 </body>
 

@@ -1,0 +1,496 @@
+/* =========================================================
+   THE ATX STORY / ABOUT - HOTSTAR THEME SYNC
+   ========================================================= */
+
+.about-wrapper {
+  width: 100%;
+  max-width: 1150px;
+  margin: 1.25rem auto 4.5rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HOTSTAR-STYLE AMBIENT HERO BANNER
+   ========================================================= */
+.about-hero-card {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 2.25rem;
+  background: var(--bg-card, #12141d);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  box-shadow: var(--card-shadow, 0 15px 35px rgba(0, 0, 0, 0.6));
+  display: flex;
+  align-items: center;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.about-hero-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(0, 243, 255, 0.18),
+    rgba(255, 215, 0, 0.1) 45%,
+    transparent 75%
+  );
+  filter: blur(25px);
+  pointer-events: none;
+}
+
+.about-overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--bg-card, #12141d) 0%,
+    var(--bg-card, #12141d) 42%,
+    rgba(18, 20, 29, 0.88) 65%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.about-overlay-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: linear-gradient(
+    to top,
+    var(--bg-card, #12141d) 0%,
+    transparent 100%
+  );
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 2.5rem 3rem;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.hotstar-pill {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.75rem;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.origin-pill {
+  background: var(--accent-gold, #ffd700);
+  color: #0b0b0e !important;
+}
+
+.status-pill {
+  background: rgba(0, 243, 255, 0.12);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.25));
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.pulsing-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-cyan, #00f3ff);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-cyan, #00f3ff);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+}
+
+.about-hero-content h1 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 2.3rem;
+  letter-spacing: 1.5px;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 0.55rem 0;
+  text-shadow: 0 0 15px var(--border-glow, rgba(0, 243, 255, 0.35));
+  transition: color 0.3s ease;
+}
+
+.gold-text {
+  color: var(--accent-gold, #ffd700) !important;
+}
+
+.cyan-text {
+  color: var(--accent-cyan, #00f3ff) !important;
+}
+
+.hero-subtitle {
+  color: var(--text-muted, #94a3b8) !important;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 1.15rem 0;
+  transition: color 0.3s ease;
+}
+
+.hero-meta-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8) !important;
+}
+
+.meta-dot {
+  color: var(--border-color, #475569);
+}
+
+/* =========================================================
+   NARRATIVE DIRECTIVE GRID & CARDS
+   ========================================================= */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.story-card {
+  position: relative;
+  background: var(--bg-card, #12141d) !important;
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2)) !important;
+  border-radius: 18px;
+  padding: 1.85rem;
+  box-shadow: var(--card-shadow, 0 10px 30px rgba(0, 0, 0, 0.5));
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.3s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--border-glow, var(--accent-cyan, #00f3ff)) !important;
+  box-shadow:
+    0 16px 35px var(--border-color, rgba(0, 243, 255, 0.25)),
+    0 0 20px var(--border-glow, rgba(0, 243, 255, 0.3));
+}
+
+/* Light sweep reflection on card hover */
+.story-card::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 215, 0, 0.08) 50%,
+    transparent 55%
+  );
+  transform: rotate(30deg);
+  transition: transform 0.8s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.story-card:hover::before {
+  transform: rotate(30deg) translate(25%, 25%);
+}
+
+/* HUD Corner Brackets */
+.hud-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.hud-corner.tl {
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid var(--accent-gold, #ffd700);
+  border-left: 2px solid var(--accent-gold, #ffd700);
+}
+
+.hud-corner.br {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 2px solid var(--accent-cyan, #00f3ff);
+  border-right: 2px solid var(--accent-cyan, #00f3ff);
+}
+
+.card-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.15rem;
+  position: relative;
+  z-index: 3;
+}
+
+.card-tag {
+  font-family: "Share Tech Mono", monospace;
+  color: var(--accent-gold, #ffd700);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.card-icon {
+  color: var(--accent-cyan, #00f3ff);
+  font-size: 1.25rem;
+}
+
+.story-card h2 {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.5rem;
+  color: var(--text-heading, #ffffff) !important;
+  margin: 0 0 1rem 0;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 3;
+  transition: color 0.3s ease;
+}
+
+.story-card p {
+  color: var(--text-main, #d1d5db) !important;
+  font-size: 0.925rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 3;
+  transition: color 0.3s ease;
+}
+
+.story-card p:last-child {
+  margin-bottom: 0;
+}
+
+.story-card strong {
+  color: var(--accent-cyan, #00f3ff);
+}
+
+.story-card span {
+  color: var(--accent-gold, #ffd700);
+  font-weight: 600;
+}
+
+/* Feature Pills in Culture Card */
+.feature-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.35rem 0;
+  position: relative;
+  z-index: 3;
+}
+
+.pill {
+  background: var(--bg-primary, rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--border-color, rgba(255, 215, 0, 0.25));
+  color: var(--text-heading, #ffffff);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.825rem;
+  font-family: "Share Tech Mono", monospace;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.pill:hover {
+  border-color: var(--accent-cyan, #00f3ff);
+  transform: translateY(-2px);
+}
+
+.text-purple {
+  color: #c084fc !important;
+}
+.text-danger {
+  color: #ff4655 !important;
+}
+
+/* =========================================================
+   COMMUNITY TRIBUTE & MANIFESTO
+   ========================================================= */
+.community-tribute {
+  background: var(--bg-card, #12141d) !important;
+  border: 1px solid var(--border-color, rgba(255, 215, 0, 0.35)) !important;
+  border-radius: 18px;
+  padding: 2.25rem 2rem;
+  text-align: center;
+  position: relative;
+  box-shadow: var(--card-shadow, 0 10px 30px rgba(0, 0, 0, 0.5));
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.tribute-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--accent-gold, #ffd700);
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--accent-gold, #ffd700);
+  padding: 0.25rem 0.8rem;
+  border-radius: 20px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.85rem;
+}
+
+.tribute-lead {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.2rem;
+  color: var(--accent-cyan, #00f3ff);
+  margin: 0 0 0.6rem 0;
+  letter-spacing: 0.5px;
+}
+
+.tribute-body {
+  font-size: 1.05rem;
+  color: var(--text-heading, #ffffff) !important;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.tribute-body span {
+  color: var(--accent-gold, #ffd700);
+  font-weight: bold;
+}
+
+.tribute-body strong {
+  color: var(--accent-cyan, #00f3ff);
+  display: block;
+  margin-top: 0.6rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+}
+
+/* Manifesto Banner */
+.manifesto-banner {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    var(--bg-card, #12141d) 0%,
+    var(--bg-primary, #0a0b10) 100%
+  );
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.3));
+  border-radius: 18px;
+  padding: 2.75rem 2.5rem;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: var(--card-shadow, 0 10px 30px rgba(0, 0, 0, 0.5));
+}
+
+.quote-ambient-icon {
+  font-size: 2.2rem;
+  color: var(--accent-cyan, #00f3ff);
+  opacity: 0.4;
+  margin-bottom: 1rem;
+}
+
+.about-quote {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-heading, #ffffff) !important;
+  font-family: "Share Tech Mono", monospace;
+  max-width: 900px;
+  margin: 0 auto;
+  border: none;
+  padding: 0;
+  transition: color 0.3s ease;
+}
+
+.about-quote span {
+  color: var(--accent-gold, #ffd700);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.35);
+}
+
+/* =========================================================
+   RESPONSIVE LAYOUT ADJUSTMENTS
+   ========================================================= */
+@media (max-width: 768px) {
+  .about-hero-card {
+    min-height: auto;
+  }
+
+  .about-hero-content {
+    padding: 1.6rem 1.25rem;
+  }
+
+  .about-hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .full-width {
+    grid-column: span 1;
+  }
+
+  .story-card {
+    padding: 1.4rem;
+  }
+
+  .manifesto-banner {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .about-quote {
+    font-size: 0.95rem;
+  }
+}

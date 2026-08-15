@@ -3,101 +3,148 @@
 
 <head>
     <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/about.css">
 </head>
 
 <body>
     <%- include('partials/header') %>
         <%- include('partials/flash') %>
 
-            <main class="container">
-                <section class="about-hero">
-                    <!-- <div class="cyber-badge"><i class="fa-solid fa-shield-halved"></i> EST. PLATO ARENA</div> -->
-                    <h1 class="about-glitch-title"><span class="glitch-title" data-text="THE ATX STORY"
-                            style="font-size: 1.5rem;">THE ATX
-                            STORY</span></h1>
-                    <p class="about-subtitle">Arena Team Xtreme: More than a team, a gaming family.</p>
+            <main class="about-wrapper">
+                <!-- HOTSTAR-STYLE STORY HERO STAGE -->
+                <section class="about-hero-card">
+                    <div class="about-hero-backdrop"></div>
+                    <div class="about-overlay-left"></div>
+                    <div class="about-overlay-bottom"></div>
+
+                    <div class="about-hero-content">
+                        <div class="hero-tags">
+                            <span class="hotstar-pill origin-pill">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </span>
+                        </div>
+
+                        <h1 class="glitch-title" data-text="THE ATX STORY">
+                            THE ATX <span class="gold-text">STORY</span>
+                        </h1>
+
+                        <p class="hero-subtitle">
+                            Arena Team Xtreme: More than an elite gaming GC - an unbreakable digital brotherhood
+                            forged across battles, triumphs, and shared memories.
+                        </p>
+
+                        <div class="hero-meta-strip">
+                            <span class="meta-item">
+                                <i class="fa-solid fa-gamepad cyan-text"></i> WEREWOLF ROOTS
+                            </span>
+                            <span class="meta-dot">•</span>
+                            <span class="meta-item">
+                                <i class="fa-solid fa-heart gold-text"></i> BROTHERHOOD & CODE
+                            </span>
+                        </div>
+                    </div>
                 </section>
 
+                <!-- NARRATIVE DIRECTIVE GRID -->
                 <div class="about-grid">
                     <!-- Card 1: Origins -->
                     <article class="cyber-card story-card">
-                        <div class="card-header">
-                            <span class="card-tag">ORIGINS</span>
+                        <div class="hud-corner tl"></div>
+                        <div class="hud-corner br"></div>
+
+                        <div class="card-header-bar">
+                            <span class="card-tag"><i class="fa-solid fa-dna gold-text"></i> ORIGINS</span>
                             <i class="fa-solid fa-chess-knight card-icon"></i>
                         </div>
                         <h2>Forged in Werewolf</h2>
                         <p>
-                            <strong>ATX (Arena Team Xtreme)</strong> is more than just a group on Plato. It is a
-                            bond that grew through <span>Werewolf</span> and slowly turned into something much
-                            deeper than a gaming team.
+                            <strong>ATX (Arena Team Xtreme)</strong> is more than just a squad on Plato. It is an
+                            enduring bond that was conceived through <span>Werewolf</span> strategy and evolved into
+                            something far deeper than an ordinary competitive team.
                         </p>
                         <p>
-                            From the beginning, ATX was built around WW, bringing together players who enjoyed
-                            strategy, smart thinking, and reading each other's moves. Over time, those matches
-                            created trust, understanding, and real connections.
+                            From the beginning, ATX was built around tactical mastery, bringing together analytical
+                            minds who loved reading opponents, orchestrating plans, and calculating moves. Over time,
+                            those late-night matches cemented unconditional trust and real lifelong friendships.
                         </p>
                     </article>
 
                     <!-- Card 2: Core Values -->
                     <article class="cyber-card story-card">
-                        <div class="card-header">
-                            <span class="card-tag">CODE & ETHOS</span>
-                            <i class="fa-solid fa-handshake card-icon"></i>
+                        <div class="hud-corner tl"></div>
+                        <div class="hud-corner br"></div>
+
+                        <div class="card-header-bar">
+                            <span class="card-tag"><i class="fa-solid fa-handshake-simple gold-text"></i> CODE &
+                                ETHOS</span>
+                            <i class="fa-solid fa-shield-cat card-icon"></i>
                         </div>
                         <h2>Beyond Victory</h2>
                         <p>
-                            In ATX, the focus is not only on winning. It is about standing together in every round,
-                            supporting each other's decisions, and learning from mistakes as a team.
+                            In ATX, our focus extends far beyond the leaderboard podium. It is about standing together
+                            through every clutch round, backing each member's judgment, and learning from defeats as a
+                            unified collective.
                         </p>
                         <p>
-                            Even when games get intense and emotions rise, <strong>respect never fades</strong>.
-                            Small misunderstandings happen, but they are resolved with maturity and care—that is
-                            what makes the group strong.
+                            Even when match adrenaline spikes and tensions run high, <strong>mutual respect never
+                                wavers</strong>. Minor disagreements are resolved with integrity, maturity, and genuine
+                            brotherhood — that is what makes our armor impenetrable.
                         </p>
                     </article>
 
                     <!-- Card 3: Culture -->
                     <article class="cyber-card story-card full-width">
-                        <div class="card-header">
-                            <span class="card-tag">COMMUNITY & CULTURE</span>
-                            <i class="fa-solid fa-sparkles card-icon"></i>
+                        <div class="hud-corner tl"></div>
+                        <div class="hud-corner br"></div>
+
+                        <div class="card-header-bar">
+                            <span class="card-tag"><i class="fa-solid fa-sparkles gold-text"></i> COMMUNITY &
+                                CULTURE</span>
+                            <i class="fa-solid fa-crown card-icon"></i>
                         </div>
                         <h2>A Culture of Appreciation</h2>
                         <p>
-                            One beautiful thing about ATX is the culture of appreciation. Members notice effort,
-                            encourage improvement, and celebrate each other's growth. No one feels small, and
-                            everyone gets a chance to shine.
+                            The lifeblood of ATX is our culture of active appreciation. We champion individual effort,
+                            support daily improvement, and elevate each other's milestones. Nobody is overlooked, and
+                            every single member has the runway to shine.
                         </p>
+
                         <div class="feature-pills">
-                            <span class="pill"><i class="fa-solid fa-trophy"></i> Events & Tournaments</span>
-                            <span class="pill"><i class="fa-solid fa-gamepad"></i> Game Nights</span>
-                            <span class="pill"><i class="fa-solid fa-heart"></i> Unbreakable Loyalty</span>
+                            <span class="pill"><i class="fa-solid fa-trophy gold-text"></i> Premium Tournaments</span>
+                            <span class="pill"><i class="fa-solid fa-gamepad cyan-text"></i> Community Game
+                                Nights</span>
+                            <span class="pill"><i class="fa-solid fa-heart text-danger"></i> Unbreakable Loyalty</span>
+                            <span class="pill"><i class="fa-solid fa-music text-purple"></i> Music Lounges</span>
                         </div>
+
                         <p>
-                            Events, friendly competitions, and random game nights have created countless memories
-                            filled with laughter and excitement.
+                            From major seasonal championships to spontaneous casual game nights, we have crafted
+                            countless unforgettable memories charged with laughter, rivalry, and camaraderie.
                         </p>
                     </article>
 
                     <!-- Dedicated Community Appreciation Section -->
                     <div class="community-tribute full-width">
-                        <div class="tribute-badge"><i class="fa-solid fa-crown"></i>You Know What!</div>
+                        <div class="tribute-badge"><i class="fa-solid fa-crown gold-text"></i> WE SALUTE</div>
                         <p class="tribute-lead">
-                            ATX Family is an elite competitive digital arena and community hub.
+                            ATX Family is a premier digital arena and competitive gaming ecosystem.
                         </p>
                         <p class="tribute-body">
-                            To every member, admin, <span>Pro</span> and <span>Nab</span> who makes this community
-                            legendary — <strong>We couldn't do it without you.</strong>
+                            To every Admin, veteran, <span>Pro</span>, and enthusiastic <span>Newcomer</span> who
+                            powers this community forward:
+                            <strong>We couldn't do it without you.</strong>
                         </p>
                     </div>
 
                     <!-- Manifesto Banner -->
                     <div class="manifesto-banner full-width">
-                        <i class="fa-solid fa-quote-left quote-icon"></i>
+                        <div class="quote-ambient-icon">
+                            <i class="fa-solid fa-quote-left"></i>
+                        </div>
                         <blockquote class="about-quote">
-                            ATX deserves appreciation because it proves that online friendships can be real and
-                            meaningful. It shows that a simple WW group can grow into a family where <span>loyalty,
-                                teamwork, and heart</span> matter more than the game itself.
+                            "ATX stands as living proof that online bonds can transcend the screen. It demonstrates that
+                            a humble Werewolf circle can grow into a sanctuary where <span>loyalty, teamwork, and
+                                heart</span> carry far more weight than any match score."
                         </blockquote>
                     </div>
                 </div>

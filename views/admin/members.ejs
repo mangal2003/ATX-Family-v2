@@ -3,59 +3,108 @@
 
 <head>
     <%- include('../partials/head') %>
+        <link rel="stylesheet" href="/css/admin-members.css">
 </head>
 
 <body>
     <%- include('../partials/header') %>
         <%- include('../partials/flash') %>
 
-            <main class="admin-container">
-                <div class="admin-header">
-                    <a href="/admin/dashboard" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to
-                        Dashboard</a> <br>
+            <main class="members-container">
+                <!-- HOTSTAR-STYLE HERO STAGE BANNER -->
+                <section class="members-hero-card">
+                    <div class="members-hero-backdrop"></div>
+                    <div class="members-overlay-left"></div>
+                    <div class="members-overlay-bottom"></div>
 
-                    <h1 class="glitch-title" data-text="MEMBER DIRECTORY">MEMBER DIRECTORY</h1>
-                    <p>Search users, change permissions, inspect profile roles, or manage accounts.</p>
-                </div>
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner tr"></div>
+                    <div class="hud-corner bl"></div>
+                    <div class="hud-corner br"></div>
 
-                <!-- Mobile-First Search Bar -->
-                <form action="/admin/members" method="GET" class="search-form">
-                    <div class="search-input-group">
-                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" name="search" value="<%= searchQuery %>"
-                            placeholder="Search by name or email..." class="cyber-input search-input">
-                        <% if (searchQuery) { %>
-                            <a href="/admin/members" class="clear-search-btn"><i class="fa-solid fa-xmark"></i></a>
-                            <% } %>
+                    <div class="members-hero-content">
+                        <a href="/admin/dashboard" class="back-link">
+                            <i class="fa-solid fa-arrow-left"></i> BACK TO DASHBOARD
+                        </a>
+
+                        <div class="hero-tags">
+                            <span class="hotstar-pill directory-pill">
+                                <i class="fa-solid fa-address-book"></i> ACCESS CONTROL
+                            </span>
+                        </div>
+
+                        <h1 class="glitch-title" data-text="MEMBER DIRECTORY">
+                            MEMBER <span class="gold-text">DIRECTORY</span>
+                        </h1>
+
+                        <p class="hero-subtitle">
+                            Search registered accounts, modify access permissions, audit roles, and manage community
+                            memberships.
+                        </p>
                     </div>
-                    <button type="submit" class="cyber-btn search-btn">Search</button>
-                </form>
+                </section>
 
-                <!-- Member Stack -->
+                <!-- SEARCH BAR & QUERY CONTROLS -->
+                <section class="cyber-card search-wrapper-card">
+                    <form action="/admin/members" method="GET" class="search-form">
+                        <div class="search-input-group">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" name="search" value="<%= searchQuery || '' %>"
+                                placeholder="Search by username, display name, or email..."
+                                class="cyber-input search-input">
+                            <% if (searchQuery) { %>
+                                <a href="/admin/members" class="clear-search-btn" title="Clear Query">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
+                                <% } %>
+                        </div>
+                        <button type="submit" class="hotstar-btn primary-btn search-submit-btn">
+                            <i class="fa-solid fa-magnifying-glass"></i> Search
+                        </button>
+                    </form>
+                </section>
+
+                <!-- MEMBER ROSTER LIST -->
                 <div class="member-cards-list">
-                    <% if (membersList.length===0) { %>
+                    <% if (!membersList || membersList.length===0) { %>
                         <div class="cyber-card empty-state">
-                            <i class="fa-solid fa-user-slash"></i>
-                            <p>No members found matching "<%= searchQuery %>".</p>
+                            <i class="fa-solid fa-user-slash empty-icon"></i>
+                            <h3>NO MEMBERS FOUND</h3>
+                            <p>No registered accounts match "<span class="gold-text">
+                                    <%= searchQuery %>
+                                </span>".</p>
+                            <a href="/admin/members" class="hotstar-btn primary-btn reset-btn">
+                                <i class="fa-solid fa-rotate-left"></i> Reset Directory View
+                            </a>
                         </div>
                         <% } %>
 
                             <% membersList.forEach(member=> { %>
-                                <div class="member-item-card cyber-card">
+                                <article class="member-item-card cyber-card">
+                                    <div class="hud-corner tl"></div>
+                                    <div class="hud-corner br"></div>
+
                                     <div class="member-profile">
-                                        <img src="<%= member.avatar || '/images/default-avatar.png' %>" alt="avatar"
-                                            class="mobile-avatar">
+                                        <div
+                                            class="member-avatar-wrapper <%= member.role === 'admin' ? 'admin-ring' : '' %>">
+                                            <img src="<%= member.avatar || '/images/default-avatar.png' %>"
+                                                alt="<%= member.username %> Avatar" class="mobile-avatar"
+                                                onerror="this.src='/images/default-avatar.png';" loading="lazy">
+                                        </div>
+
                                         <div class="member-details">
                                             <div class="member-name-row">
-                                                <span class="member-name">
+                                                <h3 class="member-name">
                                                     <%= member.displayName || member.username || 'ATX Member' %>
-                                                </span>
+                                                </h3>
                                                 <span
                                                     class="role-badge <%= member.role === 'admin' ? 'badge-admin' : 'badge-member' %>">
+                                                    <i
+                                                        class="fa-solid <%= member.role === 'admin' ? 'fa-shield-halved' : 'fa-user' %>"></i>
                                                     <%= member.role.toUpperCase() %>
                                                 </span>
                                             </div>
-                                            <!-- <span class="member-email">
+                                            <!-- <span class="member-email"><i class="fa-regular fa-envelope cyan-text"></i>
                                                 <%= member.email %>
                                             </span> -->
                                         </div>
@@ -64,13 +113,12 @@
                                     <div class="member-action-bar">
                                         <% if (member._id.toString() !==user._id.toString()) { %>
                                             <!-- Role Toggle Form -->
-                                            <form action="/admin/user/role" method="POST" class="mobile-form"
-                                                style="display: inline-block;">
+                                            <form action="/admin/user/role" method="POST" class="action-form">
                                                 <input type="hidden" name="userId" value="<%= member._id %>">
                                                 <input type="hidden" name="newRole"
                                                     value="<%= member.role === 'admin' ? 'member' : 'admin' %>">
-                                                <button type="submit" style="margin-bottom: 0.5rem;"
-                                                    class="cyber-touch-btn <%= member.role === 'admin' ? 'btn-demote' : 'btn-promote' %>">
+                                                <button type="submit"
+                                                    class="role-action-btn <%= member.role === 'admin' ? 'btn-demote' : 'btn-promote' %>">
                                                     <i
                                                         class="fa-solid <%= member.role === 'admin' ? 'fa-arrow-down' : 'fa-arrow-up' %>"></i>
                                                     <%= member.role==='admin' ? 'Demote to Member' : 'Promote to Admin'
@@ -79,24 +127,24 @@
                                             </form>
 
                                             <!-- Delete Account Form -->
-                                            <form action="/admin/user/delete" method="POST" class="mobile-form"
-                                                style="display: inline-block;"
-                                                onsubmit="return confirm('Are you sure you want to permanently delete user: <%= member.displayName || member.username || member.email %>?');">
+                                            <form action="/admin/user/delete" method="POST" class="action-form"
+                                                onsubmit="return confirm('Permanently delete account: <%= member.displayName || member.username || member.email %>?');">
                                                 <input type="hidden" name="userId" value="<%= member._id %>">
-                                                <button type="submit" class="cyber-touch-btn btn-delete">
+                                                <button type="submit" class="btn-delete">
                                                     <i class="fa-solid fa-trash-can"></i> Delete
                                                 </button>
                                             </form>
                                             <% } else { %>
-                                                <span class="self-tag"><i class="fa-solid fa-user-check"></i>
-                                                    Current Account</span>
+                                                <span class="self-tag">
+                                                    <i class="fa-solid fa-user-check gold-text"></i> Current Account
+                                                </span>
                                                 <% } %>
                                     </div>
-                                </div>
+                                </article>
                                 <% }) %>
                 </div>
 
-                <!-- Mobile-Friendly Pagination Controls -->
+                <!-- MOBILE-FRIENDLY PAGINATION BAR -->
                 <% if (totalPages> 1) { %>
                     <div class="pagination-container">
                         <% if (currentPage> 1) { %>
@@ -104,16 +152,22 @@
                                 class="pagination-btn">
                                 <i class="fa-solid fa-chevron-left"></i> Prev
                             </a>
-                            <% } %>
+                            <% } else { %>
+                                <span class="pagination-btn disabled"><i class="fa-solid fa-chevron-left"></i>
+                                    Prev</span>
+                                <% } %>
 
-                                <span class="page-indicator">Page <%= currentPage %> of <%= totalPages %></span>
+                                    <span class="page-indicator">Page <%= currentPage %> of <%= totalPages %></span>
 
-                                <% if (currentPage < totalPages) { %>
-                                    <a href="/admin/members?page=<%= currentPage + 1 %>&search=<%= searchQuery %>"
-                                        class="pagination-btn">
-                                        Next <i class="fa-solid fa-chevron-right"></i>
-                                    </a>
-                                    <% } %>
+                                    <% if (currentPage < totalPages) { %>
+                                        <a href="/admin/members?page=<%= currentPage + 1 %>&search=<%= searchQuery %>"
+                                            class="pagination-btn">
+                                            Next <i class="fa-solid fa-chevron-right"></i>
+                                        </a>
+                                        <% } else { %>
+                                            <span class="pagination-btn disabled">Next <i
+                                                    class="fa-solid fa-chevron-right"></i></span>
+                                            <% } %>
                     </div>
                     <% } %>
             </main>
