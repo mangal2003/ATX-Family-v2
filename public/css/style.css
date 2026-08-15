@@ -710,3 +710,211 @@ h6,
     transform: skew(0.4deg);
   }
 }
+
+/* =========================================================
+   HOTSTAR-STYLE CYBER FLASH ALERTS - FULL THEME SYNC
+   ========================================================= */
+
+.flash-messages-wrapper {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 440px;
+  width: calc(100vw - 32px);
+  pointer-events: none;
+}
+
+.flash-alert {
+  position: relative;
+  width: 100%;
+  pointer-events: auto;
+  background: var(--bg-card, #12141d) !important;
+  border-radius: 14px;
+  padding: 0.9rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+  box-sizing: border-box;
+  animation: flashSlideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
+}
+
+@keyframes flashSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(40px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.flash-fade-out {
+  opacity: 0 !important;
+  transform: translateX(50px) scale(0.9) !important;
+}
+
+/* Success Alert Styling */
+.flash-success {
+  border: 1px solid var(--accent-cyan, #00f3ff) !important;
+}
+
+.flash-success .flash-ambient-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent-cyan, #00f3ff);
+  box-shadow: 0 0 12px var(--accent-cyan, #00f3ff);
+}
+
+.flash-success .flash-progress-bar {
+  background: linear-gradient(
+    90deg,
+    var(--accent-cyan, #00f3ff),
+    var(--accent-gold, #ffd700)
+  );
+}
+
+.success-icon {
+  background: rgba(0, 243, 255, 0.12);
+  border: 1px solid var(--accent-cyan, #00f3ff);
+  color: var(--accent-cyan, #00f3ff);
+}
+
+/* Error Alert Styling */
+.flash-error {
+  border: 1px solid var(--accent-danger, #ff4655) !important;
+}
+
+.flash-error .flash-ambient-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent-danger, #ff4655);
+  box-shadow: 0 0 12px var(--accent-danger, #ff4655);
+}
+
+.flash-error .flash-progress-bar {
+  background: linear-gradient(90deg, var(--accent-danger, #ff4655), #ff7b00);
+}
+
+.error-icon {
+  background: rgba(255, 70, 85, 0.12);
+  border: 1px solid var(--accent-danger, #ff4655);
+  color: var(--accent-danger, #ff4655);
+}
+
+/* Alert Content */
+.flash-content {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.flash-icon-pod {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.flash-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.flash-label {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted, #94a3b8);
+  letter-spacing: 1px;
+}
+
+.flash-message-body {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-heading, #ffffff) !important;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+/* Dismiss Close Button */
+.flash-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted, #94a3b8);
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.flash-close-btn:hover {
+  color: var(--text-heading, #ffffff);
+  background: var(--bg-primary, rgba(255, 255, 255, 0.08));
+}
+
+/* Liquid Linear Progress Bar Countdown */
+.flash-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  animation: flashProgress 4.5s linear forwards;
+}
+
+@keyframes flashProgress {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
+/* Mobile Screens */
+@media (max-width: 480px) {
+  .flash-messages-wrapper {
+    top: 72px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+  }
+  .flash-alert {
+    padding: 0.75rem 1rem;
+  }
+  .flash-message-body {
+    font-size: 0.8rem;
+  }
+}

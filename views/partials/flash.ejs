@@ -1,47 +1,70 @@
-<% if (locals.success_msg && success_msg.length> 0) { %>
-    <div class="flash-alert flash-success" id="flashMsg">
-        <div class="flash-content">
-            <i class="fa-solid fa-circle-check"></i>
-            <span>
-                <%= success_msg %>
-            </span>
-        </div>
-        <button type="button" class="flash-close" onclick="dismissFlash()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-    <% } %>
-
-        <% if (locals.error_msg && error_msg.length> 0) { %>
-            <div class="flash-alert flash-error" id="flashMsg">
-                <div class="flash-content">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <span>
-                        <%= error_msg %>
+<div class="flash-messages-wrapper">
+    <% if (locals.success_msg && success_msg.length> 0) { %>
+        <div class="flash-alert flash-success" role="alert">
+            <div class="flash-ambient-glow"></div>
+            <div class="flash-content">
+                <div class="flash-icon-pod success-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="flash-text-group">
+                    <span class="flash-label">SUCCESS</span>
+                    <span class="flash-message-body">
+                        <%= success_msg %>
                     </span>
                 </div>
-                <button type="button" class="flash-close" onclick="dismissFlash()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
             </div>
-            <% } %>
+            <button type="button" class="flash-close-btn" onclick="dismissFlash(this)" aria-label="Dismiss Alert">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flash-progress-bar"></div>
+        </div>
+        <% } %>
 
-                <script>
-                    function dismissFlash() {
-                        const flash = document.getElementById('flashMsg');
-                        if (flash) {
-                            flash.classList.add('flash-fade-out');
-                            setTimeout(() => flash.remove(), 400); // Remove element after animation
-                        }
-                    }
+            <% if (locals.error_msg && error_msg.length> 0) { %>
+                <div class="flash-alert flash-error" role="alert">
+                    <div class="flash-ambient-glow"></div>
+                    <div class="flash-content">
+                        <div class="flash-icon-pod error-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="flash-text-group">
+                            <span class="flash-label">ALERT</span>
+                            <span class="flash-message-body">
+                                <%= error_msg %>
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" class="flash-close-btn" onclick="dismissFlash(this)"
+                        aria-label="Dismiss Alert">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="flash-progress-bar"></div>
+                </div>
+                <% } %>
+</div>
 
-                    // Auto dismiss after 4 seconds
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const flash = document.getElementById('flashMsg');
-                        if (flash) {
-                            setTimeout(() => {
-                                dismissFlash();
-                            }, 4000);
-                        }
-                    });
-                </script>
+<script>
+    function dismissFlash(target) {
+        const flashEl = target.closest ? target.closest('.flash-alert') : target;
+        if (flashEl) {
+            flashEl.classList.add('flash-fade-out');
+            setTimeout(() => {
+                flashEl.remove();
+                const wrapper = document.querySelector('.flash-messages-wrapper');
+                if (wrapper && wrapper.children.length === 0) {
+                    wrapper.remove();
+                }
+            }, 350);
+        }
+    }
+
+    // Auto-dismiss all active flash alerts after 4.5 seconds
+    document.addEventListener('DOMContentLoaded', () => {
+        const alerts = document.querySelectorAll('.flash-alert');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                dismissFlash(alert);
+            }, 4500);
+        });
+    });
+</script>
