@@ -72,10 +72,16 @@
                                 <i class="fa-brands fa-discord discord-icon"></i>
                                 <span class="discord-action-text">Submit Details via Staff Desk &raquo;</span>
                             </div>
-                            <a href="<%= locals.links && links.discord_contact_staff ? links.discord_contact_staff : '#' %>"
-                                target="_blank" class="discord-btn">
-                                Contact Staff <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                            </a>
+                            <% let dcStaffCont="#" ; if (locals.siteSettings && siteSettings.customMetrics) { const
+                                metric=siteSettings.customMetrics.find(m=> m.label === 'discord_contact_staff');
+                                if (metric && metric.value) {
+                                dcStaffCont = metric.value;
+                                }
+                                }
+                                %>
+                                <a href="<%= dcStaffCont %>" target="_blank" class="discord-btn">
+                                    Contact Staff <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </a>
                         </div>
                     </article>
 
