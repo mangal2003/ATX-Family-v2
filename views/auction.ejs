@@ -16,8 +16,8 @@
 
                     <h1 class="glitch-title" data-text="AUCTION TABLE">AUCTION <span class="gold-text">TABLE</span>
                     </h1>
-                    <p class="auction-subtitle">Bid monthly EP on auction items(banners, chat bubbles, sticker packs or
-                        game items).</p>
+                    <p class="auction-subtitle">Bid monthly EP on auction item (banners, chat bubbles, sticker packs or
+                        game items)</p>
                 </header>
 
                 <!-- LAST WINNER HOTSTAR-STYLE BANNER -->
@@ -40,9 +40,9 @@
                                     <span class="hotstar-pill victor-pill">
                                         <i class="fa-solid fa-crown"></i> LAST AUCTION WINNER
                                     </span>
-                                    <span class="hotstar-pill status-pill">
+                                    <!-- <span class="hotstar-pill status-pill">
                                         <span class="pulsing-dot"></span> ITEM CLAIMED
-                                    </span>
+                                    </span> -->
                                 </div>
 
                                 <div class="winner-identity-row">
@@ -96,7 +96,7 @@
                                                     class="item-thumb-icon" onerror="this.src='/images/atx.webp';">
                                                 <div class="item-title-group">
                                                     <div class="live-indicator-pill">
-                                                        <span class="pulsing-dot-green"></span> LIVE BIDDING
+                                                        <span class="pulsing-dot-green"></span> LIVE
                                                     </div>
                                                     <h3 class="gold-text">
                                                         <%= auction.itemName %>
@@ -168,7 +168,7 @@
                                                     </h4>
                                                 </div>
                                                 <div class="metric-box right">
-                                                    <span class="label">LEAD OPERATOR</span>
+                                                    <span class="label">LEADING BIDDER</span>
                                                     <h4 class="gold-text">
                                                         <%= topBidderDisplay %>
                                                     </h4>
@@ -209,7 +209,7 @@
                                                     <!-- Option 2: Custom Bid Amount -->
                                                     <form action="/auction/bid" method="POST" class="custom-bid-form">
                                                         <input type="hidden" name="bidType" value="custom">
-                                                        <label class="sub-label">CUSTOM EP ALLOCATION</label>
+                                                        <label class="sub-label">BID CUSTOM EP</label>
                                                         <div class="input-group">
                                                             <input type="number" name="customAmount"
                                                                 class="cyber-input custom-input"
@@ -238,14 +238,14 @@
                                         <div class="admin-emergency-card">
                                             <div class="admin-header-row">
                                                 <h4 class="danger-text"><i class="fa-solid fa-triangle-exclamation"></i>
-                                                    DIRECTIVE EMERGENCY CONTROL</h4>
+                                                    EMERGENCY CONTROL</h4>
                                             </div>
                                             <p class="admin-desc">Manually close this auction session, declare the
-                                                highest bidder as the victor, and process EP settlement.</p>
+                                                highest bidder as the winner, and process EP settlement.</p>
                                             <form action="/auction/admin/end-now" method="POST"
                                                 onsubmit="return confirm('Confirm manual conclusion of the active auction?');">
                                                 <button type="submit" class="cyber-btn admin-halt-btn">
-                                                    <i class="fa-solid fa-power-off"></i> CONCLUDE AUCTION SESSION NOW
+                                                    <i class="fa-solid fa-power-off"></i> END AUCTION SESSION NOW
                                                 </button>
                                             </form>
                                         </div>
@@ -268,7 +268,7 @@
                                                         <div class="card-title-bar">
                                                             <div class="title-left">
                                                                 <i class="fa-solid fa-rocket cyan-text"></i>
-                                                                <h3>INITIALIZE NEW AUCTION DIRECTIVE</h3>
+                                                                <h3>INITIALIZE NEW EP AUCTION</h3>
                                                             </div>
                                                             <span class="badge-label">ADMIN DESK</span>
                                                         </div>
