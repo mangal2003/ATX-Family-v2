@@ -1,12 +1,3 @@
-// public/js/push-client.js
-
-// Replace with your generated VAPID Public Key
-const PUBLIC_VAPID_KEY =
-  "BLYuqpTZyP4-rcnEkqZnsno_91OEkvMGeoSdLohI1na_3Va552VJIAP9AHUNuZ2jV1cM-QivXMt6nUQzr_cNSvQ";
-
-/**
- * Utility: Convert URL Safe Base64 string to Uint8Array required by PushManager
- */
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding)
@@ -22,52 +13,69 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-/**
- * Register Service Worker and subscribe user to Web Push
- */
-async function subscribeUserToPush() {
+async function registerPushSubscription() {
   if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
-    console.warn("Web Push is not supported on this browser.");
+    console.warn("[PUSH] Web Push is not supported in this browser.");
     return;
   }
 
   try {
-    // 1. Register Service Worker
-    const register = await navigator.serviceWorker.register("/sw.js", {
+    // 1. Register the Service Worker
+    console.log("[PUSH] Registering service worker...");
+    const registration = await navigator.serviceWorker.register("/sw.js", {
       scope: "/",
     });
+    await navigator.serviceWorker.ready;
+    console.log("[PUSH] Service Worker Ready.");
 
-    // 2. Request Notification Permission
-    const permission = await Notification.requestPermission();
-    if (permission !== "granted") {
-      console.log("Notification permission denied by user.");
+    // 2. Fetch Public VAPID Key from the server
+    const keyRes = await fetch("/api/push/public-key");
+    const { publicKey } = await keyRes.json();
+
+    if (!publicKey) {
+      console.error("[PUSH] No VAPID public key returned from server.");
       return;
     }
 
-    // 3. Subscribe User via PushManager
-    const subscription = await register.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(PUBLIC_VAPID_KEY),
-    });
+    // 3. Request Notification Permission
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") {
+      console.warn("[PUSH] Notification permission denied by user.");
+      return;
+    }
 
-    // 4. Send Subscription JSON to Express Backend
-    await fetch("/quiz/subscribe-push", {
+    // 4. Subscribe to Push Manager
+    let subscription = await registration.pushManager.getSubscription();
+    if (!subscription) {
+      console.log("[PUSH] Creating new push subscription...");
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicKey),
+      });
+    }
+
+    // 5. Send Subscription to backend
+    console.log("[PUSH] Dispatching subscription to server endpoint...");
+    const saveRes = await fetch("/api/subscribe", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(subscription),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
 
-    console.log("Successfully subscribed to ATX Web Push notifications.");
-  } catch (error) {
-    console.error("Error during Web Push subscription:", error);
+    const result = await saveRes.json();
+    if (saveRes.ok && result.success) {
+      console.log("[PUSH] ✅ Successfully registered and saved in MongoDB!");
+    } else {
+      console.error("[PUSH] Server rejected subscription:", result);
+    }
+  } catch (err) {
+    console.error("[PUSH] Registration failed:", err);
   }
 }
 
-// Automatically prompt on page load if user is logged in and hasn't explicitly denied
-document.addEventListener("DOMContentLoaded", () => {
-  if (Notification.permission === "default") {
-    subscribeUserToPush();
-  }
-});
+// Auto-run when page loads
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", registerPushSubscription);
+} else {
+  registerPushSubscription();
+}

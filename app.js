@@ -8,6 +8,7 @@ const passport = require("passport");
 const connectDB = require("./config/db");
 const cron = require("node-cron");
 const webpush = require("web-push");
+const PushSubscription = require("./models/PushSubscription");
 const http = require("http");
 const { Server } = require("socket.io");
 
@@ -124,63 +125,110 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// --- Web Push Notification Trigger (Every Even Hour IST at 00 mins) ---
-cron.schedule(
-  "0 0,2,4,6,8,10,12,14,16,18,20,22 * * *",
-  async () => {
-    console.log(
-      "[CRON] Broadcasting Web Push for Quiz Activation (Even Hour IST)...",
+webpush.setVapidDetails(
+  "mailto:mangalthemars@gmail.com",
+  process.env.VAPID_PUBLIC_KEY,
+  process.env.VAPID_PRIVATE_KEY,
+);
+
+// Route 1: Serve Public Key to Frontend
+app.get("/api/push/public-key", (req, res) => {
+  res.json({ publicKey: process.env.VAPID_PUBLIC_KEY });
+});
+
+// Route 2: Save Subscription into MongoDB
+app.post("/api/subscribe", async (req, res) => {
+  try {
+    const sub = req.body;
+    if (!sub || !sub.endpoint || !sub.keys) {
+      return res.status(400).json({ error: "Invalid subscription payload." });
+    }
+
+    await PushSubscription.findOneAndUpdate(
+      { endpoint: sub.endpoint },
+      {
+        userId: req.user ? req.user._id : null,
+        endpoint: sub.endpoint,
+        keys: {
+          p256dh: sub.keys.p256dh,
+          auth: sub.keys.auth,
+        },
+      },
+      { upsert: true, new: true },
     );
 
-    try {
-      const usersWithPush = await User.find({
-        "pushSubscription.endpoint": { $exists: true, $ne: null, $ne: "" },
-      });
+    console.log(
+      "[PUSH] Subscription saved to DB:",
+      sub.endpoint.slice(0, 35) + "...",
+    );
+    res.status(201).json({ success: true });
+  } catch (err) {
+    console.error("[PUSH DB ERROR]:", err);
+    res.status(500).json({ error: "Database save failure" });
+  }
+});
 
-      if (!usersWithPush || usersWithPush.length === 0) {
-        console.log("[CRON] No active push subscribers found.");
-        return;
-      }
+// Broadcast Quiz Alert (Runs every hour, triggers on even hours IST)
+cron.schedule("0 * * * *", async () => {
+  try {
+    const now = new Date();
+    // Convert to IST (UTC + 5:30)
+    const istOffset = 5.5 * 60 * 60 * 1000;
+    const istDate = new Date(now.getTime() + istOffset);
+    const hours = istDate.getUTCHours();
 
-      const payload = JSON.stringify({
-        title: "ATX Quiz is NOW LIVE!",
-        body: "The quiz window is open for 30 minutes. Log in to rank up!",
-        icon: "/images/atx-logo.png",
-      });
-
-      const notifications = usersWithPush.map((user) => {
-        // Defensive check
-        if (!user.pushSubscription || !user.pushSubscription.endpoint) {
-          return User.findByIdAndUpdate(user._id, {
-            $set: { pushSubscription: null },
-          });
-        }
-
-        return webpush
-          .sendNotification(user.pushSubscription, payload)
-          .catch(async (err) => {
-            // Remove invalid / expired subscriptions (410 Gone / 404 Not Found)
-            if (err.statusCode === 410 || err.statusCode === 404) {
-              await User.findByIdAndUpdate(user._id, {
-                $set: { pushSubscription: null },
-              });
-            }
-            console.error(`[PUSH ERROR] ${user.username}:`, err.message);
-          });
-      });
-
-      await Promise.allSettled(notifications);
-    } catch (err) {
-      console.error(
-        "[CRON ERROR] Failed to broadcast push notifications:",
-        err,
-      );
+    // Check if it's an even hour (e.g., 10 AM, 12 PM, 2 PM, 4 PM, etc.)
+    if (hours % 2 !== 0) {
+      return;
     }
-  },
-  {
-    timezone: "Asia/Kolkata",
-  },
-);
+
+    console.log(
+      `[CRON] Broadcasting Web Push for Quiz Activation (${hours}:00 IST)...`,
+    );
+
+    const subscribers = await PushSubscription.find({});
+    if (!subscribers || subscribers.length === 0) {
+      console.log("[CRON] No active push subscribers found in database.");
+      return;
+    }
+
+    const payload = JSON.stringify({
+      title: "🧠 ATX Quiz Arena is LIVE!",
+      body: "The 30-minute competition window is now open. Jump in and claim your XP!",
+      url: "/quiz",
+    });
+
+    const sendPromises = subscribers.map(async (sub) => {
+      try {
+        await webpush.sendNotification(
+          {
+            endpoint: sub.endpoint,
+            keys: {
+              p256dh: sub.keys.p256dh,
+              auth: sub.keys.auth,
+            },
+          },
+          payload,
+        );
+      } catch (err) {
+        // HTTP 410 (Gone) or 404 indicates the subscription expired or was revoked by the user
+        if (err.statusCode === 410 || err.statusCode === 404) {
+          console.log(`[CRON] Purging expired push token: ${sub._id}`);
+          await PushSubscription.deleteOne({ _id: sub._id });
+        } else {
+          console.error(`[CRON] Push error for ${sub._id}:`, err.message);
+        }
+      }
+    });
+
+    await Promise.allSettled(sendPromises);
+    console.log(
+      `[CRON] Successfully dispatched alerts to ${subscribers.length} device(s).`,
+    );
+  } catch (err) {
+    console.error("[CRON PUSH BROADCAST ERROR]:", err);
+  }
+});
 
 // Check for ended auctions every 30 seconds
 setInterval(() => {
@@ -205,6 +253,12 @@ app.use("/auction", auctionRoutes);
 app.use("/music-room", musicRouter);
 app.use("/xpl", xplRouter);
 app.use("/", require("./routes/announcements"));
+
+app.get("/api/debug-subs", async (req, res) => {
+  const count = await PushSubscription.countDocuments();
+  const subs = await PushSubscription.find().select("userId endpoint");
+  res.json({ count, subs });
+});
 
 // --- 404 Catch-All Route ---
 app.use((req, res) => {

@@ -23,28 +23,29 @@ const sendAuctionAnnouncement = async ({
 
     if (type === "START") {
       embedColor = 0x00f3ff;
-      embedTitle = "🔨 WEEKLY AUCTION STARTED! ";
+      embedTitle = "<:atx:1369956242159833122> WEEKLY AUCTION STARTED! ";
       formattedDescription = [
         `# ${auction.itemName}`,
-        `### **Starting Bid:** ${auction.startingBid.toLocaleString()} EP`,
-        `### **Duration:** 50 Hours ⏳`,
+        `### <:ATX_auction:1538433231412658176> Starting Bid: ${auction.startingBid.toLocaleString()} EP`,
+        `### Duration: 50 Hours ⏳`,
         ``,
-        `**Note:** ${auction.description || "No description provided."}`,
+        `**Description:** ${auction.description || "No description provided."}`,
         ``,
-        `-# 🔗 [**Bid here**](https://atx-family.onrender.com/auction)!`,
+        `-# 🔗 [**Place Your Bid here <:ATX_auction:1538433231412658176>**](https://atx-family.onrender.com/auction)!`,
       ].join("\n");
     } else if (type === "END") {
       embedColor = 0xffd700; // Gold for Winner
-      embedTitle = "✓ AUCTION COMPLETED!";
+      embedTitle = "<:ATX_auction:1538433231412658176> AUCTION COMPLETED!";
       formattedDescription = [
         `# ${auction.itemName}`,
-        `### **Winner:** ${winnerName ? `${winnerName} ✨` : "*No Bids Placed*"}`,
-        `### **Winning Bid:** ${winnerName ? `${(winningBid || 0).toLocaleString()} EP` : "N/A"}`,
+        `# ${winnerName ? `CONGRATULATIONS ${winnerName.toUpperCase()}! <:Devil_Love:1350202191385722940>}` : "<:TomatoTsuna:1450192484981280860> Item went unsold"}`,
         ``,
-        `# 🎉 Congratulations Winner!`,
-        `-# EP balance has updated!`,
+        `### Winner: ${winnerName ? `${winnerName} <:Lalala:1446899773025030194>` : "None <:TomatoTsuna:1450192484981280860>"}`,
+        `### Winning Bid: ${winnerName ? `${(winningBid || 0).toLocaleString()} EP` : "No bid received!"}`,
         ``,
-        `[**Explore More on Website**](https://atx-family.onrender.com/auction)`,
+        `-# EP balance has updated! `,
+        ``,
+        `[**Check details here**](https://atx-family.onrender.com/auction)`,
       ].join("\n");
     }
 
@@ -55,7 +56,7 @@ const sendAuctionAnnouncement = async ({
           title: embedTitle,
           description: formattedDescription,
           color: embedColor,
-          // timestamp: new Date().toISOString(),
+          timestamp: new Date().toISOString(),
         },
       ],
     };

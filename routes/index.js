@@ -92,7 +92,7 @@ router.get("/", async (req, res) => {
     const topUsers = await User.find({})
       .select("username weeklyScore avatar")
       .sort({ weeklyScore: -1 })
-      .limit(5);
+      .limit(10);
 
     // 6. Fetch Recent Hall of Fame Winners
     const recentWinners = await Winner.find().sort({ date: -1 }).limit(5);
