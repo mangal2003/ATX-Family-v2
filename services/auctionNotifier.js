@@ -37,15 +37,11 @@ const sendAuctionAnnouncement = async ({
       embedColor = 0xffd700; // Gold for Winner
       embedTitle = "<:ATX_auction:1538433231412658176> AUCTION COMPLETED!";
       formattedDescription = [
-        `# ${auction.itemName}`,
-        `# ${winnerName ? `CONGRATULATIONS ${winnerName.toUpperCase()}! <:Devil_Love:1350202191385722940>}` : "<:TomatoTsuna:1450192484981280860> Item went unsold"}`,
-        ``,
-        `### Winner: ${winnerName ? `${winnerName} <:Lalala:1446899773025030194>` : "None <:TomatoTsuna:1450192484981280860>"}`,
-        `### Winning Bid: ${winnerName ? `${(winningBid || 0).toLocaleString()} EP` : "No bid received!"}`,
-        ``,
-        `-# EP balance has updated! `,
+        `### ${winnerName ? `CONGRATULATIONS ${winnerName ? `${winnerName} <:Devil_Love:1350202191385722940> Claim _${auction.itemName}_ from \`OP_MANGAL\`` : " None<:TomatoTsuna:1450192484981280860>"}` : "<:TomatoTsuna:1450192484981280860> Item went unsold"}`,
+        `> Winning Bid: ${winnerName ? `**${(winningBid || 0).toLocaleString()} EP**` : "No bid received!"}`,
         ``,
         `[**Check details here**](https://atx-family.onrender.com/auction)`,
+        ``,
       ].join("\n");
     }
 
