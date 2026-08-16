@@ -8,7 +8,8 @@ const sendAuctionAnnouncement = async ({
 }) => {
   const botToken = process.env.DISCORD_BOT_TOKEN;
   const channelId = process.env.DISCORD_AUCTION_ANNOUNCEMENTS_CHANNEL_ID;
-
+  const targetDate = new Date(Date.now() + 50 * 60 * 60 * 1000);
+  const unixTimestamp = Math.floor(targetDate.getTime() / 1000);
   if (!botToken || !channelId) {
     console.warn(
       "[AUCTION BOT] Missing DISCORD_BOT_TOKEN or DISCORD_AUCTION_ANNOUNCEMENTS_CHANNEL_ID",
@@ -23,15 +24,14 @@ const sendAuctionAnnouncement = async ({
 
     if (type === "START") {
       embedColor = 0x00f3ff;
-      embedTitle = "<:atx:1369956242159833122> WEEKLY AUCTION STARTED! ";
+      embedTitle = "<:atx:1369956242159833122> WEEKLY AUCTION STARTED!";
       formattedDescription = [
-        `# ${auction.itemName}`,
-        `### <:ATX_auction:1538433231412658176> Starting Bid: ${auction.startingBid.toLocaleString()} EP`,
-        `### Duration: 50 Hours ⏳`,
+        `# <:ATX_auction:1538433231412658176> ${auction.itemName}`,
+        `> Starting Bid: ${auction.startingBid.toLocaleString()} EP <:ATX_bid:1538490397876293753>`,
+        `> Auction end: <t:${unixTimestamp}:R> <:ATX_timer:1538491784802336797>`,
         ``,
-        `**Description:** ${auction.description || "No description provided."}`,
-        ``,
-        `-# 🔗 [**Place Your Bid here <:ATX_auction:1538433231412658176>**](https://atx-family.onrender.com/auction)!`,
+        `**Note:** ${auction.description || "No description provided."}`,
+        `-# [**Place Your Bids here!**](https://atx-family.onrender.com/auction)`,
       ].join("\n");
     } else if (type === "END") {
       embedColor = 0xffd700; // Gold for Winner
