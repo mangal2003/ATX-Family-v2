@@ -194,7 +194,7 @@ cron.schedule("0 * * * *", async () => {
 
     const payload = JSON.stringify({
       title: "🧠 ATX Quiz Arena is LIVE!",
-      body: "The 30-minute competition window is now open. Jump in and claim your XP!",
+      body: "The 30-minute competition window is now open. Jump in and earn quiz points!",
       url: "/quiz",
     });
 
