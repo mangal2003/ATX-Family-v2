@@ -1,4 +1,4 @@
-<div class="flash-messages-wrapper">
+<div class="flash-messages-wrapper" id="flashWrapper">
     <% if (locals.success_msg && success_msg.length> 0) { %>
         <div class="flash-alert flash-success" role="alert">
             <div class="flash-ambient-glow"></div>
@@ -50,15 +50,50 @@
             flashEl.classList.add('flash-fade-out');
             setTimeout(() => {
                 flashEl.remove();
-                const wrapper = document.querySelector('.flash-messages-wrapper');
-                if (wrapper && wrapper.children.length === 0) {
-                    wrapper.remove();
-                }
             }, 350);
         }
     }
 
-    // Auto-dismiss all active flash alerts after 4.5 seconds
+    // Global dynamic flash toast generator for AJAX/Fetch calls
+    window.showFlash = function (message, type = 'success') {
+        let wrapper = document.getElementById('flashWrapper');
+        if (!wrapper) {
+            wrapper = document.createElement('div');
+            wrapper.id = 'flashWrapper';
+            wrapper.className = 'flash-messages-wrapper';
+            document.body.appendChild(wrapper);
+        }
+
+        const isSuccess = type === 'success';
+        const alertEl = document.createElement('div');
+        alertEl.className = `flash-alert ${isSuccess ? 'flash-success' : 'flash-error'}`;
+        alertEl.setAttribute('role', 'alert');
+
+        alertEl.innerHTML = `
+            <div class="flash-ambient-glow"></div>
+            <div class="flash-content">
+                <div class="flash-icon-pod ${isSuccess ? 'success-icon' : 'error-icon'}">
+                    <i class="fa-solid ${isSuccess ? 'fa-circle-check' : 'fa-triangle-exclamation'}"></i>
+                </div>
+                <div class="flash-text-group">
+                    <span class="flash-label">${isSuccess ? 'SUCCESS' : 'ALERT'}</span>
+                    <span class="flash-message-body">${message}</span>
+                </div>
+            </div>
+            <button type="button" class="flash-close-btn" onclick="dismissFlash(this)" aria-label="Dismiss Alert">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flash-progress-bar"></div>
+        `;
+
+        wrapper.appendChild(alertEl);
+
+        setTimeout(() => {
+            dismissFlash(alertEl);
+        }, 4500);
+    };
+
+    // Auto-dismiss static server-rendered alerts on load
     document.addEventListener('DOMContentLoaded', () => {
         const alerts = document.querySelectorAll('.flash-alert');
         alerts.forEach(alert => {

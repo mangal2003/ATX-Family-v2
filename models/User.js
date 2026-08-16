@@ -41,6 +41,10 @@ const UserSchema = new mongoose.Schema({
   lastLoginDate: { type: Date, default: Date.now },
   xpBalance: { type: Number, default: 0 },
   lastXpClaim: { type: Date, default: null },
+  epNotificationSent: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

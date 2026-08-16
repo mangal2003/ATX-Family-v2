@@ -700,12 +700,21 @@
                                     if (res.ok && data.success) {
                                         if (xpBalanceEl) xpBalanceEl.textContent = data.newXpBalance.toLocaleString();
                                         startCountdown(data.nextClaimMs || 3600000);
+
+                                        // Dynamic UI Flash Notification
+                                        if (window.showFlash) {
+                                            window.showFlash(data.message || 'Successfully claimed +100 EP!', 'success');
+                                        }
                                     } else {
-                                        alert(data.message || 'Failed to claim EP.');
+                                        if (window.showFlash) {
+                                            window.showFlash(data.message || 'Failed to claim EP.', 'error');
+                                        }
                                     }
                                 } catch (err) {
                                     console.error('EP Claim error:', err);
-                                    alert('An error occurred while claiming EP.');
+                                    if (window.showFlash) {
+                                        window.showFlash('An error occurred while communicating with the EP vault.', 'error');
+                                    }
                                 }
                             });
                         }

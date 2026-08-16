@@ -230,6 +230,58 @@ cron.schedule("0 * * * *", async () => {
   }
 });
 
+const DROP_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
+
+// Scan every 2 minutes for ready EP drops
+cron.schedule("*/2 * * * *", async () => {
+  try {
+    const oneHourAgo = new Date(Date.now() - DROP_INTERVAL_MS);
+
+    // Find users whose cooldown finished and who haven't received an alert yet
+    const eligibleUsers = await User.find({
+      lastXpClaim: { $lte: oneHourAgo, $ne: null },
+      epNotificationSent: { $ne: true },
+    }).select("_id username");
+
+    if (!eligibleUsers.length) return;
+
+    const payload = JSON.stringify({
+      title: "⚡ EP Drop Ready!",
+      body: "Your hourly +100 EP reward is ready to collect. Jump in now!",
+      url: "/",
+    });
+
+    for (const user of eligibleUsers) {
+      const subscriptions = await PushSubscription.find({ userId: user._id });
+
+      for (const sub of subscriptions) {
+        try {
+          await webpush.sendNotification(
+            {
+              endpoint: sub.endpoint,
+              keys: {
+                p256dh: sub.keys.p256dh,
+                auth: sub.keys.auth,
+              },
+            },
+            payload,
+          );
+        } catch (err) {
+          if (err.statusCode === 410 || err.statusCode === 404) {
+            await PushSubscription.deleteOne({ _id: sub._id });
+          }
+        }
+      }
+
+      // Mark notification as dispatched for this claim window
+      user.epNotificationSent = true;
+      await user.save();
+    }
+  } catch (err) {
+    console.error("[CRON EP NOTIFICATION ERROR]:", err);
+  }
+});
+
 // Check for ended auctions every 30 seconds
 setInterval(() => {
   checkAndEndAuctions();
