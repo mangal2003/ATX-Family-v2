@@ -1,11 +1,56 @@
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<!-- Optimized Viewport (Removed conflicting duplicate tags) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0b10">
-<meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+
+<!-- Primary SEO Meta Tags -->
 <title>
-    <%= typeof title !=='undefined' ? title : 'ATX Family' %>
+    <%= typeof title !=='undefined' ? `${title} | ATX Family` : 'ATX Family | Enjoy your stay here' %>
 </title>
+<meta name="title"
+    content="<%= typeof title !== 'undefined' ? `${title} | ATX Family` : 'ATX Family | Elite Plato & Discord Gaming Community' %>">
+<meta name="description"
+    content="<%= typeof description !== 'undefined' ? description : 'ATX Family: An elite digital arena featuring weekly tournaments, live EP auctions, trivia gauntlets, and 24/7 gaming audio lounge.' %>">
+<meta name="keywords"
+    content="ATX Family, Plato Werewolf, Gaming Community, Plato Tournaments, Discord Bot, EP Auction, Quiz Arena">
+<meta name="author" content="ATX Family Staff">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / Discord / Facebook / WhatsApp Embeds -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ATX Family Ecosystem">
+<meta property="og:url" content="<%= typeof canonicalUrl !== 'undefined' ? canonicalUrl : 'https://atxfamily.com' %>">
+<meta property="og:title" content="<%= typeof title !== 'undefined' ? title : 'ATX Family' %>">
+<meta property="og:description"
+    content="<%= typeof description !== 'undefined' ? description : 'Join the elite competitive gaming clan. Participate in tournaments, quiz battles, audio lounges, and seasonal auctions.' %>">
+<meta property="og:image"
+    content="<%= typeof ogImage !== 'undefined' ? ogImage : 'https://atxfamily.com/images/atx-banner.png' %>">
+<meta property="og:image:secure_url"
+    content="<%= typeof ogImage !== 'undefined' ? ogImage : 'https://atxfamily.com/images/atx-banner.png' %>">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ATX Family Banner Artwork">
+
+<!-- Twitter / X Card Embeds -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="<%= typeof canonicalUrl !== 'undefined' ? canonicalUrl : 'https://atxfamily.com' %>">
+<meta name="twitter:title" content="<%= typeof title !== 'undefined' ? title : 'ATX Family' %>">
+<meta name="twitter:description"
+    content="<%= typeof description !== 'undefined' ? description : 'Join the elite competitive gaming clan. Participate in tournaments, quiz battles, and seasonal auctions.' %>">
+<meta name="twitter:image"
+    content="<%= typeof ogImage !== 'undefined' ? ogImage : 'https://atxfamily.com/images/atx-banner.png' %>">
+
+<!-- iOS Web App & Android PWA Meta Tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ATX Family">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- Favicons & App Icons -->
+<link rel="icon" type="image/png" href="/images/atx-logo.png">
+<link rel="apple-touch-icon" href="/images/atx-logo.png">
 
 <!-- FontAwesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -18,10 +63,6 @@
 <% if (typeof pageCss !=='undefined' && pageCss) { %>
     <link rel="stylesheet" href="/css/<%= pageCss %>">
     <% } %>
-
-        <!-- Favicons -->
-        <link rel="icon" type="image/png" href="/images/atx-logo.png">
-        <link rel="apple-touch-icon" href="/images/atx-logo.png">
 
         <!-- Core Client Scripts -->
         <script src="/js/audio-effects.js"></script>
