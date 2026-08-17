@@ -305,6 +305,7 @@ app.use("/auction", auctionRoutes);
 app.use("/music-room", musicRouter);
 app.use("/xpl", xplRouter);
 app.use("/", require("./routes/announcements"));
+app.use("/vault", require("./routes/vault"));
 
 app.get("/api/debug-subs", async (req, res) => {
   const count = await PushSubscription.countDocuments();

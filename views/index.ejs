@@ -196,12 +196,17 @@
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
-
-                        <a href="<%= siteSettings.discordServerLink || '#' %>" target="_blank"
-                            class="studio-card hub-discord">
+                        <a href="/vault" class="studio-card hub-vault">
                             <div class="studio-card-inner">
-                                <i class="fa-brands fa-discord studio-icon discord-color-text"></i>
-                                <span class="studio-title">DISCORD SERVER</span>
+                                <i class="fa-solid fa-vault studio-icon cyan-text"></i>
+                                <span class="studio-title">CYBER VAULT</span>
+                            </div>
+                            <div class="studio-card-glow"></div>
+                        </a>
+                        <a href="/auction" class="studio-card hub-auction">
+                            <div class="studio-card-inner">
+                                <i class="fa-solid fa-gavel studio-icon gold-text"></i>
+                                <span class="studio-title">EP AUCTION</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
@@ -214,18 +219,19 @@
                             <div class="studio-card-glow"></div>
                         </a>
 
-                        <a href="/guidelines" class="studio-card hub-guidelines">
+                        <a href="<%= siteSettings.discordServerLink || '#' %>" target="_blank"
+                            class="studio-card hub-discord">
                             <div class="studio-card-inner">
-                                <i class="fa-solid fa-headset studio-icon cyan-text"></i>
-                                <span class="studio-title">GUIDELINES</span>
+                                <i class="fa-brands fa-discord studio-icon discord-color-text"></i>
+                                <span class="studio-title">DISCORD SERVER</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
 
-                        <a href="/auction" class="studio-card hub-auction">
+                        <a href="/guidelines" class="studio-card hub-guidelines">
                             <div class="studio-card-inner">
-                                <i class="fa-solid fa-gavel studio-icon gold-text"></i>
-                                <span class="studio-title">EP AUCTION</span>
+                                <i class="fa-solid fa-headset studio-icon cyan-text"></i>
+                                <span class="studio-title">GUIDELINES</span>
                             </div>
                             <div class="studio-card-glow"></div>
                         </a>
@@ -280,16 +286,26 @@
                                     Date(user.lastXpClaim).getTime() : 0; const elapsed=Date.now() - lastClaim; const
                                     remainingMs=Math.max(0, DROP_INTERVAL_MS - elapsed); const canClaim=remainingMs===0;
                                     %>
-                                    <button id="claimXpBtn" class="electric-claim-btn"
-                                        data-remaining="<%= remainingMs %>" <%=!canClaim ? 'disabled' : '' %>>
-                                        <i class="fa-solid fa-bolt-lightning"></i>
-                                        <span id="claimBtnText">
-                                            <%= canClaim ? 'CLAIM +100 EP' : 'COOLDOWN' %>
-                                        </span>
-                                    </button>
-                                    <div id="xpCountdown" class="electric-timer-badge">
-                                        <%= !canClaim ? '00:00:00' : 'READY!' %>
+                                    <div class="xp-action-stack">
+                                        <button id="claimXpBtn" class="electric-claim-btn"
+                                            data-remaining="<%= remainingMs %>" <%=!canClaim ? 'disabled' : '' %>>
+                                            <i class="fa-solid fa-bolt-lightning"></i>
+                                            <span id="claimBtnText">
+                                                <%= canClaim ? 'CLAIM +100 EP' : 'COOLDOWN' %>
+                                            </span>
+                                        </button>
+                                        <div id="xpCountdown" class="electric-timer-badge">
+                                            <%= !canClaim ? '00:00:00' : 'READY!' %>
+                                        </div>
                                     </div>
+
+                                    <!-- EARN MORE EP LINK -->
+                                    <a href="/vault" class="vault-shortcut-btn"
+                                        title="Play mini-games & drops in the Cyber Vault">
+                                        <i class="fa-solid fa-vault-lightning cyan-text"></i>
+                                        <span>Earn More EP</span>
+                                        <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
+                                    </a>
                                     <% } else { %>
                                         <a href="/login" class="electric-claim-btn">
                                             <i class="fa-solid fa-right-to-bracket"></i> Login to Collect

@@ -45,6 +45,15 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  vaultStats: {
+    roulettePlaysThisHour: { type: Number, default: 0 },
+    coinflipPlaysThisHour: { type: Number, default: 0 },
+    dicePlaysThisHour: { type: Number, default: 0 },
+    slotsPlaysThisHour: { type: Number, default: 0 },
+    blackjackPlaysThisHour: { type: Number, default: 0 },
+    lastRouletteHour: { type: Number, default: 0 },
+    lastEventClaimHour: { type: Number, default: -1 },
+  },
   createdAt: {
     type: Date,
     default: Date.now,

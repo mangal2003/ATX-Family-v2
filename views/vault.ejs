@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/vault.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <%- include('partials/flash') %>
+
+            <main class="vault-wrapper">
+                <!-- 1. COMPACT MOBILE HERO STAGE -->
+                <header class="vault-hero-card">
+                    <div class="vault-hero-backdrop"></div>
+                    <div class="vault-overlay-left"></div>
+
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner tr"></div>
+                    <div class="hud-corner bl"></div>
+                    <div class="hud-corner br"></div>
+
+                    <div class="vault-hero-content">
+                        <div class="hero-tags">
+                            <span class="hotstar-pill vault-pill">
+                                <i class="fa-solid fa-vault"></i> CYBER VAULT
+                            </span>
+                            <span class="hotstar-pill status-pill">
+                                <span class="pulsing-dot"></span> LIVE 24/7
+                            </span>
+                        </div>
+
+                        <h1 class="glitch-title" data-text="EP CYBER VAULT">
+                            EP CYBER <span class="gold-text">VAULT</span>
+                        </h1>
+
+                        <p class="hero-subtitle">
+                            Claim hourly drops, decode ciphers, and risk EP in the command terminal.
+                        </p>
+
+                        <div class="hero-meta-strip">
+                            <div class="balance-badge">
+                                <i class="fa-solid fa-coins gold-text"></i>
+                                <span class="balance-label">Balance:</span>
+                                <strong class="gold-text" id="liveUserEp">
+                                    <%= user ? (user.xpBalance || 0).toLocaleString() : 0 %> EP
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- 2. GAME GUIDES & PROTOCOLS CAROUSEL BANNER -->
+                <section class="cyber-card vault-guide-slider-card">
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner br"></div>
+
+                    <div class="guide-slider-header">
+                        <div class="guide-header-badge">
+                            <i class="fa-solid fa-book-skull cyan-text"></i>
+                            <span>VAULT PROTOCOL GUIDE</span>
+                        </div>
+                        <div class="slider-controls">
+                            <button type="button" class="slider-nav-btn prev-slide" aria-label="Previous Slide">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button type="button" class="slider-nav-btn next-slide" aria-label="Next Slide">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="guide-carousel-track">
+                        <!-- Slide 1: Roulette -->
+                        <div class="guide-slide active" data-slide="0">
+                            <div class="slide-icon-pod"><i class="fa-solid fa-dharmachakra gold-text"></i></div>
+                            <div class="slide-details">
+                                <div class="slide-title-row">
+                                    <h3>CYBER ROULETTE</h3>
+                                    <span class="payout-tag gold-tag">4.00x PAYOUT</span>
+                                </div>
+                                <p class="slide-text">
+                                    Predict which energy sector the ball lands on: <span
+                                        class="cyan-text font-bold">RED, BLACK, GOLD, or CYAN</span>. Winning multiplies
+                                    your bet by 4x.
+                                </p>
+                                <div class="slide-cmd-box">
+                                    <code>roulette &lt;color&gt; &lt;amount|all&gt;</code>
+                                    <span class="limit-note">Limit: 5 plays/hr • Min: 20 EP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Coinflip -->
+                        <div class="guide-slide" data-slide="1">
+                            <div class="slide-icon-pod"><i class="fa-solid fa-coins cyan-text"></i></div>
+                            <div class="slide-details">
+                                <div class="slide-title-row">
+                                    <h3>QUANTUM COINFLIP</h3>
+                                    <span class="payout-tag cyan-tag">2.00x PAYOUT</span>
+                                </div>
+                                <p class="slide-text">
+                                    Classic 50/50 odds showdown. Call <span class="cyan-text font-bold">HEADS</span> or
+                                    <span class="cyan-text font-bold">TAILS</span> to double your EP instantly.
+                                </p>
+                                <div class="slide-cmd-box">
+                                    <code>coinflip &lt;heads|tails&gt; &lt;amount|all&gt;</code>
+                                    <span class="limit-note">Limit: 10 plays/hr • Min: 20 EP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: Dice Duel -->
+                        <div class="guide-slide" data-slide="2">
+                            <div class="slide-icon-pod"><i class="fa-solid fa-dice-d20 neon-text"></i></div>
+                            <div class="slide-details">
+                                <div class="slide-title-row">
+                                    <h3>VAULT DICE DUEL</h3>
+                                    <span class="payout-tag neon-tag">2.50x PAYOUT</span>
+                                </div>
+                                <p class="slide-text">
+                                    Roll two quantum 6-sided dice (2-12) against the Vault House. Beat the dealer's roll
+                                    to score a 1.5x pure profit multiplier. Ties are refunded!
+                                </p>
+                                <div class="slide-cmd-box">
+                                    <code>dice &lt;amount|all&gt;</code>
+                                    <span class="limit-note">Limit: 10 plays/hr • Min: 20 EP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4: Cyber Slots -->
+                        <div class="guide-slide" data-slide="3">
+                            <div class="slide-icon-pod"><i class="fa-solid fa-gem purple-text"></i></div>
+                            <div class="slide-details">
+                                <div class="slide-title-row">
+                                    <h3>CYBER SLOTS</h3>
+                                    <span class="payout-tag gold-tag">UP TO 15x PAYOUT</span>
+                                </div>
+                                <p class="slide-text">
+                                    Spin the slot matrix (💎, ⚡, 🪙, 💀, 👑). 2 matching symbols pay 1.5x, 3 matching
+                                    pay 5x, 3 Diamonds pay 10x, and 3 Crowns hit the 15x Jackpot!
+                                </p>
+                                <div class="slide-cmd-box">
+                                    <code>slots &lt;amount|all&gt;</code>
+                                    <span class="limit-note">Limit: 10 plays/hr • Min: 20 EP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 5: Instant 21 / Blackjack -->
+                        <div class="guide-slide" data-slide="4">
+                            <div class="slide-icon-pod"><i class="fa-solid fa-suit-spade red-text"></i></div>
+                            <div class="slide-details">
+                                <div class="slide-title-row">
+                                    <h3>INSTANT BLACKJACK (21)</h3>
+                                    <span class="payout-tag cyan-tag">2.00x - 2.50x</span>
+                                </div>
+                                <p class="slide-text">
+                                    Draw a 2-card hand against the dealer. Get closer to 21 without going over to win
+                                    2x. Hitting a natural 21 scores a 2.5x payout.
+                                </p>
+                                <div class="slide-cmd-box">
+                                    <code>blackjack &lt;amount|all&gt;</code>
+                                    <span class="limit-note">Limit: 5 plays/hr • Min: 20 EP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 6: Hourly Drops & Ciphers -->
+                        <div class="guide-slide" data-slide="5">
+                            <div class="slide-icon-pod"><i class="fa-solid fa-brain gold-text"></i></div>
+                            <div class="slide-details">
+                                <div class="slide-title-row">
+                                    <h3>HOURLY CIPHER & DROPS</h3>
+                                    <span class="payout-tag gold-tag">FREE +500 EP</span>
+                                </div>
+                                <p class="slide-text">
+                                    Even hours feature a 10-minute Flash Drop window. Odd hours trigger an encrypted
+                                    anagram challenge with hints to win 500 bonus EP every hour.
+                                </p>
+                                <div class="slide-cmd-box">
+                                    <code>No Command Required</code>
+                                    <span class="limit-note">Active on top of this page</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide Indicators -->
+                    <div class="guide-slider-dots">
+                        <span class="dot-indicator active" data-go="0"></span>
+                        <span class="dot-indicator" data-go="1"></span>
+                        <span class="dot-indicator" data-go="2"></span>
+                        <span class="dot-indicator" data-go="3"></span>
+                        <span class="dot-indicator" data-go="4"></span>
+                        <span class="dot-indicator" data-go="5"></span>
+                    </div>
+                </section>
+
+                <!-- 3. HOURLY EVENT CARD -->
+                <% const nowMin=new Date().getUTCMinutes(); const isGiveawayExpired=(event.type==='GIVEAWAY' && nowMin>=
+                    10); %>
+                    <section class="cyber-card event-card" id="hourlyEventSection" data-event-type="<%= event.type %>"
+                        style="<%= isGiveawayExpired ? 'display: none !important;' : '' %>">
+
+                        <div class="hud-corner tl"></div>
+                        <div class="hud-corner br"></div>
+
+                        <div class="event-header-row">
+                            <div
+                                class="event-type-badge <%= event.type === 'GIVEAWAY' ? 'badge-gold' : 'badge-cyan' %>">
+                                <i class="fa-solid <%= event.type === 'GIVEAWAY' ? 'fa-gift' : 'fa-brain' %>"></i>
+                                <%= event.type==='GIVEAWAY' ? 'FLASH DROP' : 'CIPHER' %>
+                            </div>
+                            <div class="event-countdown-pill" id="eventCountdown">
+                                <i class="fa-solid fa-stopwatch"></i> --:--
+                            </div>
+                        </div>
+
+                        <div class="event-main-details">
+                            <h2 class="event-title">
+                                <%= event.title %>
+                            </h2>
+                            <p class="event-desc">
+                                <%= event.type==='GIVEAWAY'
+                                    ? 'Quick-claim drop available in the first 10 mins of each hour.'
+                                    : 'Unscramble the encrypted letters to claim the secret bounty reward.' %>
+                            </p>
+                            <div class="reward-pill">
+                                <i class="fa-solid fa-coins gold-text"></i> REWARD: <strong class="gold-text">+500
+                                    EP</strong>
+                            </div>
+                        </div>
+
+                        <div class="event-action-bar">
+                            <% if (hasClaimedHourlyEvent) { %>
+                                <button class="hotstar-btn disabled-btn w-full" disabled>
+                                    <i class="fa-solid fa-check-double"></i> CLAIMED THIS HOUR
+                                </button>
+                                <% } else if (event.type==='GIVEAWAY' ) { %>
+                                    <button id="claimGiveawayBtn" class="hotstar-btn primary-btn w-full">
+                                        <i class="fa-solid fa-hand-holding-dollar"></i> CLAIM +500 EP
+                                    </button>
+                                    <% } else { %>
+                                        <button id="openCipherModalBtn" class="hotstar-btn primary-btn w-full"
+                                            type="button">
+                                            <i class="fa-solid fa-terminal"></i> LAUNCH CIPHER CRACKER
+                                        </button>
+                                        <% } %>
+                        </div>
+                    </section>
+
+                    <!-- 4. CYBER TERMINAL INTERFACE -->
+                    <section class="cyber-card terminal-card">
+                        <div class="hud-corner tl"></div>
+                        <div class="hud-corner br"></div>
+
+                        <div class="terminal-header-bar">
+                            <div class="window-controls">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <span class="terminal-title">ATX_VAULT_SHELL v2.6</span>
+                        </div>
+
+                        <!-- Terminal Output Window -->
+                        <div class="terminal-body" id="terminalOutput">
+                            <p class="sys-msg">[NODE READY] Connected to ATX EP Ledger.</p>
+                            <p class="sys-msg">Tap quick actions below or type <span class="cyan-text">help</span>.</p>
+                        </div>
+
+                        <!-- Quick Action Chips for Mobile -->
+                        <div class="terminal-quick-chips">
+                            <button type="button" class="term-chip" data-cmd="help">HELP</button>
+                            <button type="button" class="term-chip" data-cmd="balance">BALANCE</button>
+                            <button type="button" class="term-chip" data-cmd="coinflip heads 50">COINFLIP 50</button>
+                            <button type="button" class="term-chip" data-cmd="roulette gold 50">ROULETTE 50</button>
+                            <button type="button" class="term-chip" data-cmd="dice 50">DICE 50</button>
+                            <button type="button" class="term-chip" data-cmd="slots 50">SLOTS 50</button>
+                            <button type="button" class="term-chip" data-cmd="blackjack 50">BJ 50</button>
+                            <button type="button" class="term-chip" data-cmd="clear">CLEAR</button>
+                        </div>
+
+                        <!-- Terminal Command Input Bar -->
+                        <form id="terminalForm" class="terminal-input-row">
+                            <span class="term-prompt">&gt;</span>
+                            <input type="text" id="terminalInput" class="term-input" autocomplete="off"
+                                autocapitalize="off" spellcheck="false" placeholder="Enter command (e.g. dice 50)...">
+                            <button type="submit" class="hotstar-btn term-submit-btn" aria-label="Send Command">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </section>
+            </main>
+
+            <!-- CIPHER GAME MODAL (MOBILE ADAPTIVE) -->
+            <div id="cipherModal" class="cyber-modal">
+                <div class="modal-content">
+                    <button type="button" class="modal-close" id="closeCipherBtn"
+                        aria-label="Close modal">&times;</button>
+
+                    <div class="modal-header-bar">
+                        <h3><i class="fa-solid fa-key gold-text"></i> DECRYPT CIPHER</h3>
+                    </div>
+
+                    <div class="cipher-game-body">
+                        <p class="cipher-hint">
+                            <span class="hint-label">HINT:</span>
+                            <strong class="cyan-text">
+                                <%= event.hint %>
+                            </strong>
+                        </p>
+
+                        <div class="scrambled-letters-pod">
+                            <% event.scrambled.split('').forEach(char=> { %>
+                                <span class="cipher-tile">
+                                    <%= char %>
+                                </span>
+                                <% }) %>
+                        </div>
+
+                        <form id="cipherForm" class="cipher-form">
+                            <input type="text" id="cipherGuess" class="cyber-input"
+                                placeholder="Type unscrambled word..." required autocomplete="off"
+                                autocapitalize="characters">
+                            <button type="submit" class="hotstar-btn primary-btn w-full">
+                                <i class="fa-solid fa-unlock"></i> SUBMIT GUESS (+500 EP)
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <%- include('partials/footer') %>
+                <script src="/js/vault.js"></script>
+</body>
+
+</html>
