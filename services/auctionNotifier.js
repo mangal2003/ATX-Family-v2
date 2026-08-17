@@ -24,23 +24,28 @@ const sendAuctionAnnouncement = async ({
 
     if (type === "START") {
       embedColor = 0x00f3ff;
-      embedTitle = "<:atx:1369956242159833122> WEEKLY AUCTION STARTED!";
+      embedTitle = "# <:atx:1369956242159833122> WEEKLY AUCTION STARTED!";
       formattedDescription = [
-        `# <:ATX_auction:1538433231412658176> ${auction.itemName}`,
+        `### <:ATX_auction:1538433231412658176> **${auction.itemName}**`,
+        `> `,
         `> Starting Bid: ${auction.startingBid.toLocaleString()} EP <:ATX_bid:1538490397876293753>`,
-        `> Auction end: <t:${unixTimestamp}:R> <:ATX_timer:1538491784802336797>`,
+        `> Ends: <t:${unixTimestamp}:R> <:ATX_timer:1538491784802336797>`,
+        `> `,
         ``,
         `**Note:** ${auction.description || "No description provided."}`,
         `-# [**Place Your Bids here!**](https://atx-family.onrender.com/auction)`,
       ].join("\n");
     } else if (type === "END") {
       embedColor = 0xffd700; // Gold for Winner
-      embedTitle = "<:ATX_auction:1538433231412658176> AUCTION COMPLETED!";
+      embedTitle = "# <:ATX_auction:1538433231412658176> AUCTION COMPLETED!";
       formattedDescription = [
-        `### ${winnerName ? `CONGRATULATIONS ${winnerName ? `${winnerName} <:Devil_Love:1350202191385722940> Claim _${auction.itemName}_ from \`OP_MANGAL\`` : " None<:TomatoTsuna:1450192484981280860>"}` : "<:TomatoTsuna:1450192484981280860> Item went unsold"}`,
-        `> Winning Bid: ${winnerName ? `**${(winningBid || 0).toLocaleString()} EP**` : "No bid received!"}`,
+        `${winnerName ? `Congratulations ${winnerName ? `**${winnerName}** <:Devil_Love:1350202191385722940> Claim __${auction.itemName}__ from **OP_MANGAL**` : " None<:TomatoTsuna:1450192484981280860>"}` : "<:TomatoTsuna:1450192484981280860> Item went unsold"}`,
         ``,
-        `[**Check details here**](https://atx-family.onrender.com/auction)`,
+        `> `,
+        `> Winning Bid: ${winnerName ? `**${(winningBid || 0).toLocaleString()} EP**` : "No bid received!"}`,
+        `> `,
+        ``,
+        `[**Explore more**](https://atx-family.onrender.com/)`,
         ``,
       ].join("\n");
     }
