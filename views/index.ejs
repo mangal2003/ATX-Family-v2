@@ -67,6 +67,8 @@
                     </div>
                 </section>
 
+
+
                 <!-- 2. FEATURED HIGHLIGHTS (HORIZONTAL POSTER RAIL) -->
                 <section class="app-rail-section">
                     <div class="rail-header">
@@ -180,6 +182,74 @@
                                         <p class="poster-sub">Custom Directives</p>
                                     </div>
                                 </a>
+                    </div>
+                </section>
+
+                <!-- CLAN SHOWCASE & FEATURED PROFILES -->
+                <section class="cyber-card profile-showcase-section">
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner br"></div>
+
+                    <div class="showcase-header">
+                        <div class="showcase-badge">
+                            <i class="fa-solid fa-id-card cyan-text"></i>
+                            <span>PROFILES</span>
+                        </div>
+                        <a href="/profile" class="customize-prompt-link">
+                            <i class="fa-solid fa-paintbrush gold-text"></i> Customize
+                        </a>
+                    </div>
+
+                    <!-- Profile Slides Track -->
+                    <div class="profile-carousel-wrapper" id="profileCarousel">
+                        <div class="profile-track">
+                            <% if (featuredUsers && featuredUsers.length> 0) { %>
+                                <% featuredUsers.forEach((member, index)=> { %>
+                                    <div class="profile-showcase-card <%= index === 0 ? 'active' : '' %>"
+                                        data-profile-slide="<%= index %>">
+
+                                        <!-- Clean Raw Banner (Full Size, No Gradient) -->
+                                        <div class="profile-card-banner"
+                                            style="background-image: url('<%= member.bannerUrl || member.banner || '/images/atx-banner.png' %>');">
+                                        </div>
+
+                                        <!-- Profile Avatar -->
+                                        <div class="profile-avatar-container">
+                                            <img src="<%= member.avatarUrl || member.avatar || '/images/atx-logo.png' %>"
+                                                alt="<%= member.username %>" class="profile-avatar-img"
+                                                onerror="this.src='/images/atx-logo.png'">
+                                            <div class="avatar-ring-glow"></div>
+                                        </div>
+
+                                        <!-- Centered User Info & Bio -->
+                                        <div class="profile-card-footer">
+                                            <h3 class="profile-card-name">
+                                                <%= member.username %>
+                                            </h3>
+                                            <div class="profile-card-xp-badge">
+                                                <i class="fa-solid fa-coins gold-text"></i>
+                                                <%= (member.xpBalance || member.xp || 0).toLocaleString() %> EP
+                                            </div>
+                                            <p class="profile-card-bio">
+                                                <%= member.bio && member.bio.trim() ? member.bio
+                                                    : "Elite operator in the ATX Family gaming ecosystem." %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                                        <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Progress Indicator Dots -->
+                    <div class="profile-slider-dots" id="profileDots">
+                        <% if (typeof featuredUsers !=='undefined' && featuredUsers && featuredUsers.length> 0) { %>
+                            <% featuredUsers.forEach((_, index)=> { %>
+                                <span class="p-dot <%= index === 0 ? 'active' : '' %>" data-go="<%= index %>"></span>
+                                <% }) %>
+                                    <% } else { %>
+                                        <span class="p-dot active" data-go="0"></span>
+                                        <% } %>
                     </div>
                 </section>
 

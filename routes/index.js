@@ -113,12 +113,31 @@ router.get("/", async (req, res) => {
     // XPL AUCTION
     const activeSeason = await XplSeason.findOne({ status: { $ne: "ended" } });
     const hasActiveAuction = !!activeSeason;
+    // Fetch users with customized profiles (or fallback to top active users)
+    let featuredUsers = await User.find({
+      $or: [
+        { banner: { $exists: true, $ne: "" } },
+        { avatar: { $exists: true, $ne: "" } },
+      ],
+    })
+      .select("username bio avatar banner xp xpBalance")
+      .sort({ xpBalance: -1, xp: -1 })
+      .lean();
 
+    // Fallback: If no users have custom banners yet, grab top 5 users so the slider isn't empty
+    if (!featuredUsers || featuredUsers.length === 0) {
+      featuredUsers = await User.find({})
+        .select("username bio avatar avatarUrl banner bannerUrl xp xpBalance")
+        .sort({ xpBalance: -1 })
+        .limit(5)
+        .lean();
+    }
     res.render("index", {
       user: req.user || null,
       siteSettings,
       features,
       activeAuction,
+      featuredUsers,
       latestBids,
       currentTrack: musicRoom ? musicRoom.currentTrack : null,
       topUsers,

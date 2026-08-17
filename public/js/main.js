@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const themeSwitchers = document.querySelectorAll(".theme-switcher");
   const storedTheme = localStorage.getItem("atx_theme") || "cyber-dark";
-
   // 1. Apply active theme to document root
   function applyTheme(themeName) {
     document.documentElement.setAttribute("data-theme", themeName);
@@ -60,4 +59,79 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  // 6. AUTO-SLIDING PROFILE SHOWCASE REEL
+  const profileSlides = document.querySelectorAll(".profile-showcase-card");
+  const profileDots = document.querySelectorAll(".p-dot");
+  const profileWrapper = document.getElementById("profileCarousel");
+  let currentProfileIndex = 0;
+  let profileTimer = null;
+
+  function showProfileSlide(index) {
+    if (!profileSlides.length) return;
+
+    if (index >= profileSlides.length) currentProfileIndex = 0;
+    else if (index < 0) currentProfileIndex = profileSlides.length - 1;
+    else currentProfileIndex = index;
+
+    profileSlides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === currentProfileIndex);
+    });
+
+    profileDots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === currentProfileIndex);
+    });
+  }
+
+  function startProfileAutoplay() {
+    stopProfileAutoplay();
+    if (profileSlides.length > 1) {
+      profileTimer = setInterval(() => {
+        showProfileSlide(currentProfileIndex + 1);
+      }, 4500); // Transitions smoothly every 4.5 seconds
+    }
+  }
+
+  function stopProfileAutoplay() {
+    if (profileTimer) clearInterval(profileTimer);
+  }
+
+  profileDots.forEach((dot, i) => {
+    dot.addEventListener("click", () => {
+      stopProfileAutoplay();
+      showProfileSlide(i);
+      startProfileAutoplay();
+    });
+  });
+
+  // Touch Swipe Support for Mobile
+  if (profileWrapper) {
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    profileWrapper.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        stopProfileAutoplay();
+      },
+      { passive: true },
+    );
+
+    profileWrapper.addEventListener(
+      "touchend",
+      (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 40) {
+          showProfileSlide(currentProfileIndex + 1); // Swipe left
+        } else if (touchEndX - touchStartX > 40) {
+          showProfileSlide(currentProfileIndex - 1); // Swipe right
+        }
+        startProfileAutoplay();
+      },
+      { passive: true },
+    );
+  }
+
+  startProfileAutoplay();
 });
