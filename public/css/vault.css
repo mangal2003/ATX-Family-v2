@@ -276,7 +276,7 @@
 }
 
 .terminal-body {
-  height: 200px;
+  height: 550px;
   overflow-y: auto;
   font-family: "Share Tech Mono", monospace;
   font-size: 0.82rem;
@@ -605,7 +605,7 @@
   }
 
   .terminal-body {
-    height: 850px;
+    height: 300px;
     font-size: 0.9rem;
   }
 
