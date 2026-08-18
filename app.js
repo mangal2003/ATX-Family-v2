@@ -312,7 +312,10 @@ app.get("/api/debug-subs", async (req, res) => {
   const subs = await PushSubscription.find().select("userId endpoint");
   res.json({ count, subs });
 });
-
+app.get("/ads.txt", (req, res) => {
+  res.type("text/plain");
+  res.send("google.com, pub-9185944168362263, DIRECT, f08c47fec0942fa0");
+});
 // --- 404 Catch-All Route ---
 app.use((req, res) => {
   res.status(404).render("404", {
