@@ -238,14 +238,14 @@
                                         <div class="admin-emergency-card">
                                             <div class="admin-header-row">
                                                 <h4 class="danger-text"><i class="fa-solid fa-triangle-exclamation"></i>
-                                                    EMERGENCY CONTROL</h4>
+                                                    ADMIN CONTROL</h4>
                                             </div>
                                             <p class="admin-desc">Manually close this auction session, declare the
                                                 highest bidder as the winner, and process EP settlement.</p>
                                             <form action="/auction/admin/end-now" method="POST"
                                                 onsubmit="return confirm('Confirm manual conclusion of the active auction?');">
                                                 <button type="submit" class="cyber-btn admin-halt-btn">
-                                                    <i class="fa-solid fa-power-off"></i> END AUCTION SESSION NOW
+                                                    <i class="fa-solid fa-power-off"></i> END AUCTION NOW
                                                 </button>
                                             </form>
                                         </div>
@@ -268,23 +268,24 @@
                                                         <div class="card-title-bar">
                                                             <div class="title-left">
                                                                 <i class="fa-solid fa-rocket cyan-text"></i>
-                                                                <h3>INITIALIZE NEW EP AUCTION</h3>
+                                                                <h3>START NEW AUCTION</h3>
                                                             </div>
-                                                            <span class="badge-label">ADMIN DESK</span>
+
                                                         </div>
 
                                                         <form action="/auction/admin/create" method="POST"
                                                             enctype="multipart/form-data" class="admin-auction-form">
                                                             <div class="form-group">
                                                                 <label class="form-label">Item / Prize
-                                                                    Designation</label>
+                                                                </label>
                                                                 <input type="text" name="itemName" class="cyber-input"
                                                                     placeholder="e.g. Rare Discord Animated Role / Stickers"
                                                                     required>
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <label class="form-label">Item Specifications</label>
+                                                                <label class="form-label">Item Description /
+                                                                    Note</label>
                                                                 <textarea name="description" class="cyber-input"
                                                                     rows="3"
                                                                     placeholder="Detail the privileges, duration, or prize parameters..."
@@ -300,8 +301,8 @@
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label class="form-label">Upload Showcase
-                                                                        Artwork</label>
+                                                                    <label class="form-label">Upload item Image
+                                                                    </label>
                                                                     <input type="file" name="itemImage" accept="image/*"
                                                                         required class="custom-file-input">
                                                                 </div>
@@ -309,7 +310,7 @@
 
                                                             <button type="submit"
                                                                 class="hotstar-btn primary-btn launch-submit-btn">
-                                                                <i class="fa-solid fa-rocket"></i> LAUNCH LIVE AUCTION
+                                                                <i class="fa-solid fa-rocket"></i> SUBMIT AUCTION
                                                             </button>
                                                         </form>
                                                     </div>
@@ -361,63 +362,80 @@
                 </div>
                 <% } %>
 
-                    <%- include('partials/footer') %>
 
-                        <script>
-                            document.addEventListener('DOMContentLoaded', () => {
-                                const modal = document.getElementById('imageModal');
-                                const openBtn = document.getElementById('openImageModalBtn');
-                                const closeBtn = document.getElementById('closeImageModalBtn');
-                                const modalImg = document.querySelector('.modal-full-img');
-                                const modalImgWrapper = document.querySelector('.modal-image-wrapper');
 
-                                function calculateImageAspectRatio() {
-                                    if (!modalImg || !modalImgWrapper) return;
-                                    const naturalWidth = modalImg.naturalWidth;
-                                    const naturalHeight = modalImg.naturalHeight;
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const modal = document.getElementById('imageModal');
+                            const openBtn = document.getElementById('openImageModalBtn');
+                            const closeBtn = document.getElementById('closeImageModalBtn');
+                            const modalImg = document.querySelector('.modal-full-img');
+                            const modalImgWrapper = document.querySelector('.modal-image-wrapper');
 
-                                    if (naturalWidth && naturalHeight) {
-                                        const ratio = naturalWidth / naturalHeight;
-                                        if (ratio > 1.15) {
-                                            modalImgWrapper.classList.add('landscape-mode');
-                                            modalImgWrapper.classList.remove('portrait-mode');
-                                        } else {
-                                            modalImgWrapper.classList.add('portrait-mode');
-                                            modalImgWrapper.classList.remove('landscape-mode');
-                                        }
-                                    }
-                                }
+                            function calculateImageAspectRatio() {
+                                if (!modalImg || !modalImgWrapper) return;
+                                const naturalWidth = modalImg.naturalWidth;
+                                const naturalHeight = modalImg.naturalHeight;
 
-                                if (modalImg) {
-                                    if (modalImg.complete) {
-                                        calculateImageAspectRatio();
+                                if (naturalWidth && naturalHeight) {
+                                    const ratio = naturalWidth / naturalHeight;
+                                    if (ratio > 1.15) {
+                                        modalImgWrapper.classList.add('landscape-mode');
+                                        modalImgWrapper.classList.remove('portrait-mode');
                                     } else {
-                                        modalImg.addEventListener('load', calculateImageAspectRatio);
+                                        modalImgWrapper.classList.add('portrait-mode');
+                                        modalImgWrapper.classList.remove('landscape-mode');
                                     }
                                 }
+                            }
 
-                                if (openBtn && modal) {
-                                    openBtn.addEventListener('click', () => {
-                                        modal.classList.add('active');
-                                        calculateImageAspectRatio();
-                                    });
+                            if (modalImg) {
+                                if (modalImg.complete) {
+                                    calculateImageAspectRatio();
+                                } else {
+                                    modalImg.addEventListener('load', calculateImageAspectRatio);
                                 }
+                            }
 
-                                if (closeBtn && modal) {
-                                    closeBtn.addEventListener('click', () => {
+                            if (openBtn && modal) {
+                                openBtn.addEventListener('click', () => {
+                                    modal.classList.add('active');
+                                    calculateImageAspectRatio();
+                                });
+                            }
+
+                            if (closeBtn && modal) {
+                                closeBtn.addEventListener('click', () => {
+                                    modal.classList.remove('active');
+                                });
+                            }
+
+                            if (modal) {
+                                modal.addEventListener('click', (e) => {
+                                    if (e.target === modal) {
                                         modal.classList.remove('active');
-                                    });
-                                }
+                                    }
+                                });
+                            }
+                        });
+                    </script>
 
-                                if (modal) {
-                                    modal.addEventListener('click', (e) => {
-                                        if (e.target === modal) {
-                                            modal.classList.remove('active');
-                                        }
-                                    });
-                                }
-                            });
+                    <!-- 320x50 ADSTERRA BANNER -->
+                    <div class="adsterra-banner-container"
+                        style="display: flex; justify-content: center; align-items: center; margin: 1rem 0; width: 100%; min-height: 50px; overflow: hidden;">
+                        <script>
+                            atOptions = {
+                                'key': '9019d2b26f252f4c581c4f2432bac432',
+                                'format': 'iframe',
+                                'height': 50,
+                                'width': 320,
+                                'params': {}
+                            };
                         </script>
+                        <script
+                            src="https://www.highperformanceformat.com/9019d2b26f252f4c581c4f2432bac432/invoke.js"></script>
+                    </div>
+                    <%- include('partials/footer') %>
 </body>
 
 </html>

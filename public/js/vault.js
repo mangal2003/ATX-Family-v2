@@ -370,4 +370,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   startAutoSlide();
+  // SPONSOR SMARTLINK CLAIM ENGINE
+  const sponsorBtn = document.getElementById("sponsorSmartlinkBtn");
+  if (sponsorBtn) {
+    const sponsorBtn = document.getElementById("sponsorSmartlinkBtn");
+    if (sponsorBtn) {
+      sponsorBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        const smartlinkUrl = sponsorBtn.getAttribute("data-link");
+        if (
+          smartlinkUrl &&
+          !smartlinkUrl.includes(
+            "https://www.effectivecpmnetwork.com/k1j016f20?key=15e55458273fd559135fec0d68541581",
+          )
+        ) {
+          window.open(smartlinkUrl, "_blank", "noopener,noreferrer");
+        }
+
+        try {
+          const res = await fetch("/vault/claim-sponsor-ep", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            if (window.showFlash) window.showFlash(data.message, "success");
+            const epEl = document.getElementById("liveUserEp");
+            if (epEl)
+              epEl.textContent = `${data.newBalance.toLocaleString()} EP`;
+
+            sponsorBtn.disabled = true;
+            sponsorBtn.className = "hotstar-btn disabled-btn";
+            sponsorBtn.innerHTML = `<i class="fa-solid fa-check"></i> CLAIMED (+200 EP)`;
+          } else {
+            if (window.showFlash) window.showFlash(data.message, "error");
+          }
+        } catch (err) {
+          if (window.showFlash)
+            window.showFlash("Failed to connect to vault ledger.", "error");
+        }
+      });
+    }
+  }
 });

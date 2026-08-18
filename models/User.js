@@ -54,6 +54,7 @@ const UserSchema = new mongoose.Schema({
     lastRouletteHour: { type: Number, default: 0 },
     lastEventClaimHour: { type: Number, default: -1 },
   },
+  lastSponsorClaim: { type: Date, default: null },
   createdAt: {
     type: Date,
     default: Date.now,
