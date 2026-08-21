@@ -284,22 +284,22 @@ router.post("/terminal-command", async (req, res) => {
   if (cmd === "help") {
     return res.json({
       output: [
-        "[ VAULT PROTOCOLS & COMMANDS ]",
+        "[ VAULT COMMANDS ]",
         "---------------------------------------",
         "• roulette <red|black|gold|cyan> <bet>",
-        "  └ Payout: 4.00x | Limit: 5/hr",
+        "  └-> Payout: 4.00x | Limit: 5/hr",
         "",
         "• coinflip <heads|tails> <bet>",
-        "  └ Payout: 2.00x | Limit: 10/hr",
+        "  └-> Payout: 2.00x | Limit: 10/hr",
         "",
         "• dice <bet>",
-        "  └ Payout: 2.50x | Limit: 10/hr",
+        "  └-> Payout: 2.50x | Limit: 10/hr",
         "",
         "• slots <bet>",
-        "  └ Payout: Up to 15x | Limit: 10/hr",
+        "  └-> Payout: Up to 15x | Limit: 10/hr",
         "",
         "• blackjack <bet>",
-        "  └ Payout: 2.00x | Limit: 5/hr",
+        "  └-> Payout: 2.00x | Limit: 5/hr",
         "",
         "• balance  -> View wallet funds",
         "• clear    -> Reset console workspace",
@@ -587,47 +587,5 @@ router.post("/terminal-command", async (req, res) => {
   });
 });
 
-// POST /vault/claim-sponsor-ep
-router.post("/claim-sponsor-ep", async (req, res) => {
-  try {
-    if (!req.user) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Login required." });
-    }
-
-    const COOLDOWN_MS = 10 * 60 * 1000; // 30 minutes
-    const now = Date.now();
-    const lastClaim = req.user.lastSponsorClaim
-      ? new Date(req.user.lastSponsorClaim).getTime()
-      : 0;
-
-    if (now - lastClaim < COOLDOWN_MS) {
-      const remainingMins = Math.ceil(
-        (COOLDOWN_MS - (now - lastClaim)) / 60000,
-      );
-      return res.status(400).json({
-        success: false,
-        message: `Sponsor drop on cooldown. Wait ${remainingMins}m.`,
-      });
-    }
-
-    const BONUS_EP = 200;
-    req.user.xpBalance = (req.user.xpBalance || 0) + BONUS_EP;
-    req.user.lastSponsorClaim = new Date();
-    await req.user.save();
-
-    return res.json({
-      success: true,
-      message: `Claimed +${BONUS_EP} EP from Sponsor Drop!`,
-      newBalance: req.user.xpBalance,
-    });
-  } catch (err) {
-    console.error("[SPONSOR CLAIM ERROR]:", err);
-    return res
-      .status(500)
-      .json({ success: false, message: "Database update error." });
-  }
-});
 
 module.exports = router;
