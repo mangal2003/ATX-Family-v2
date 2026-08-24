@@ -8,7 +8,7 @@ const sendAuctionAnnouncement = async ({
 }) => {
   const botToken = process.env.DISCORD_BOT_TOKEN;
   const channelId = process.env.DISCORD_AUCTION_ANNOUNCEMENTS_CHANNEL_ID;
-  const targetDate = new Date(Date.now() + 50 * 60 * 60 * 1000);
+  const targetDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
   const unixTimestamp = Math.floor(targetDate.getTime() / 1000);
   if (!botToken || !channelId) {
     console.warn(
