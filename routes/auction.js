@@ -161,7 +161,7 @@ router.post(
 
       // Calculate 50 hours from current time
       const now = new Date();
-      const endsAt = new Date(now.getTime() + 50 * 60 * 60 * 1000);
+      const endsAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
       // 1. Assign to const newAuction
       const newAuction = await Auction.create({
@@ -191,7 +191,6 @@ router.post(
 );
 
 // POST /auction/admin/end-now - Admin route to end active auction immediately
-// POST /auction/admin/end-now - Admin route to end the active auction immediately
 router.post("/admin/end-now", ensureAdmin, async (req, res) => {
   try {
     const auction = await Auction.findOne({ status: "active" }).populate(

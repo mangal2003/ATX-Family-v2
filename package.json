@@ -13,7 +13,9 @@
   "type": "commonjs",
   "dependencies": {
     "@getbrevo/brevo": "^6.0.2",
+    "@google/genai": "^2.18.0",
     "@google/generative-ai": "^0.24.1",
+    "@napi-rs/canvas": "^1.0.7",
     "axios": "^1.19.0",
     "bcrypt": "^6.0.0",
     "cloudinary": "^1.41.3",
