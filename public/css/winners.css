@@ -568,12 +568,12 @@
   width: 100%;
 }
 
-.admin-form .cyber-input {
+ .cyber-input {
   width: 100%;
   box-sizing: border-box;
 }
 
-.admin-form .touch-submit-btn {
+.touch-submit-btn {
   width: 100%;
   margin-top: 0.5rem;
 }
