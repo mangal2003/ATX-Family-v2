@@ -551,3 +551,31 @@
     bottom: 12px;
   }
 }
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  width: 100%;
+}
+
+.admin-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.admin-form .form-label {
+  display: block;
+  width: 100%;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.85rem;
+  color: var(--neon-cyan, #00f3ff);
+}
+
+.admin-form .cyber-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
