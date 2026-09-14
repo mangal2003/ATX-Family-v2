@@ -167,23 +167,25 @@
                         <div class="card-header" style="margin-bottom: 1.25rem;">
                             <h2><i class="fa-solid fa-award gold-text"></i> Add Tour Winner</h2>
                         </div>
-                        <form action="/admin/winners/add" method="POST" class="admin-form">
-                            <div class="form-group">
-                                <label class="form-label">Winner Name</label>
+                        <form action="/admin/winners/add" method="POST" class="admin-form"
+                            style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <label class="form-label" style="display: block; width: 100%;">Winner Name</label>
                                 <input type="text" name="winnerName" required placeholder="Enter Plato ID or Tag"
-                                    class="cyber-input">
+                                    class="cyber-input" style="width: 100%;">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Game Name</label>
+                            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <label class="form-label" style="display: block; width: 100%;">Game Name</label>
                                 <input type="text" name="gameName" required placeholder="e.g. Ocho / Chess / 8 Ball"
-                                    class="cyber-input">
+                                    class="cyber-input" style="width: 100%;">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Tournament Date</label>
-                                <input type="date" name="datePicker" required class="cyber-input cyber-date-picker">
+                            <div class="form-group" style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <label class="form-label" style="display: block; width: 100%;">Tournament Date</label>
+                                <input type="date" name="datePicker" required class="cyber-input cyber-date-picker"
+                                    style="width: 100%;">
                             </div>
                             <button type="submit" class="cyber-btn touch-submit-btn"
-                                style="width: 100%; margin-top: 1rem;">
+                                style="width: 100%; margin-top: 0.5rem;">
                                 <i class="fa-solid fa-save"></i> Save Winner
                             </button>
                         </form>
