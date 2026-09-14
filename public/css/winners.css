@@ -551,24 +551,19 @@
     bottom: 12px;
   }
 }
-.admin-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
 
-.admin-form .form-group {
+.form-group {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
 
-.admin-form .form-label {
+.form-label {
   display: block;
   width: 100%;
 }
 
- .cyber-input {
+.cyber-input {
   width: 100%;
   box-sizing: border-box;
 }
