@@ -7,32 +7,42 @@ const { ensureAuth } = require("../middleware/auth");
 const { upload } = require("../config/cloudinary");
 
 // GET /profile - Render Profile Page with Combined EP
-router.get("/profile", ensureAuth, async (req, res) => {
+router.get("/profile", async (req, res) => {
   try {
+    if (!req.user) {
+      return res.redirect("/auth/google");
+    }
+
+    // Refresh current web user
     const user = await User.findById(req.user._id);
 
-    // Fetch total botBalance from DiscordUser
-    let totalBotBalance = user.xpBalance || 0;
-    let isLinked = false;
+    let discordData = null;
+    let botEp = 0;
 
+    // Check if discordId is linked
     if (user.discordId) {
-      const dcUser =
-        (await DiscordUser.findOne({ discordId: user.discordId })) || null;
-      if (dcUser) {
-        totalBotBalance = dcUser.botBalance; // Single total stored in botBalance
-        isLinked = true;
+      // Find the user's Discord profile in the shared database
+      discordData = await DiscordUser.findOne({
+        discordId: user.discordId,
+      }).lean();
+      if (discordData) {
+        botEp = Number(discordData.botBalance) || 0;
       }
     }
 
+    const totalCombinedEp = (user.xpBalance || 0) + botEp;
+
     res.render("profile", {
-      title: `${user.username}'s Profile | ATX`,
       user,
-      totalBotBalance,
-      isLinked,
+      discordUser: discordData,
+      botEp,
+      totalCombinedEp,
     });
   } catch (err) {
     console.error("[PROFILE LOAD ERROR]:", err);
-    res.redirect("/");
+    res
+      .status(500)
+      .render("error", { message: "Failed to load profile telemetry." });
   }
 });
 
@@ -57,7 +67,44 @@ router.post("/profile/generate-connect-code", ensureAuth, async (req, res) => {
       .json({ success: false, message: "Could not generate link code." });
   }
 });
+// GET /api/user/balance-sync
+router.get("/api/user/balance-sync", async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
+    const user = await User.findById(req.user._id).select(
+      "discordId xpBalance username",
+    );
+    if (!user) return res.status(404).json({ error: "User not found" });
+
+    let botBalance = 0;
+    let discordLinked = false;
+
+    if (user.discordId) {
+      const dcUser = await DiscordUser.findOne({ discordId: user.discordId })
+        .select("botBalance chatStats gameStats")
+        .lean();
+
+      if (dcUser) {
+        discordLinked = true;
+        botBalance = dcUser.botBalance || 0;
+      }
+    }
+
+    return res.json({
+      success: true,
+      discordLinked,
+      webXp: user.xpBalance || 0,
+      botBalance,
+      totalBalance: (user.xpBalance || 0) + botBalance,
+    });
+  } catch (err) {
+    console.error("[BALANCE SYNC ERROR]:", err);
+    res.status(500).json({ error: "Failed to sync balances" });
+  }
+});
 // POST /profile/update - Update Username, Plato ID, Discord ID, & Bio
 router.post("/profile/update", ensureAuth, async (req, res) => {
   try {
