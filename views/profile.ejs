@@ -2,304 +2,396 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>
-        <%= user.username || User %> | Profile
-    </title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="/css/profile.css">
+    <%- include('partials/head') %>
+        <link rel="stylesheet" href="/css/profile.css">
 </head>
 
 <body>
+    <%- include('partials/header') %>
+        <%- include('partials/flash') %>
 
-    <div class="profile-container">
-        <div class="profile-card">
+            <main class="profile-container">
+                <!-- MAIN PROFILE HUD CARD -->
+                <div class="cyber-card profile-card">
+                    <!-- Corner HUD Decals -->
+                    <div class="hud-corner tl"></div>
+                    <div class="hud-corner tr"></div>
+                    <div class="hud-corner bl"></div>
+                    <div class="hud-corner br"></div>
 
-            <!-- HUD Corner Brackets -->
-            <div class="hud-corner tl"></div>
-            <div class="hud-corner tr"></div>
-            <div class="hud-corner bl"></div>
-            <div class="hud-corner br"></div>
-
-            <!-- Banner Area -->
-            <div class="profile-banner-wrapper">
-                <% if (user.banner) { %>
-                    <img src="<%= user.banner %>" alt="Profile Banner" class="profile-banner-img">
-                    <% } else { %>
-                        <div class="profile-banner-placeholder"></div>
-                        <% } %>
-                            <div class="banner-cinematic-mask"></div>
-
-                            <!-- Streak Pill -->
-                            <div class="streak-pill">
-                                <span class="fire-icon">🔥</span>
-                                <span>
-                                    <%= user.streak || 1 %> DAY STREAK
-                                </span>
-                            </div>
-            </div>
-
-            <!-- Header Content & Elevated Avatar -->
-            <div class="profile-header-content">
-                <div class="avatar-ring-pod">
-                    <% if (user.avatar) { %>
-                        <img src="<%= user.avatar %>" alt="<%= user.username %>" class="user-avatar"
-                            onerror="this.onerror=null; this.src='/images/gc-banner.webp';">
-                        <% } else { %>
-                            <div class="user-avatar-fallback">
-                                <%= user.username.charAt(0).toUpperCase() %>
-                            </div>
-                            <% } %>
-                </div>
-
-                <div class="user-details">
-                    <h2>
-                        <%= user.username %>
-                    </h2>
-                    <div class="user-email">
-                        <span>✉</span>
-                        <%= user.email %>
-                    </div>
-                    <% if (user.bio) { %>
-                        <div class="user-bio-preview">
-                            "<%= user.bio %>"
-                        </div>
-                        <% } %>
-                </div>
-            </div>
-
-            <hr class="profile-divider">
-
-            <!-- Stats Grid -->
-            <div class="profile-stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon-pod gold-icon">👑</div>
-                    <div class="stat-info">
-                        <span class="stat-label">PLATFORM ROLE</span>
-                        <h4>
-                            <%= (user.role || 'Member' ).toUpperCase() %>
-                        </h4>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon-pod cyan-icon">🎮</div>
-                    <div class="stat-info">
-                        <span class="stat-label">QUIZZES DONE</span>
-                        <h4>
-                            <%= user.quizzesCompleted || 0 %>
-                        </h4>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon-pod gold-icon">🏆</div>
-                    <div class="stat-info">
-                        <span class="stat-label">WEEKLY SCORE</span>
-                        <h4>
-                            <%= user.weeklyScore || 0 %>
-                        </h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VAULT & BOT TELEMETRY COMPONENT -->
-            <section class="telemetry-section">
-                <div class="telemetry-header">
-                    <div class="telemetry-title">
-                        <span>💎</span> Vault & Bot Telemetry
-                    </div>
-
-                    <div>
-                        <% if (user.discordId) { %>
-                            <div class="telemetry-badge badge-connected">
-                                <span class="badge-dot green"></span> ATX Discord Linked
-                            </div>
+                    <!-- Cinematic Banner Header with Gradient Mask -->
+                    <div class="profile-banner-wrapper">
+                        <% if (user.banner && user.banner.trim() !=='' ) { %>
+                            <img src="<%= user.banner %>" alt="Profile Banner" class="profile-banner-img"
+                                loading="lazy">
                             <% } else { %>
-                                <div class="telemetry-badge badge-disconnected">
-                                    <span class="badge-dot amber"></span> Unlinked • ATX Server
-                                </div>
+                                <div class="profile-banner-placeholder"></div>
                                 <% } %>
-                    </div>
-                </div>
+                                    <div class="banner-cinematic-mask"></div>
 
-                <!-- 3-Column Boxes -->
-                <div class="telemetry-grid">
-                    <!-- 1. Web Vault XP -->
-                    <div class="telemetry-box">
-                        <div class="telemetry-tag">
-                            <span>Website Vault XP</span>
-                            <span>🌐</span>
-                        </div>
-                        <div class="telemetry-val">
-                            <span id="valWebXp">
-                                <%= Number(user.xpBalance || 0).toLocaleString() %>
-                            </span>
-                            <span class="telemetry-unit">XP</span>
-                        </div>
-                        <div class="telemetry-foot">Earned via Website Events</div>
+                                    <!-- Flame Streak Badge Overlay -->
+                                    <div class="streak-pill">
+                                        <i class="fa-solid fa-fire fire-icon"></i>
+                                        <span>
+                                            <%= user.streak || 1 %> DAYS STREAK
+                                        </span>
+                                    </div>
                     </div>
 
-                    <!-- 2. Discord Bot EP -->
-                    <div class="telemetry-box">
-                        <div class="telemetry-tag">
-                            <span>Discord Bot EP</span>
-                            <span>⚔️</span>
+                    <!-- Profile Info Overlay Header -->
+                    <div class="profile-header-content">
+                        <div class="avatar-ring-pod">
+                            <% if (user.avatar && user.avatar.trim() !=='' ) { %>
+                                <img src="<%= user.avatar %>" alt="<%= user.username %>" class="user-avatar"
+                                    referrerpolicy="no-referrer"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="user-avatar-fallback" style="display: none;">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <% } else { %>
+                                    <div class="user-avatar-fallback">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <% } %>
                         </div>
-                        <div class="telemetry-val cyan">
-                            <span id="valBotEp">
-                                <%= Number(botEp || 0).toLocaleString() %>
-                            </span>
-                            <span class="telemetry-unit">EP</span>
+
+                        <div class="user-details">
+                            <h2 class="glitch-title gold-text" data-text="<%= user.username %>">
+                                <%= user.username %>
+                            </h2>
+                            <p class="user-email">
+                                <i class="fa-regular fa-envelope cyan-text"></i>
+                                <%= user.email %>
+                            </p>
+                            <% if (user.bio) { %>
+                                <p class="user-bio-preview">"<%= user.bio %>"</p>
+                                <% } %>
                         </div>
-                        <div class="telemetry-foot">Earned via ATX Mini-Games</div>
                     </div>
 
-                    <!-- 3. Grand Combined EP -->
-                    <div class="telemetry-box box-gold">
-                        <div class="telemetry-tag">
-                            <span>Grand Combined Net</span>
-                            <span>👑</span>
-                        </div>
-                        <div class="telemetry-val gold">
-                            <span id="valTotalNet">
-                                <%= Number(totalCombinedEp || 0).toLocaleString() %>
-                            </span>
-                            <span class="telemetry-unit">EP</span>
-                        </div>
-                        <div class="telemetry-foot">Unified Global Balance</div>
-                    </div>
-                </div>
+                    <hr class="profile-divider">
 
-                <!-- Connection / Sync Bar -->
-                <div class="sync-bar">
-                    <% if (!user.discordId) { %>
-                        <div>
-                            <span>Verification Token:</span>
-                            <strong class="sync-code-chip">
-                                <%= user.connectionCode || 'EXPIRED' %>
-                            </strong>
-                            <span style="margin-left: 0.5rem; font-size: 0.72rem;">(Run
-                                <code>/connectweb code:...</code> in ATX Discord)</span>
+                    <!-- Primary Platform Stats Grid -->
+                    <div class="profile-stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon-pod gold-icon">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">PLATFORM ROLE</span>
+                                <h4 class="gold-text">
+                                    <%= (user.role || 'Member' ).toUpperCase() %>
+                                </h4>
+                            </div>
                         </div>
-                        <a href="https://discord.gg/atxfamily" target="_blank" class="hotstar-btn join-link-btn">
-                            Join Server
-                        </a>
-                        <% } else { %>
+
+                        <div class="stat-card">
+                            <div class="stat-icon-pod cyan-icon">
+                                <i class="fa-solid fa-check-double"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">QUIZZES SOLVED</span>
+                                <h4 class="cyan-text">
+                                    <%= user.quizzesCompleted || 0 %>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon-pod gold-icon">
+                                <i class="fa-solid fa-ranking-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">WEEKLY SCORE</span>
+                                <h4 class="gold-text">
+                                    <%= user.weeklyScore || 0 %> PTS
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VAULT & BOT TELEMETRY COMPONENT -->
+                    <section class="telemetry-section">
+                        <div class="telemetry-header">
+                            <div class="telemetry-title">
+                                <i class="fa-solid fa-gem cyan-text"></i> Vault & Bot Telemetry
+                            </div>
+
                             <div>
-                                <span>Linked Discord Operator:</span>
-                                <span style="color: var(--accent-cyan, #00f3ff);">
-                                    <%= user.discordId %>
-                                </span>
+                                <% if (user.discordId) { %>
+                                    <div class="telemetry-badge badge-connected">
+                                        <span class="badge-dot green"></span> ATX Discord Linked
+                                    </div>
+                                    <% } else { %>
+                                        <div class="telemetry-badge badge-disconnected">
+                                            <span class="badge-dot amber"></span> Unlinked • ATX Server
+                                        </div>
+                                        <% } %>
                             </div>
-                            <button type="button" onclick="refreshBalances()" class="sync-btn" id="syncBtn">
-                                <span id="syncIcon">⟳</span> SYNC BALANCES
+                        </div>
+
+                        <!-- 3-Column Boxes -->
+                        <div class="telemetry-grid">
+                            <!-- 1. Web Vault XP -->
+                            <div class="telemetry-box">
+                                <div class="telemetry-tag">
+                                    <span>Website Vault XP</span>
+                                    <i class="fa-solid fa-globe cyan-text"></i>
+                                </div>
+                                <div class="telemetry-val">
+                                    <span id="valWebXp">
+                                        <%= Number(user.xpBalance || 0).toLocaleString() %>
+                                    </span>
+                                    <span class="telemetry-unit">XP</span>
+                                </div>
+                                <div class="telemetry-foot">Earned via Website Events</div>
+                            </div>
+
+                            <!-- 2. Discord Bot EP -->
+                            <div class="telemetry-box">
+                                <div class="telemetry-tag">
+                                    <span>Discord Bot EP</span>
+                                    <i class="fa-brands fa-discord discord-color"></i>
+                                </div>
+                                <div class="telemetry-val cyan">
+                                    <span id="valBotEp">
+                                        <%= Number(locals.discordEp || locals.botEp || 0).toLocaleString() %>
+                                    </span>
+                                    <span class="telemetry-unit">EP</span>
+                                </div>
+                                <div class="telemetry-foot">Earned via ATX Mini-Games</div>
+                            </div>
+
+                            <!-- 3. Grand Combined EP -->
+                            <div class="telemetry-box box-gold">
+                                <div class="telemetry-tag">
+                                    <span>Grand Combined Net</span>
+                                    <i class="fa-solid fa-bolt gold-text"></i>
+                                </div>
+                                <div class="telemetry-val gold">
+                                    <span id="valTotalNet">
+                                        <%= Number(locals.totalCombinedEp || locals.totalBotBalance || user.xpBalance ||
+                                            0).toLocaleString() %>
+                                    </span>
+                                    <span class="telemetry-unit">EP</span>
+                                </div>
+                                <div class="telemetry-foot">Unified Global Balance</div>
+                            </div>
+                        </div>
+
+                        <!-- Connection / Sync Bar -->
+                        <div class="sync-bar">
+                            <% if (!user.discordId) { %>
+                                <div class="sync-bar-info">
+                                    <span>Verification Token:</span>
+                                    <strong class="sync-code-chip" id="tokenChip">
+                                        <%= user.connectionCode || 'NONE' %>
+                                    </strong>
+                                    <span class="sync-subtext">(Run <code>/connectweb code:...</code> in Discord)</span>
+                                </div>
+                                <div class="sync-actions">
+                                    <button type="button" id="generateCodeBtn" class="cyber-btn discord-action-btn">
+                                        <i class="fa-solid fa-key"></i> Generate Link Code
+                                    </button>
+                                    <a href="https://discord.gg/atxfamily" target="_blank"
+                                        class="hotstar-btn join-link-btn">
+                                        <i class="fa-brands fa-discord"></i> Join Server
+                                    </a>
+                                </div>
+                                <% } else { %>
+                                    <div class="sync-bar-info">
+                                        <span>Linked Discord Operator:</span>
+                                        <span class="cyan-text" style="font-weight: 700;">
+                                            <%= user.discordId %>
+                                        </span>
+                                    </div>
+                                    <div class="sync-actions">
+                                        <button type="button" id="generateCodeBtn" class="cyber-btn discord-action-btn">
+                                            <i class="fa-solid fa-rotate"></i> Re-Link Code
+                                        </button>
+                                        <button type="button" onclick="refreshBalances()" class="sync-btn" id="syncBtn">
+                                            <span id="syncIcon"><i class="fa-solid fa-arrows-rotate"></i></span> SYNC
+                                            BALANCES
+                                        </button>
+                                    </div>
+                                    <% } %>
+                        </div>
+
+                        <!-- Dynamic Code Display Container -->
+                        <div id="codeDisplayWrapper" class="connect-discord-card" style="display: none;">
+                            <div class="discord-card-header">
+                                <i class="fa-brands fa-discord"></i> DISCORD ACCOUNT LINKING
+                            </div>
+                            <div class="code-display-box" id="codeBox">------</div>
+                            <p class="code-expiry-note">
+                                Type <code>/connectweb code:&lt;your-code&gt;</code> inside any channel in our Discord
+                                server within 10 minutes.
+                            </p>
+                        </div>
+                    </section>
+
+                    <hr class="profile-divider">
+
+                    <!-- Customization Forms Stack -->
+                    <div class="customization-sections">
+                        <!-- 1. Banner Update Form -->
+                        <form action="/profile/banner" method="POST" enctype="multipart/form-data" class="profile-form">
+                            <label class="form-label">
+                                <i class="fa-solid fa-image gold-text"></i> UPDATE BANNER ARTWORK
+                            </label>
+                            <div class="file-upload-wrapper">
+                                <label for="bannerInput" class="custom-file-btn">
+                                    <i class="fa-solid fa-folder-open cyan-text"></i>
+                                    <span id="bannerFileName">Choose Banner Image...</span>
+                                </label>
+                                <input type="file" id="bannerInput" name="banner" accept="image/*" required
+                                    onchange="document.getElementById('bannerFileName').textContent = this.files[0]?.name || 'Choose Banner Image...';">
+                                <button type="submit" class="hotstar-btn primary-btn upload-action-btn">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- 2. Avatar Update Form -->
+                        <form action="/profile/avatar" method="POST" enctype="multipart/form-data" class="profile-form">
+                            <label class="form-label">
+                                <i class="fa-solid fa-circle-user gold-text"></i> UPDATE AVATAR PICTURE
+                            </label>
+                            <div class="file-upload-wrapper">
+                                <label for="avatarInput" class="custom-file-btn">
+                                    <i class="fa-solid fa-folder-open cyan-text"></i>
+                                    <span id="avatarFileName">Choose Avatar Image...</span>
+                                </label>
+                                <input type="file" id="avatarInput" name="avatar" accept="image/*" required
+                                    onchange="document.getElementById('avatarFileName').textContent = this.files[0]?.name || 'Choose Avatar Image...';">
+                                <button type="submit" class="hotstar-btn primary-btn upload-action-btn">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- 3. Profile Info & Credentials Form -->
+                        <form action="/profile/update" method="POST" class="profile-form">
+                            <label class="form-label">
+                                <i class="fa-solid fa-user-pen gold-text"></i> OPERATOR DETAILS & CREDENTIALS
+                            </label>
+
+                            <div class="form-group">
+                                <label for="username" class="sub-label">Callsign / Username</label>
+                                <input type="text" id="username" name="username" value="<%= user.username %>" required
+                                    minlength="3" maxlength="25" class="cyber-input">
+                            </div>
+
+                            <div class="form-group-row">
+                                <div class="form-group">
+                                    <label for="platoId" class="sub-label">
+                                        <i class="fa-solid fa-gamepad cyan-text"></i> Plato ID
+                                    </label>
+                                    <input type="text" id="platoId" name="platoId" value="<%= user.platoId || '' %>"
+                                        maxlength="12" pattern="^[a-zA-Z0-9_]{1,12}$"
+                                        title="Plato ID must be up to 12 characters and contain only letters, numbers, and underscores."
+                                        placeholder="e.g. username_99" class="cyber-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="discordId" class="sub-label">
+                                        <i class="fa-brands fa-discord cyan-text"></i> Discord User ID
+                                    </label>
+                                    <input type="text" id="discordId" name="discordId"
+                                        value="<%= user.discordId || '' %>" placeholder="e.g. 1482287463467716650"
+                                        class="cyber-input">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="bio" class="sub-label">Bio</label>
+                                <textarea id="bio" name="bio" rows="3" maxlength="250" class="cyber-input"
+                                    placeholder="Write something about yourself..."
+                                    style="resize: none;"><%= user.bio || '' %></textarea>
+                            </div>
+
+                            <button type="submit" class="hotstar-btn primary-btn"
+                                style="margin-top: 0.5rem; width: 100%;">
+                                <i class="fa-solid fa-floppy-disk"></i> SAVE PROFILE CHANGES
                             </button>
-                            <% } %>
+                        </form>
+                    </div>
                 </div>
-            </section>
+            </main>
 
-            <hr class="profile-divider">
+            <script>
+                // Interactive 6-Digit Token Generation
+                document.getElementById('generateCodeBtn')?.addEventListener('click', async () => {
+                    const btn = document.getElementById('generateCodeBtn');
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
 
-            <!-- Customization Forms -->
-            <div class="customization-sections">
-                <!-- Bio & Identity Form -->
-                <form action="/profile/update" method="POST" class="profile-form">
-                    <label class="form-label">
-                        <span>⚙</span> OPERATOR DETAILS
-                    </label>
-                    <div class="form-group-row">
-                        <div class="form-group">
-                            <span class="sub-label">PLATO CALLSIGN ID</span>
-                            <input type="text" name="platoId" value="<%= user.platoId || '' %>"
-                                placeholder="Enter Plato ID" class="cyber-input">
-                        </div>
-                        <div class="form-group">
-                            <span class="sub-label">COMMUNITY BIO</span>
-                            <input type="text" name="bio" value="<%= user.bio || '' %>"
-                                placeholder="Brief quote or battle status" class="cyber-input">
-                        </div>
-                    </div>
-                    <button type="submit" class="hotstar-btn" style="align-self: flex-start; margin-top: 0.5rem;">
-                        SAVE PROFILE
-                    </button>
-                </form>
+                    try {
+                        const res = await fetch('/profile/generate-connect-code', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        const data = await res.json();
 
-                <hr class="profile-divider">
+                        if (data.success) {
+                            const codeBox = document.getElementById('codeBox');
+                            const wrapper = document.getElementById('codeDisplayWrapper');
+                            const chip = document.getElementById('tokenChip');
 
-                <!-- Avatar & Banner Upload -->
-                <form action="/profile/upload-media" method="POST" enctype="multipart/form-data" class="profile-form">
-                    <label class="form-label">
-                        <span>🖼</span> VISUAL CUSTOMIZATION
-                    </label>
-                    <div class="form-group-row">
-                        <div class="form-group">
-                            <span class="sub-label">CUSTOM AVATAR</span>
-                            <div class="file-upload-wrapper">
-                                <label for="avatarInput" class="custom-file-btn" id="avatarLabel">
-                                    <span>📁</span> Select Picture
-                                </label>
-                                <input type="file" name="avatar" id="avatarInput" accept="image/*"
-                                    onchange="document.getElementById('avatarLabel').innerText = this.files[0]?.name || 'Select Picture'">
-                            </div>
-                        </div>
+                            if (codeBox) codeBox.textContent = data.code;
+                            if (chip) chip.textContent = data.code;
+                            if (wrapper) wrapper.style.display = 'flex';
 
-                        <div class="form-group">
-                            <span class="sub-label">BANNER ARTWORK</span>
-                            <div class="file-upload-wrapper">
-                                <label for="bannerInput" class="custom-file-btn" id="bannerLabel">
-                                    <span>📁</span> Select Banner
-                                </label>
-                                <input type="file" name="banner" id="bannerInput" accept="image/*"
-                                    onchange="document.getElementById('bannerLabel').innerText = this.files[0]?.name || 'Select Banner'">
-                            </div>
-                        </div>
-                    </div>
+                            btn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Regenerate Code';
+                        } else {
+                            alert(data.message || 'Failed to generate connection code.');
+                            btn.innerHTML = '<i class="fa-solid fa-key"></i> Generate Link Code';
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Connection failure with the authentication server.');
+                        btn.innerHTML = '<i class="fa-solid fa-key"></i> Generate Link Code';
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
 
-                    <button type="submit" class="hotstar-btn upload-action-btn"
-                        style="align-self: flex-start; margin-top: 0.5rem;">
-                        UPLOAD MEDIA
-                    </button>
-                </form>
-            </div>
+                // Telemetry Balance Synchronizer
+                async function refreshBalances() {
+                    const syncIcon = document.getElementById('syncIcon');
+                    if (syncIcon) {
+                        syncIcon.style.display = 'inline-block';
+                        syncIcon.style.transform = 'rotate(360deg)';
+                        syncIcon.style.transition = 'transform 0.6s ease';
+                    }
 
-        </div>
-    </div>
+                    try {
+                        const res = await fetch('/api/user/balance-sync');
+                        if (!res.ok) throw new Error('Sync endpoint unreachable');
+                        const data = await res.json();
 
-    <script>
-        async function refreshBalances() {
-            const syncIcon = document.getElementById('syncIcon');
-            if (syncIcon) syncIcon.style.display = 'inline-block';
-            if (syncIcon) syncIcon.style.transform = 'rotate(360deg)';
-            if (syncIcon) syncIcon.style.transition = 'transform 0.5s ease';
+                        if (data.success) {
+                            const elWeb = document.getElementById('valWebXp');
+                            const elBot = document.getElementById('valBotEp');
+                            const elNet = document.getElementById('valTotalNet');
 
-            try {
-                const res = await fetch('/api/user/balance-sync');
-                if (!res.ok) throw new Error('Network error');
-                const data = await res.json();
-
-                if (data.success) {
-                    document.getElementById('valWebXp').innerText = Number(data.webXp || 0).toLocaleString();
-                    document.getElementById('valBotEp').innerText = Number(data.botBalance || 0).toLocaleString();
-                    document.getElementById('valTotalNet').innerText = Number(data.totalBalance || 0).toLocaleString();
+                            if (elWeb) elWeb.innerText = Number(data.webXp || data.xpBalance || 0).toLocaleString();
+                            if (elBot) elBot.innerText = Number(data.botBalance || data.discordEp || 0).toLocaleString();
+                            if (elNet) elNet.innerText = Number(data.totalBalance || data.totalCombinedEp || 0).toLocaleString();
+                        }
+                    } catch (err) {
+                        console.error('Balance sync failed:', err);
+                    } finally {
+                        setTimeout(() => {
+                            if (syncIcon) {
+                                syncIcon.style.transition = 'none';
+                                syncIcon.style.transform = 'rotate(0deg)';
+                            }
+                        }, 600);
+                    }
                 }
-            } catch (err) {
-                console.error('Balance sync failed:', err);
-            } finally {
-                setTimeout(() => {
-                    if (syncIcon) syncIcon.style.transform = 'rotate(0deg)';
-                }, 500);
-            }
-        }
-    </script>
+            </script>
 
+            <%- include('partials/footer') %>
 </body>
 
 </html>
