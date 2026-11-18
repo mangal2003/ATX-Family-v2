@@ -449,3 +449,219 @@ input[type="file"] {
     padding: 1.25rem;
   }
 }
+
+/* =========================================================
+   VAULT & BOT TELEMETRY COMPONENT
+   ========================================================= */
+
+.telemetry-section {
+  padding: 1.4rem 1.75rem;
+  background: var(--bg-primary, rgba(0, 0, 0, 0.25));
+  border-top: 1px solid var(--border-color, rgba(0, 243, 255, 0.15));
+}
+
+.telemetry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+  gap: 0.75rem;
+}
+
+.telemetry-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-heading, #ffffff);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.telemetry-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.badge-connected {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.badge-disconnected {
+  background: rgba(255, 123, 0, 0.12);
+  color: #ff7b00;
+  border: 1px solid rgba(255, 123, 0, 0.4);
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.badge-dot.green {
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.badge-dot.amber {
+  background: #ff7b00;
+  box-shadow: 0 0 6px #ff7b00;
+}
+
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.telemetry-box {
+  background: var(--bg-card, #12141d);
+  border: 1px solid var(--border-color, rgba(0, 243, 255, 0.2));
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.telemetry-box:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan, #00f3ff);
+}
+
+.telemetry-box.box-gold {
+  border-color: rgba(255, 215, 0, 0.35);
+  background: linear-gradient(180deg, #16181b 0%, #101217 100%);
+}
+
+.telemetry-box.box-gold:hover {
+  border-color: var(--accent-gold, #ffd700);
+}
+
+.telemetry-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted, #94a3b8);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.telemetry-val {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin: 0.45rem 0 0.15rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.telemetry-val.cyan {
+  color: var(--accent-cyan, #00f3ff);
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.25);
+}
+
+.telemetry-val.gold {
+  color: var(--accent-gold, #ffd700);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.25);
+}
+
+.telemetry-unit {
+  font-size: 0.75rem;
+  color: var(--text-muted, #94a3b8);
+  font-weight: 400;
+}
+
+.telemetry-foot {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.68rem;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 0.35rem;
+}
+
+.sync-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card, #12141d);
+  border: 1px dashed var(--border-color, rgba(0, 243, 255, 0.2));
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8);
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.sync-code-chip {
+  padding: 0.25rem 0.6rem;
+  background: var(--bg-primary, #0a0b10);
+  border: 1px solid var(--accent-gold, #ffd700);
+  color: var(--accent-gold, #ffd700);
+  border-radius: 6px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.sync-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent-cyan, #00f3ff);
+  cursor: pointer;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.sync-btn:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px var(--accent-cyan, #00f3ff);
+}
+
+.join-link-btn {
+  text-decoration: none;
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+}
+
+@media (max-width: 680px) {
+  .telemetry-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .telemetry-grid {
+    grid-template-columns: 1fr;
+  }
+  .sync-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
