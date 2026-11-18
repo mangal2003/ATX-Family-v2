@@ -10,24 +10,23 @@ router.get("/profile", ensureAuth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
 
-    // Fetch Discord EP if linked
-    let discordEp = 0;
+    // Fetch total botBalance from DiscordUser
+    let totalBotBalance = user.xpBalance || 0;
+    let isLinked = false;
+
     if (user.discordId) {
-      const discordProfile = await UserProfile.findOne({
-        userId: user.discordId,
-      });
-      if (discordProfile) {
-        discordEp = discordProfile.botBalance || 0;
+      const dcUser = await DiscordUser.findOne({ discordId: user.discordId });
+      if (dcUser) {
+        totalBotBalance = dcUser.botBalance; // Single total stored in botBalance
+        isLinked = true;
       }
     }
-
-    const totalCombinedEp = (user.xpBalance || 0) + discordEp;
 
     res.render("profile", {
       title: `${user.username}'s Profile | ATX`,
       user,
-      discordEp,
-      totalCombinedEp,
+      totalBotBalance,
+      isLinked,
     });
   } catch (err) {
     console.error("[PROFILE LOAD ERROR]:", err);
@@ -35,11 +34,11 @@ router.get("/profile", ensureAuth, async (req, res) => {
   }
 });
 
-// POST /profile/generate-connect-code - Create 6-digit Code for Discord Bot
+// POST /profile/generate-connect-code
 router.post("/profile/generate-connect-code", ensureAuth, async (req, res) => {
   try {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiry
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     await User.findByIdAndUpdate(req.user._id, {
       $set: {
