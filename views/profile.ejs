@@ -2,316 +2,354 @@
 <html lang="en">
 
 <head>
-    <%- include('partials/head') %>
-        <link rel="stylesheet" href="/css/profile.css">
-        <style>
-            .connect-discord-card {
-                background: rgba(88, 101, 242, 0.08);
-                border: 1px dashed #5865f2;
-                border-radius: 12px;
-                padding: 1.25rem;
-                margin-top: 1.25rem;
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 0.6rem;
-            }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        <%= user.username %> • ATX Profile & Vault
+    </title>
 
-            .code-display-box {
-                font-family: 'Share Tech Mono', monospace;
-                font-size: 1.75rem;
-                letter-spacing: 6px;
-                color: #ffd700;
-                background: #0a0b10;
-                border: 2px solid #ffd700;
-                padding: 0.5rem 1.5rem;
-                border-radius: 8px;
-                display: inline-block;
-                margin: 0.4rem 0;
-            }
-        </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #080a0f;
+            --card-bg: #0f141f;
+            --card-sub: #0a0d14;
+            --border-color: #1a2233;
+            --accent-cyan: #00f3ff;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-indigo: #6366f1;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .font-mono-val {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .telemetry-card {
+            background: linear-gradient(180deg, #101624 0%, #0c0f17 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 1.25rem;
+        }
+
+        .stat-subcard {
+            background-color: var(--card-sub);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+
+        .stat-subcard-gold {
+            background: linear-gradient(180deg, #171b12 0%, #0d120a 100%);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 9999px;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge-linked {
+            background-color: rgba(16, 185, 129, 0.12);
+            color: var(--accent-emerald);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .badge-unlinked {
+            background-color: rgba(245, 158, 11, 0.12);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-action {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-action:active {
+            transform: scale(0.97);
+        }
+    </style>
 </head>
 
-<body>
-    <%- include('partials/header') %>
-        <%- include('partials/flash') %>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-400 selection:text-black">
 
-            <main class="profile-container">
-                <!-- MAIN PROFILE HUD CARD -->
-                <div class="cyber-card profile-card">
-                    <div class="hud-corner tl"></div>
-                    <div class="hud-corner tr"></div>
-                    <div class="hud-corner bl"></div>
-                    <div class="hud-corner br"></div>
+    <!-- Navigation / Header -->
+    <header class="sticky top-0 z-50 bg-[#080a0f]/90 backdrop-blur-md border-b border-[#1a2233] px-4 py-3 sm:px-8">
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <a href="/" class="flex items-center gap-2">
+                    <span
+                        class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-black text-black text-sm">A</span>
+                    <span class="font-extrabold text-sm sm:text-base text-white tracking-tight">ATX FAMILY</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="https://discord.gg/atxfamily" target="_blank"
+                    class="text-xs font-bold text-slate-400 hover:text-white transition hidden sm:inline-block">
+                    Official Discord
+                </a>
+                <a href="/logout"
+                    class="px-3 py-1.5 rounded-lg bg-[#141a29] border border-[#1a2233] hover:border-rose-500/40 text-xs font-bold text-rose-400 transition">
+                    Sign Out
+                </a>
+            </div>
+        </div>
+    </header>
 
-                    <!-- Cinematic Banner -->
-                    <div class="profile-banner-wrapper">
-                        <% if (user.banner && user.banner.trim() !=='' ) { %>
-                            <img src="<%= user.banner %>" alt="Profile Banner" class="profile-banner-img"
-                                loading="lazy">
-                            <% } else { %>
-                                <div class="profile-banner-placeholder"></div>
-                                <% } %>
-                                    <div class="banner-cinematic-mask"></div>
+    <!-- Main Container -->
+    <main class="w-full max-w-5xl mx-auto px-4 py-6 sm:py-10 flex-grow space-y-6">
 
-                                    <div class="streak-pill">
-                                        <i class="fa-solid fa-fire fire-icon"></i>
-                                        <span>
-                                            <%= user.streak || 1 %> DAYS STREAK
-                                        </span>
-                                    </div>
+        <!-- Profile Header Card -->
+        <section
+            class="telemetry-card relative overflow-hidden flex flex-col sm:flex-row items-center sm:items-start justify-between gap-5 text-center sm:text-left">
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+                <div class="relative">
+                    <img src="<%= user.avatar || '/images/default-avatar.png' %>" alt="Profile Avatar"
+                        class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-2 border-cyan-400/30 p-1 bg-[#0a0d14] shadow-xl shadow-cyan-500/10"
+                        onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <span
+                        class="absolute bottom-1 right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-4 ring-[#0f141f]"></span>
+                </div>
+                <div>
+                    <div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                        <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight">
+                            <%= user.username %>
+                        </h1>
+                        <span
+                            class="px-2 py-0.5 rounded-md text-[10px] font-mono-val font-bold uppercase <%= user.role === 'admin' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' %>">
+                            <%= user.role %>
+                        </span>
                     </div>
-
-                    <!-- Profile Header -->
-                    <div class="profile-header-content">
-                        <div class="avatar-ring-pod">
-                            <% if (user.avatar && user.avatar.trim() !=='' ) { %>
-                                <img src="<%= user.avatar %>" alt="<%= user.username %>" class="user-avatar"
-                                    referrerpolicy="no-referrer"
-                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="user-avatar-fallback" style="display: none;">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <% } else { %>
-                                    <div class="user-avatar-fallback">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <% } %>
-                        </div>
-
-                        <div class="user-details">
-                            <h2 class="glitch-title gold-text" data-text="<%= user.username %>">
-                                <%= user.username %>
-                            </h2>
-                            <p class="user-email">
-                                <i class="fa-regular fa-envelope cyan-text"></i>
-                                <%= user.email %>
-                            </p>
-                            <% if (user.bio) { %>
-                                <p class="user-bio-preview">"<%= user.bio %>"</p>
-                                <% } %>
-                        </div>
-                    </div>
-
-                    <hr class="profile-divider">
-
-                    <!-- Stats Grid: Includes Web EP, Discord Bot EP, and Combined Total -->
-                    <!-- Unified EP Display Widget -->
-                    <div class="bg-[#121722] border border-gray-800 rounded-2xl p-6 mb-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3
-                                class="text-white font-extrabold text-sm uppercase tracking-wider flex items-center gap-2">
-                                <span class="text-cyan-400">💎</span> Vault & Bot Telemetry
-                            </h3>
-                            <% if (user.discordId) { %>
-                                <span
-                                    class="px-2.5 py-1 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                                    ● ATX Linked
-                                </span>
-                                <% } else { %>
-                                    <span
-                                        class="px-2.5 py-1 rounded-full text-[11px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                                        ○ Unlinked
-                                    </span>
-                                    <% } %>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                            <!-- Web Vault XP -->
-                            <div class="bg-[#0b0e14] p-4 rounded-xl border border-gray-800">
-                                <div class="text-[11px] text-gray-500 uppercase font-mono mb-1">Website Vault XP</div>
-                                <div class="text-xl sm:text-2xl font-black text-white font-mono">
-                                    <%= (user.xpBalance || 0).toLocaleString() %> <span
-                                            class="text-xs text-gray-400">XP</span>
-                                </div>
-                            </div>
-
-                            <!-- Discord Bot Balance -->
-                            <div class="bg-[#0b0e14] p-4 rounded-xl border border-gray-800">
-                                <div class="text-[11px] text-cyan-400 uppercase font-mono mb-1">Discord Bot EP</div>
-                                <div class="text-xl sm:text-2xl font-black text-cyan-300 font-mono">
-                                    <%= botEp.toLocaleString() %> <span class="text-xs text-gray-400">EP</span>
-                                </div>
-                            </div>
-
-                            <!-- Combined Net -->
-                            <div
-                                class="bg-[#0b0e14] p-4 rounded-xl border border-cyan-500/40 shadow-sm shadow-cyan-500/10">
-                                <div class="text-[11px] text-amber-400 uppercase font-mono mb-1">Grand Combined EP</div>
-                                <div class="text-xl sm:text-2xl font-black text-amber-300 font-mono">
-                                    <%= totalCombinedEp.toLocaleString() %> <span
-                                            class="text-xs text-gray-400">EP</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <% if (!user.discordId) { %>
-                            <div
-                                class="mt-4 pt-4 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-                                <p class="text-xs text-gray-400">
-                                    Join the <strong class="text-white">ATX Official Discord</strong> and type <code
-                                        class="text-cyan-400">/connectweb code:<%= user.connectionCode || 'XXXXXX' %></code>
-                                </p>
-                                <a href="https://discord.gg/atxfamily" target="_blank"
-                                    class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition">
-                                    Join ATX Discord
-                                </a>
-                            </div>
-                            <% } %>
-                    </div>
-
-                    <hr class="profile-divider">
-
-                    <!-- Customization Sections -->
-                    <div class="customization-sections">
-                        <!-- Discord Bot Link Widget -->
-                        <div class="connect-discord-card">
-                            <div
-                                style="display: flex; align-items: center; gap: 0.5rem; color: #5865f2; font-weight: bold; font-family: 'Share Tech Mono', monospace;">
-                                <i class="fa-brands fa-discord"></i> DISCORD BOT INTEGRATION
-                            </div>
-                            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0; max-width: 450px;">
-                                <% if (user.discordId) { %>
-                                    Your account is linked to Discord ID: <strong class="cyan-text">
-                                        <%= user.discordId %>
-                                    </strong>.
-                                    Need to re-link to a new account? Generate a fresh code below.
-                                    <% } else { %>
-                                        Link your Discord account to combine your mini-game rewards and bot EP with your
-                                        website balance!
-                                        <% } %>
-                            </p>
-
-                            <button type="button" id="generateCodeBtn" class="cyber-btn"
-                                style="border-color: #5865f2; color: #5865f2;">
-                                <i class="fa-solid fa-key"></i> Generate Link Code
-                            </button>
-
-                            <div id="codeDisplayWrapper" style="display: none;">
-                                <div class="code-display-box" id="codeBox">------</div>
-                                <p style="font-size: 0.75rem; color: var(--accent-gold); margin: 0.2rem 0;">
-                                    Type <code>/connectweb &lt;code&gt;</code> in our Discord server within 10 minutes.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- 1. Banner Update Form -->
-                        <form action="/profile/banner" method="POST" enctype="multipart/form-data" class="profile-form">
-                            <label class="form-label">
-                                <i class="fa-solid fa-image gold-text"></i> UPDATE BANNER ARTWORK
-                            </label>
-                            <div class="file-upload-wrapper">
-                                <label for="bannerInput" class="custom-file-btn">
-                                    <i class="fa-solid fa-folder-open cyan-text"></i>
-                                    <span id="bannerFileName">Choose Banner Image...</span>
-                                </label>
-                                <input type="file" id="bannerInput" name="banner" accept="image/*" required
-                                    onchange="document.getElementById('bannerFileName').textContent = this.files[0]?.name || 'Choose Banner Image...';">
-                                <button type="submit" class="hotstar-btn primary-btn upload-action-btn">
-                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
-                                </button>
-                            </div>
-                        </form>
-
-                        <!-- 2. Avatar Update Form -->
-                        <form action="/profile/avatar" method="POST" enctype="multipart/form-data" class="profile-form">
-                            <label class="form-label">
-                                <i class="fa-solid fa-circle-user gold-text"></i> UPDATE AVATAR PICTURE
-                            </label>
-                            <div class="file-upload-wrapper">
-                                <label for="avatarInput" class="custom-file-btn">
-                                    <i class="fa-solid fa-folder-open cyan-text"></i>
-                                    <span id="avatarFileName">Choose Avatar Image...</span>
-                                </label>
-                                <input type="file" id="avatarInput" name="avatar" accept="image/*" required
-                                    onchange="document.getElementById('avatarFileName').textContent = this.files[0]?.name || 'Choose Avatar Image...';">
-                                <button type="submit" class="hotstar-btn primary-btn upload-action-btn">
-                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload
-                                </button>
-                            </div>
-                        </form>
-
-                        <!-- 3. Profile Info Form -->
-                        <form action="/profile/update" method="POST" class="profile-form">
-                            <label class="form-label">
-                                <i class="fa-solid fa-user-pen gold-text"></i> OPERATOR DETAILS & CREDENTIALS
-                            </label>
-
-                            <div class="form-group">
-                                <label for="username" class="sub-label">Callsign / Username</label>
-                                <input type="text" id="username" name="username" value="<%= user.username %>" required
-                                    minlength="3" maxlength="25" class="cyber-input">
-                            </div>
-
-                            <div class="form-group-row">
-                                <div class="form-group">
-                                    <label for="platoId" class="sub-label">
-                                        <i class="fa-solid fa-gamepad cyan-text"></i> Plato ID
-                                    </label>
-                                    <input type="text" id="platoId" name="platoId" value="<%= user.platoId || '' %>"
-                                        maxlength="12" pattern="^[a-zA-Z0-9_]{1,12}$"
-                                        title="Plato ID must be up to 12 characters and contain only letters, numbers, and underscores."
-                                        placeholder="e.g. username_99" class="cyber-input">
-                                </div>
-                                <div class="form-group">
-                                    <label for="discordId" class="sub-label">
-                                        <i class="fa-brands fa-discord cyan-text"></i> Discord User ID
-                                    </label>
-                                    <input type="text" id="discordId" name="discordId"
-                                        value="<%= user.discordId || '' %>" placeholder="e.g. DISCORD_USN"
-                                        class="cyber-input">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="bio" class="sub-label">Bio</label>
-                                <textarea id="bio" name="bio" rows="3" maxlength="250" class="cyber-input"
-                                    placeholder="Write something about yourself..."
-                                    style="resize: none;"><%= user.bio || '' %></textarea>
-                            </div>
-
-                            <button type="submit" class="hotstar-btn primary-btn"
-                                style="margin-top: 0.5rem; width: 100%;">
-                                <i class="fa-solid fa-floppy-disk"></i> SAVE PROFILE CHANGES
-                            </button>
-                        </form>
+                    <p class="text-xs text-slate-400 mb-2">
+                        <%= user.email %>
+                    </p>
+                    <div
+                        class="flex items-center justify-center sm:justify-start gap-3 text-xs text-slate-300 font-mono-val">
+                        <span>🔥 Streak: <b class="text-amber-400">
+                                <%= user.streak || 1 %> Days
+                            </b></span>
+                        <span>•</span>
+                        <span>🎮 Quizzes: <b class="text-white">
+                                <%= user.quizzesCompleted || 0 %>
+                            </b></span>
                     </div>
                 </div>
-            </main>
+            </div>
 
-            <script>
-                document.getElementById('generateCodeBtn')?.addEventListener('click', async () => {
-                    const btn = document.getElementById('generateCodeBtn');
-                    btn.disabled = true;
-                    btn.textContent = 'Generating...';
+            <!-- Quick Balance Stat Pill -->
+            <div
+                class="bg-[#0a0d14] border border-[#1a2233] px-5 py-3 rounded-xl flex flex-col items-center sm:items-end w-full sm:w-auto">
+                <span class="text-[10px] text-slate-500 uppercase tracking-wider font-mono-val">Unified Network
+                    Net</span>
+                <div class="text-2xl font-black text-amber-400 font-mono-val mt-0.5" id="headerNetBalance">
+                    <%= Number(totalCombinedEp || 0).toLocaleString() %> <span
+                            class="text-xs text-amber-400/80">EP</span>
+                </div>
+            </div>
+        </section>
 
-                    try {
-                        const res = await fetch('/profile/generate-connect-code', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-                        const data = await res.json();
+        <!-- UNIFIED VAULT & BOT TELEMETRY -->
+        <section class="telemetry-card">
 
-                        if (data.success) {
-                            document.getElementById('codeBox').textContent = data.code;
-                            document.getElementById('codeDisplayWrapper').style.display = 'block';
-                            btn.textContent = 'Regenerate Code';
-                        } else {
-                            alert(data.message || 'Failed to generate code.');
-                            btn.textContent = 'Generate Link Code';
-                        }
-                    } catch (err) {
-                        console.error(err);
-                        alert('Error communicating with the server.');
-                        btn.textContent = 'Generate Link Code';
-                    } finally {
-                        btn.disabled = false;
+            <!-- Card Header -->
+            <div
+                class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 mb-4 border-b border-[#1a2233]">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">💎</span>
+                    <h2 class="text-white font-extrabold text-sm sm:text-base tracking-wide uppercase">
+                        Vault & Bot Telemetry
+                    </h2>
+                </div>
+
+                <div>
+                    <% if (user.discordId) { %>
+                        <span class="status-badge badge-linked">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            ATX Discord Linked
+                        </span>
+                        <% } else { %>
+                            <span class="status-badge badge-unlinked">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                                Unlinked • ATX Server Needed
+                            </span>
+                            <% } %>
+                </div>
+            </div>
+
+            <!-- 3-Column Responsive Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-4">
+
+                <!-- 1. Web Vault XP -->
+                <div class="stat-subcard flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="text-[11px] text-slate-400 uppercase font-mono-val font-semibold tracking-wider mb-1 flex items-center justify-between">
+                            <span>Website Vault XP</span>
+                            <span class="text-xs">🌐</span>
+                        </div>
+                        <div class="text-2xl sm:text-3xl font-black text-white font-mono-val mt-2">
+                            <span id="valWebXp">
+                                <%= Number(user.xpBalance || 0).toLocaleString() %>
+                            </span>
+                            <span class="text-xs text-slate-500 font-normal">XP</span>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-slate-500 mt-2 font-mono-val">
+                        Source: Web Mini-Games & Quizzes
+                    </div>
+                </div>
+
+                <!-- 2. Discord Bot EP -->
+                <div class="stat-subcard flex flex-col justify-between border-cyan-500/30">
+                    <div>
+                        <div
+                            class="text-[11px] text-cyan-400 uppercase font-mono-val font-semibold tracking-wider mb-1 flex items-center justify-between">
+                            <span>Discord Bot EP</span>
+                            <span class="text-xs">⚔️</span>
+                        </div>
+                        <div class="text-2xl sm:text-3xl font-black text-cyan-300 font-mono-val mt-2">
+                            <span id="valBotEp">
+                                <%= Number(botEp || 0).toLocaleString() %>
+                            </span>
+                            <span class="text-xs text-cyan-400/60 font-normal">EP</span>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-slate-500 mt-2 font-mono-val">
+                        Source: ATX Chat Mini-Games & Auctions
+                    </div>
+                </div>
+
+                <!-- 3. Grand Combined EP -->
+                <div class="stat-subcard stat-subcard-gold flex flex-col justify-between shadow-lg shadow-amber-500/5">
+                    <div>
+                        <div
+                            class="text-[11px] text-amber-400 uppercase font-mono-val font-semibold tracking-wider mb-1 flex items-center justify-between">
+                            <span>Grand Combined Net</span>
+                            <span class="text-xs">👑</span>
+                        </div>
+                        <div class="text-2xl sm:text-3xl font-black text-amber-300 font-mono-val mt-2">
+                            <span id="valTotalNet">
+                                <%= Number(totalCombinedEp || 0).toLocaleString() %>
+                            </span>
+                            <span class="text-xs text-amber-400/70 font-normal">EP</span>
+                        </div>
+                    </div>
+                    <div class="text-[10px] text-amber-500/70 mt-2 font-mono-val">
+                        Aggregated Total Available
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sync / Account Linking Bar -->
+            <% if (!user.discordId) { %>
+                <div class="pt-4 border-t border-[#1a2233] bg-[#0c101a] -mx-5 -mb-5 p-5 rounded-b-2xl">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <h4
+                                class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 font-mono-val">
+                                <span class="text-cyan-400">⚡</span> Connect ATX Family Discord
+                            </h4>
+                            <p class="text-xs text-slate-400 leading-relaxed">
+                                Join our official Discord server and run the slash command with your personal
+                                verification token to synchronize both balances.
+                            </p>
+                            <div class="pt-2 flex items-center gap-2">
+                                <span class="text-xs text-slate-400 font-mono-val">Your Token:</span>
+                                <code
+                                    class="px-2.5 py-1 rounded bg-[#151c2c] border border-cyan-400/40 text-cyan-300 font-mono-val font-black text-sm tracking-wider">
+                  <%= user.connectionCode || 'NO CODE' %>
+                </code>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2.5 w-full md:w-auto">
+                            <a href="https://discord.gg/atxfamily" target="_blank"
+                                class="btn-action w-full md:w-auto text-center px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs tracking-wider transition">
+                                Join ATX Discord
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <% } else { %>
+                    <div
+                        class="pt-3 border-t border-[#1a2233] flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-mono-val gap-2">
+                        <span>Discord ID Linked: <strong class="text-slate-300">
+                                <%= user.discordId %>
+                            </strong></span>
+                        <button onclick="refreshBalances()"
+                            class="text-cyan-400 hover:text-cyan-300 transition flex items-center gap-1 font-bold">
+                            <span id="syncIcon">⟳</span> Refresh Balances
+                        </button>
+                    </div>
+                    <% } %>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#1a2233] bg-[#080a0f] py-6 px-4 text-center text-xs text-slate-500">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>ATX Family &copy; 2026. Unified Plato & Discord Infrastructure.</p>
+            <div class="flex items-center gap-4 text-slate-400">
+                <a href="https://atx-family.onrender.com" class="hover:text-white transition">Community Web</a>
+                <span>•</span>
+                <span class="text-emerald-400 flex items-center gap-1">● Synchronized</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Asynchronous Live Balance Refresher -->
+    <script>
+        async function refreshBalances() {
+            const syncIcon = document.getElementById('syncIcon');
+            if (syncIcon) syncIcon.classList.add('animate-spin');
+
+            try {
+                const res = await fetch('/api/user/balance-sync');
+                if (!res.ok) throw new Error('Network error');
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById('valWebXp').innerText = Number(data.webXp || 0).toLocaleString();
+                    document.getElementById('valBotEp').innerText = Number(data.botBalance || 0).toLocaleString();
+                    document.getElementById('valTotalNet').innerText = Number(data.totalBalance || 0).toLocaleString();
+
+                    const headerNet = document.getElementById('headerNetBalance');
+                    if (headerNet) {
+                        headerNet.innerHTML = `${Number(data.totalBalance || 0).toLocaleString()} <span class="text-xs text-amber-400/80">EP</span>`;
                     }
-                });
-            </script>
+                }
+            } catch (err) {
+                console.error("Failed to sync live balances:", err);
+            } finally {
+                if (syncIcon) syncIcon.classList.remove('animate-spin');
+            }
+        }
 
-            <%- include('partials/footer') %>
+        // Auto-refresh balances once every 30 seconds
+        setInterval(refreshBalances, 30000);
+    </script>
+
 </body>
 
 </html>
