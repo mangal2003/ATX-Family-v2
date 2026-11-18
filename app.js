@@ -28,12 +28,12 @@ const xpRoutes = require("./routes/xp");
 const auctionRoutes = require("./routes/auction");
 const contactRoutes = require("./routes/contact");
 const musicRouter = require("./routes/music");
-const xplRouter = require("./routes/xpl"); // <--- XPL Router Included
+const xplRouter = require("./routes/xpl");
 const updateStreakOnVisit = require("./middleware/streak");
 
 // Sockets
 const initMusicSocket = require("./sockets/musicSocket");
-const initXplAuctionSocket = require("./sockets/xplAuctionSocket"); // <--- XPL Socket Included
+const initXplAuctionSocket = require("./sockets/xplAuctionSocket");
 
 // Initialize Express & HTTP Server
 const app = express();
@@ -177,7 +177,6 @@ cron.schedule("0 * * * *", async () => {
     const istDate = new Date(now.getTime() + istOffset);
     const hours = istDate.getUTCHours();
 
-    // Check if it's an even hour (e.g., 10 AM, 12 PM, 2 PM, 4 PM, etc.)
     if (hours % 2 !== 0) {
       return;
     }
@@ -211,7 +210,6 @@ cron.schedule("0 * * * *", async () => {
           payload,
         );
       } catch (err) {
-        // HTTP 410 (Gone) or 404 indicates the subscription expired or was revoked by the user
         if (err.statusCode === 410 || err.statusCode === 404) {
           console.log(`[CRON] Purging expired push token: ${sub._id}`);
           await PushSubscription.deleteOne({ _id: sub._id });
@@ -237,7 +235,6 @@ cron.schedule("*/2 * * * *", async () => {
   try {
     const oneHourAgo = new Date(Date.now() - DROP_INTERVAL_MS);
 
-    // Find users whose cooldown finished and who haven't received an alert yet
     const eligibleUsers = await User.find({
       lastXpClaim: { $lte: oneHourAgo, $ne: null },
       epNotificationSent: { $ne: true },
@@ -273,7 +270,6 @@ cron.schedule("*/2 * * * *", async () => {
         }
       }
 
-      // Mark notification as dispatched for this claim window
       user.epNotificationSent = true;
       await user.save();
     }
@@ -312,10 +308,12 @@ app.get("/api/debug-subs", async (req, res) => {
   const subs = await PushSubscription.find().select("userId endpoint");
   res.json({ count, subs });
 });
+
 app.get("/ads.txt", (req, res) => {
   res.type("text/plain");
   res.send("google.com, pub-9185944168362263, DIRECT, f08c47fec0942fa0");
 });
+
 // --- 404 Catch-All Route ---
 app.use((req, res) => {
   res.status(404).render("404", {

@@ -1,21 +1,59 @@
-// routes/profile.js
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const UserProfile = require("../models/UserProfile");
 const { ensureAuth } = require("../middleware/auth");
 const { upload } = require("../config/cloudinary");
 
-// GET /profile - Render Profile Page
+// GET /profile - Render Profile Page with Combined EP
 router.get("/profile", ensureAuth, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
+
+    // Fetch Discord EP if linked
+    let discordEp = 0;
+    if (user.discordId) {
+      const discordProfile = await UserProfile.findOne({
+        userId: user.discordId,
+      });
+      if (discordProfile) {
+        discordEp = discordProfile.botBalance || 0;
+      }
+    }
+
+    const totalCombinedEp = (user.xpBalance || 0) + discordEp;
+
     res.render("profile", {
       title: `${user.username}'s Profile | ATX`,
       user,
+      discordEp,
+      totalCombinedEp,
     });
   } catch (err) {
-    console.error(err);
-    res.redirect("/profile");
+    console.error("[PROFILE LOAD ERROR]:", err);
+    res.redirect("/");
+  }
+});
+
+// POST /profile/generate-connect-code - Create 6-digit Code for Discord Bot
+router.post("/profile/generate-connect-code", ensureAuth, async (req, res) => {
+  try {
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiry
+
+    await User.findByIdAndUpdate(req.user._id, {
+      $set: {
+        connectionCode: code,
+        codeExpiresAt: expiresAt,
+      },
+    });
+
+    res.json({ success: true, code, expiresAt });
+  } catch (err) {
+    console.error("[CONNECT CODE ERROR]:", err);
+    res
+      .status(500)
+      .json({ success: false, message: "Could not generate link code." });
   }
 });
 
@@ -24,27 +62,24 @@ router.post("/profile/update", ensureAuth, async (req, res) => {
   try {
     const { username, platoId, discordId, bio } = req.body;
 
-    // 1. Validate Username
     const cleanUsername = username ? username.trim() : "";
     if (!cleanUsername || cleanUsername.length < 3) {
       req.flash("error_msg", "Username must be at least 3 characters long.");
       return res.redirect("/profile");
     }
 
-    // 2. Validate Plato ID (Max 12 chars, only letters, numbers, and underscores)
     let cleanPlatoId = platoId ? platoId.trim() : "";
     if (cleanPlatoId) {
       const platoRegex = /^[a-zA-Z0-9_]{1,12}$/;
       if (!platoRegex.test(cleanPlatoId)) {
         req.flash(
           "error_msg",
-          "Plato ID must be 1 to 12 characters and contain only letters, numbers, and underscores (no spaces or special characters).",
+          "Plato ID must be 1 to 12 characters and contain only letters, numbers, and underscores.",
         );
         return res.redirect("/profile");
       }
     }
 
-    // 3. Check if Username is already taken by another user
     const existingUser = await User.findOne({
       username: cleanUsername,
       _id: { $ne: req.user._id },
@@ -55,7 +90,6 @@ router.post("/profile/update", ensureAuth, async (req, res) => {
       return res.redirect("/profile");
     }
 
-    // 4. Update Profile
     await User.findByIdAndUpdate(req.user._id, {
       $set: {
         username: cleanUsername,

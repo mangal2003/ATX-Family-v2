@@ -4,6 +4,33 @@
 <head>
     <%- include('partials/head') %>
         <link rel="stylesheet" href="/css/profile.css">
+        <style>
+            .connect-discord-card {
+                background: rgba(88, 101, 242, 0.08);
+                border: 1px dashed #5865f2;
+                border-radius: 12px;
+                padding: 1.25rem;
+                margin-top: 1.25rem;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.6rem;
+            }
+
+            .code-display-box {
+                font-family: 'Share Tech Mono', monospace;
+                font-size: 1.75rem;
+                letter-spacing: 6px;
+                color: #ffd700;
+                background: #0a0b10;
+                border: 2px solid #ffd700;
+                padding: 0.5rem 1.5rem;
+                border-radius: 8px;
+                display: inline-block;
+                margin: 0.4rem 0;
+            }
+        </style>
 </head>
 
 <body>
@@ -13,13 +40,12 @@
             <main class="profile-container">
                 <!-- MAIN PROFILE HUD CARD -->
                 <div class="cyber-card profile-card">
-                    <!-- Corner HUD Telemetry Decals -->
                     <div class="hud-corner tl"></div>
                     <div class="hud-corner tr"></div>
                     <div class="hud-corner bl"></div>
                     <div class="hud-corner br"></div>
 
-                    <!-- Cinematic Banner Header with Gradient Mask -->
+                    <!-- Cinematic Banner -->
                     <div class="profile-banner-wrapper">
                         <% if (user.banner && user.banner.trim() !=='' ) { %>
                             <img src="<%= user.banner %>" alt="Profile Banner" class="profile-banner-img"
@@ -29,7 +55,6 @@
                                 <% } %>
                                     <div class="banner-cinematic-mask"></div>
 
-                                    <!-- Flame Streak Badge Overlay -->
                                     <div class="streak-pill">
                                         <i class="fa-solid fa-fire fire-icon"></i>
                                         <span>
@@ -38,7 +63,7 @@
                                     </div>
                     </div>
 
-                    <!-- Profile Info Overlay Header -->
+                    <!-- Profile Header -->
                     <div class="profile-header-content">
                         <div class="avatar-ring-pod">
                             <% if (user.avatar && user.avatar.trim() !=='' ) { %>
@@ -59,7 +84,8 @@
                             <h2 class="glitch-title gold-text" data-text="<%= user.username %>">
                                 <%= user.username %>
                             </h2>
-                            <p class="user-email"><i class="fa-regular fa-envelope cyan-text"></i>
+                            <p class="user-email">
+                                <i class="fa-regular fa-envelope cyan-text"></i>
                                 <%= user.email %>
                             </p>
                             <% if (user.bio) { %>
@@ -70,14 +96,14 @@
 
                     <hr class="profile-divider">
 
-                    <!-- User Stats & Metrics Grid -->
+                    <!-- Stats Grid: Includes Web EP, Discord Bot EP, and Combined Total -->
                     <div class="profile-stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon-pod gold-icon">
-                                <i class="fa-solid fa-coins"></i>
+                                <i class="fa-solid fa-vault"></i>
                             </div>
                             <div class="stat-info">
-                                <span class="stat-label">EP BALANCE</span>
+                                <span class="stat-label">WEB VAULT EP</span>
                                 <h4 class="gold-text">
                                     <%= (user.xpBalance || 0).toLocaleString() %> EP
                                 </h4>
@@ -85,25 +111,26 @@
                         </div>
 
                         <div class="stat-card">
-                            <div class="stat-icon-pod cyan-icon">
-                                <i class="fa-solid fa-check-double"></i>
+                            <div class="stat-icon-pod"
+                                style="background: rgba(88,101,242,0.15); color: #5865f2; border: 1px solid #5865f2;">
+                                <i class="fa-brands fa-discord"></i>
                             </div>
                             <div class="stat-info">
-                                <span class="stat-label">QUIZZES SOLVED</span>
-                                <h4 class="cyan-text">
-                                    <%= user.quizzesCompleted || 0 %>
+                                <span class="stat-label">DISCORD BOT EP</span>
+                                <h4 style="color: #5865f2;">
+                                    <%= (locals.discordEp || 0).toLocaleString() %> EP
                                 </h4>
                             </div>
                         </div>
 
                         <div class="stat-card">
-                            <div class="stat-icon-pod gold-icon">
-                                <i class="fa-solid fa-ranking-star"></i>
+                            <div class="stat-icon-pod cyan-icon">
+                                <i class="fa-solid fa-bolt"></i>
                             </div>
                             <div class="stat-info">
-                                <span class="stat-label">WEEKLY SCORE</span>
-                                <h4 class="gold-text">
-                                    <%= user.weeklyScore || 0 %> PTS
+                                <span class="stat-label">TOTAL COMBINED EP</span>
+                                <h4 class="cyan-text">
+                                    <%= (locals.totalCombinedEp || user.xpBalance || 0).toLocaleString() %> EP
                                 </h4>
                             </div>
                         </div>
@@ -111,8 +138,39 @@
 
                     <hr class="profile-divider">
 
-                    <!-- Customization Forms Stack -->
+                    <!-- Customization Sections -->
                     <div class="customization-sections">
+                        <!-- Discord Bot Link Widget -->
+                        <div class="connect-discord-card">
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; color: #5865f2; font-weight: bold; font-family: 'Share Tech Mono', monospace;">
+                                <i class="fa-brands fa-discord"></i> DISCORD BOT INTEGRATION
+                            </div>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0; max-width: 450px;">
+                                <% if (user.discordId) { %>
+                                    Your account is linked to Discord ID: <strong class="cyan-text">
+                                        <%= user.discordId %>
+                                    </strong>.
+                                    Need to re-link to a new account? Generate a fresh code below.
+                                    <% } else { %>
+                                        Link your Discord account to combine your mini-game rewards and bot EP with your
+                                        website balance!
+                                        <% } %>
+                            </p>
+
+                            <button type="button" id="generateCodeBtn" class="cyber-btn"
+                                style="border-color: #5865f2; color: #5865f2;">
+                                <i class="fa-solid fa-key"></i> Generate Link Code
+                            </button>
+
+                            <div id="codeDisplayWrapper" style="display: none;">
+                                <div class="code-display-box" id="codeBox">------</div>
+                                <p style="font-size: 0.75rem; color: var(--accent-gold); margin: 0.2rem 0;">
+                                    Type <code>/connectweb &lt;code&gt;</code> in our Discord server within 10 minutes.
+                                </p>
+                            </div>
+                        </div>
+
                         <!-- 1. Banner Update Form -->
                         <form action="/profile/banner" method="POST" enctype="multipart/form-data" class="profile-form">
                             <label class="form-label">
@@ -149,7 +207,7 @@
                             </div>
                         </form>
 
-                        <!-- 3. Profile Info & Social IDs Form -->
+                        <!-- 3. Profile Info Form -->
                         <form action="/profile/update" method="POST" class="profile-form">
                             <label class="form-label">
                                 <i class="fa-solid fa-user-pen gold-text"></i> OPERATOR DETAILS & CREDENTIALS
@@ -168,15 +226,15 @@
                                     </label>
                                     <input type="text" id="platoId" name="platoId" value="<%= user.platoId || '' %>"
                                         maxlength="12" pattern="^[a-zA-Z0-9_]{1,12}$"
-                                        title="Plato ID must be up to 12 characters and contain only letters, numbers, and underscores (no spaces or special characters)."
+                                        title="Plato ID must be up to 12 characters and contain only letters, numbers, and underscores."
                                         placeholder="e.g. username_99" class="cyber-input">
                                 </div>
                                 <div class="form-group">
                                     <label for="discordId" class="sub-label">
-                                        <i class="fa-brands fa-discord cyan-text"></i> Discord ID
+                                        <i class="fa-brands fa-discord cyan-text"></i> Discord User ID
                                     </label>
                                     <input type="text" id="discordId" name="discordId"
-                                        value="<%= user.discordId || '' %>" placeholder="username#0000"
+                                        value="<%= user.discordId || '' %>" placeholder="e.g. 1482287463467716650"
                                         class="cyber-input">
                                 </div>
                             </div>
@@ -196,6 +254,37 @@
                     </div>
                 </div>
             </main>
+
+            <script>
+                document.getElementById('generateCodeBtn')?.addEventListener('click', async () => {
+                    const btn = document.getElementById('generateCodeBtn');
+                    btn.disabled = true;
+                    btn.textContent = 'Generating...';
+
+                    try {
+                        const res = await fetch('/profile/generate-connect-code', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        const data = await res.json();
+
+                        if (data.success) {
+                            document.getElementById('codeBox').textContent = data.code;
+                            document.getElementById('codeDisplayWrapper').style.display = 'block';
+                            btn.textContent = 'Regenerate Code';
+                        } else {
+                            alert(data.message || 'Failed to generate code.');
+                            btn.textContent = 'Generate Link Code';
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Error communicating with the server.');
+                        btn.textContent = 'Generate Link Code';
+                    } finally {
+                        btn.disabled = false;
+                    }
+                });
+            </script>
 
             <%- include('partials/footer') %>
 </body>

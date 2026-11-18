@@ -51,9 +51,12 @@ router.post("/contact", isLoggedIn, async (req, res) => {
       ].join("\n");
 
       // 3. Discord Payload
+      const LOGO_URL =
+        "https://res.cloudinary.com/disuussfy/image/upload/v1786689078/auction_items/ff6xykirlrcdwqwfeauu.jpg";
+
       const discordPayload = {
         username: `ATX Anonymous Terminal`,
-        avatar_url: "https://atx-family.onrender.com/images/atx.webp",
+        avatar_url: LOGO_URL,
         embeds: [
           {
             title: `Anonymous ${badgeTag}`,
@@ -61,7 +64,7 @@ router.post("/contact", isLoggedIn, async (req, res) => {
             color: embedColor,
             footer: {
               text: "ATX Anonymous Portal",
-              icon_url: "https://atx-family.onrender.com/images/atx.webp",
+              icon_url: LOGO_URL,
             },
             timestamp: new Date().toISOString(),
           },
