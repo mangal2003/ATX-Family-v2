@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const UserProfile = require("../models/UserProfile");
+const DiscordUser = require("../models/DiscordUser");
 const { ensureAuth } = require("../middleware/auth");
 const { upload } = require("../config/cloudinary");
 
@@ -15,7 +16,8 @@ router.get("/profile", ensureAuth, async (req, res) => {
     let isLinked = false;
 
     if (user.discordId) {
-      const dcUser = await DiscordUser.findOne({ discordId: user.discordId });
+      const dcUser =
+        (await DiscordUser.findOne({ discordId: user.discordId })) || null;
       if (dcUser) {
         totalBotBalance = dcUser.botBalance; // Single total stored in botBalance
         isLinked = true;
